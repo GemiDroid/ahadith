@@ -42,5 +42,21 @@ $route['default_controller'] = "welcome";
 $route['404_override'] = '';
 
 
+
+$route['(:any)/book/(:any)/chapter/(\d+)/hadith'] = "hadith_book/view/$1/$2/$3/1";
+
+$route['(:any)/book/(:any)/chapter/(\d+)/hadith/(\d+)'] = "hadith_book/view/$1/$2/$3/$4";
+
+$route['(:any)/book/(:any)/chapter'] = "hadith_book/view/$1/$2/1";
+
+$route['(:any)/book/(:any)/chapter/(\d+)'] = "hadith_book/view/$1/$2/$3";
+
+$route['(:any)/book'] = "hadith_book/view/$1/1";
+
+$route['(:any)/book/(:any)'] = "hadith_book/view/$1/$2";
+
+$route['(:any)'] = "hadith_book/view/$1";
+
+
 /* End of file routes.php */
 /* Location: ./application/config/routes.php */

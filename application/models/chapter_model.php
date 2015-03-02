@@ -2,6 +2,7 @@
 
 class Chapter_model extends CI_Model{
 
+
   function get_all_chapters(){
     $this->load->database('default');
     $query = $this->db->get('chapter');
@@ -34,7 +35,7 @@ class Chapter_model extends CI_Model{
     function insert_chapter($chapter){
       $this->load->database('default');
       $this->db->insert('chapter',$chapter);
-      //echo $this->db->last_query();
+      echo $this->db->last_query();
 
 
     }
@@ -44,7 +45,7 @@ class Chapter_model extends CI_Model{
       $this->db->where('chapter_id',$chapter_id);
 
       $this->db->update('chapter',$data);
-      //echo $this->db->last_query();
+      echo $this->db->last_query();
     }
 
     function delete_chapter($chapter_id){

@@ -6,7 +6,7 @@
 
     <tbody>
 
-    <?php echo form_open('chapter/add');?>
+    <?php echo form_open('editor/chapter/add');?>
 
       <tr>
         <td><?php echo form_label('Arabic Title','txt_title_ar');?></td>
@@ -38,9 +38,11 @@
           <?php if(!empty($books)):?>
           <?php foreach($books as $row):?>
             <select name="ddl_book_id">
-              <option value="<?php echo $row->book_id;?>" <?php echo  set_select('ddl_book_id',$row->book_id, TRUE); ?> ><?php echo $row->book_id;?> </option>
+              <option value="<?php echo $row->book_id;?>" <?php echo  set_select('ddl_book_id',$row->book_id, TRUE); ?> ><?php echo $row->book_title_ar;?> </option>
             </select>
           <?php endforeach; ?>
+        <?php else:
+            echo 'No book has been added ' . anchor('book/view','Add Book');?>
           <?php endif;?>
         </td>
       </tr>
@@ -48,12 +50,13 @@
         <td><?php echo form_label('Hadith Book Id','txt_hadith_book_id');?></td>
         <td>
           <?php if(!empty($hadith_books)):?>
-          <?php foreach($hadith_books as $row):?>
-            <select name="ddl_hadith_book_id">
-              <option value="<?php echo $row->hadith_book_id;?>" <?php echo  set_select('ddl_hadith_book_id',$row->hadith_book_id, TRUE); ?> ><?php echo $row->hadith_book_id;?> </option>
-            </select>
-          <?php endforeach; ?>
-          <?php endif;?></td>
+            <?php foreach($hadith_books as $row):?>
+              <select name="ddl_hadith_book_id">
+                <option value="<?php echo $row->hadith_book_id;?>" <?php echo  set_select('ddl_hadith_book_id',$row->hadith_book_id, TRUE); ?> ><?php echo $row->hadith_book_id;?> </option>
+              </select>
+            <?php endforeach; ?>
+          <?php endif;?>
+        </td>
       </tr>
 
       <tr>

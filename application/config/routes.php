@@ -41,21 +41,29 @@
 $route['default_controller'] = "welcome";
 $route['404_override'] = '';
 
+$route['user/signin'] = "user/signin";
+$route['user/signout'] = "user/signout";
+$route['user/register'] = "user/registration";
+$route['user/forgot-password'] = "user/forgot_password";
+$route['user/forgot-username'] = "user/forgot_username";
 
+$route['editor/chapter/add'] = "editor/chapter/add";
+$route['editor/chapter/update/(:any)'] = "editor/chapter/update/$1";
+$route['editor/authenticity/add'] = "editor/authenticity/add";
+$route['editor/authenticity/update/(:any)'] = "editor/authenticity/update/$1";
+$route['editor/hadith_book/create'] = "editor/hadith_book/create";
+$route['editor/hadith_book/delete/(:any)'] = "editor/hadith_book/delete/$1";
+$route['editor/hadith/add'] = "editor/hadith/add";
+$route['editor/hadith/update/(:any)'] = "editor/hadith/update/$1";
 
 $route['(:any)/book/(:any)/chapter/(\d+)/hadith'] = "hadith_book/view/$1/$2/$3/1";
-
 $route['(:any)/book/(:any)/chapter/(\d+)/hadith/(\d+)'] = "hadith_book/view/$1/$2/$3/$4";
-
 $route['(:any)/book/(:any)/chapter'] = "hadith_book/view/$1/$2/1";
-
 $route['(:any)/book/(:any)/chapter/(\d+)'] = "hadith_book/view/$1/$2/$3";
-
 $route['(:any)/book'] = "hadith_book/view/$1/1";
-
 $route['(:any)/book/(:any)'] = "hadith_book/view/$1/$2";
-
 $route['(:any)'] = "hadith_book/view/$1";
+
 
 
 /* End of file routes.php */

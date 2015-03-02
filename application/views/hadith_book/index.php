@@ -21,7 +21,7 @@
                     <table id="tbl_ahadith" class="table">
                         <thead>
                             <tr>
-                                <th>Hadith ID</th>
+                                <th>Hadith in Book ID</th>
 								<th>Hadith AR</th>
 								<th>Hadith EN</th>
 								<th>Hadith UR</th>
@@ -29,7 +29,9 @@
 								<th>Marked EN</th>
 								<th>Marked UR</th>
 								<th>Raw AR</th>
+								<th>Plain AR</th>
 								<th>Authenticity ID</th>
+								<th>Hadith ID</th>
                             </tr>
                         </thead>
                         
@@ -38,7 +40,7 @@
                             <?php foreach ($ahadith as $hadith):  ?>
                                 
                                 <tr>
-                                    <td style="text-align: center;"><?php echo $hadith->hadith_id; ?></td>
+                                    <td style="text-align: center;"><?php echo $hadith->hadith_in_book_id; ?></td>
                                     <td style="text-align: center;"><?php echo $hadith->hadith_plain_ar; ?></td>
 									<td style="text-align: center;"><?php echo $hadith->hadith_plain_en; ?></td>
 									<td style="text-align: center;"><?php echo $hadith->hadith_plain_ur; ?></td>
@@ -48,6 +50,7 @@
 									<td style="text-align: center;"><?php echo $hadith->hadith_raw_ar; ?></td>
 									<td style="text-align: center;"><?php echo $hadith->hadith_plain_ar; ?></td>
 									<td style="text-align: center;"><?php echo $hadith->authenticity_id; ?></td>
+									<td style="text-align: center;"><?php echo $hadith->hadith_id; ?></td>
                                 </tr>
                             <?php endforeach; ?>
                             

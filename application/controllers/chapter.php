@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Chapter extends CI_Controller {
+class Chapter extends CI_COntroller {
 
   public function index(){
     echo 'running';
@@ -24,6 +24,8 @@ class Chapter extends CI_Controller {
   }
 
   public function add(){
+
+        //echo "add function";
     $this->load->model('book_model');
     $data1['books'] = $this->book_model->get_all_books();
     $data1['hadith_books'] = $this->book_model->get_all_hadith_books();
@@ -38,8 +40,8 @@ class Chapter extends CI_Controller {
       $data['chapter_detail_ar'] = $this->input->post('txt_detail_ar');
       $data['chapter_detail_en'] = $this->input->post('txt_detail_en');
       $data['chapter_detail_ur'] = $this->input->post('txt_detail_ur');
-      $data['book_id'] = $this->input->post('txt_book_id');
-      $data['hadith_book_id'] = $this->input->post('txt_hadith_book_id');
+      $data['book_id'] = $this->input->post('ddl_book_id');
+      $data['hadith_book_id'] = $this->input->post('ddl_hadith_book_id');
 
       $this->load->model('chapter_model');
       $this->chapter_model->insert_chapter($data);
@@ -48,6 +50,8 @@ class Chapter extends CI_Controller {
 
 
     endif;
+
+    //redirect('/editor/chapter/add');
 
   }
 
@@ -72,8 +76,8 @@ class Chapter extends CI_Controller {
       $data['chapter_detail_ar'] = $this->input->post('txt_detail_ar');
       $data['chapter_detail_en'] = $this->input->post('txt_detail_en');
       $data['chapter_detail_ur'] = $this->input->post('txt_detail_ur');
-      $data['book_id'] = $this->input->post('txt_book_id');
-      $data['hadith_book_id'] = $this->input->post('txt_hadith_book_id');
+      $data['book_id'] = $this->input->post('ddl_book_id');
+      $data['hadith_book_id'] = $this->input->post('ddl_hadith_book_id');
 
       $this->load->model('chapter_model');
       $this->chapter_model->update_chapter($chapter_id,$data);

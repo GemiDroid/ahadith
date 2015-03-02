@@ -30,10 +30,10 @@
           <td><?php echo $chapter->chapter_detail_ur; ?></td>
           <td><?php echo $chapter->book_id; ?></td>
           <td><?php echo $chapter->hadith_book_id; ?></td>
-          <td><a href='<?php echo ('http://local.ws/ahadith/index.php/chapter/read/'.$chapter->chapter_id); ?>' >Read</a></td>
+          <td><a href='<?php echo ('http://ahadith.ws/chapter/read/'.$chapter->chapter_id); ?>' >Read</a></td>
         </tr>
       <?php endforeach; ?>
-  
+
     <?php endif;?>
 
     </tbody>

@@ -46,6 +46,7 @@ $route['user/signout'] = "user/signout";
 $route['user/register'] = "user/registration";
 $route['user/forgot-password'] = "user/forgot_password";
 $route['user/forgot-username'] = "user/forgot_username";
+$route['user/home'] = "user/home";
 
 $route['editor/chapter/add'] = "editor/chapter/add";
 $route['editor/chapter/update/(:any)'] = "editor/chapter/update/$1";

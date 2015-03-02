@@ -2,10 +2,11 @@
 
 class Hadith_book_model extends CI_Model{
 
-	// @todo please escape all values
-	/*public function __construct(){
-		$this->load->database();
-	}*/
+
+	public function __construct(){
+		$this->load->database('default');
+	}
+
 
 	public function get_all_hadith_books(){
 		$query = $this->db->query('select * from hadith_book');
@@ -25,31 +26,57 @@ class Hadith_book_model extends CI_Model{
 
 	}
 
-	public function get_hadith_book_by_id($hadith_book_id){
-		$this->load->database('default');
-		$this->db->where('hadith_book_id',$hadith_book_id);
+	/*
+      * Get a hadith book by id
+      *
+      * @param integer $hadith_book_id
+      * @return mixed
+    */
+      function get_hadith_book_by_id( $hadith_book_id ) {
+         $this->load->database('default');
 
-		$query = $this->db->get('hadith_book');
+         $this->db->where('hadith_book_id', $hadith_book_id);
+         $q = $this->db->get('hadith_book');
 
-		$data ='';
-		//echo $this->db->last_query();
-		if($query->num_rows()>0):
-		$data = $query->row();
-		endif;
-		return $data;
-	}
+         $data = FALSE;
+
+         if($q->num_rows() > 0):
+             $data = $q->row();
+         endif;
+
+         $q->free_result();
+         return $data;
+      }
+
+
+	  /*
+      * Get a hadith in book by id
+      *
+      * @param integer $hadith_in_book_id
+      * @return mixed
+    */
+
+	  function get_hadith_in_book_by_id( $hadith_in_book_id ) {
+         $this->load->database('default');
+
+         $this->db->where('hadith_in_book_id', $hadith_in_book_id);
+         $q = $this->db->get('hadith_in_book');
+
+         $data = FALSE;
+
+         if($q->num_rows() > 0):
+             $data = $q->row();
+         endif;
+
+         $q->free_result();
+         return $data;
+      }
 
 	public function delete_hadith_book_by_id($hadith_book_id){
 
 		$this->load->database('default');
 		$this->db->where('hadith_book_id',$hadith_book_id);
 		$this->db->delete('hadith_book');
-
-
-
-
-
-
 
 	}
 

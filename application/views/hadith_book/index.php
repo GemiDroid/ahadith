@@ -3,51 +3,67 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>dispaly</title>
-	
+	<title>Sayings of the Messenger (SAW) - www.Ahadith.net</title>
+	<style type="text/css">
+		.table{
+			border-style: solid;
+			border-width: 1px 1px 1px 1px;
+		}
+	</style>
 </head>
 <body>
 	<div id="container">
-		<h1>All Hadith Books</h1>
-		<p>
-			<table border="1" width="100%">
-				<tr>
-					<th>ID</th>
-					<th>Title ar</th>
-					<th>Title en</th>
-					<th>Title ur</th>
-					<th>Action</th>
-				</tr>
-				<?php foreach ($hadith_books->result_array() as $hadith_book):  ?>
-					<?php echo '<tr>';  ?>	
-					<?php
-					echo '<td>';
-					echo $hadith_book['hadith_book_id'];
-					echo '</td>';
-					echo '<td>';
-					echo $hadith_book['hadith_book_title_ar'];
-					echo '</td>';
-
-					echo '<td>';
-					echo $hadith_book['hadith_book_title_en'];
-					echo '</td>';
-
-					echo '<td>';
-					echo $hadith_book['hadith_book_title_ur'];
-					echo '</td>';
-
-					echo '<td>';
-					$this->load->helper('url');
-					echo anchor('hadith_book/' . 'edit/' . $hadith_book['hadith_book_id'] , 'Edit', '');
-					echo ' / ';
-					echo anchor('hadith_book/' . 'delete/' . $hadith_book['hadith_book_id'] , 'Delete', '');
-					echo '</td>';
-					?>
-					<?php echo '</tr>';  ?>	
-				<?php endforeach; ?>
-			</table>
-		</p>
-		<p><a href="<?php echo $add_link; ?>">Add</a></p>
+		
+		<fieldset id="block_display_ahadith">
+        <legend>Displaying Ahadith</legend>
+        
+        <?php if( !empty( $ahadith ) ): ?>
+                    <table id="tbl_ahadith" class="table">
+                        <thead>
+                            <tr>
+                                <th>Hadith in Book ID</th>
+								<th>Hadith AR</th>
+								<th>Hadith EN</th>
+								<th>Hadith UR</th>
+								<th>Marked AR</th>
+								<th>Marked EN</th>
+								<th>Marked UR</th>
+								<th>Raw AR</th>
+								<th>Plain AR</th>
+								<th>Authenticity ID</th>
+								<th>Hadith ID</th>
+                            </tr>
+                        </thead>
+                        
+                        <tbody>
+                            
+                            <?php foreach ($ahadith as $hadith):  ?>
+                                
+                                <tr>
+                                    <td style="text-align: center;"><?php echo $hadith->hadith_in_book_id; ?></td>
+                                    <td style="text-align: center;"><?php echo $hadith->hadith_plain_ar; ?></td>
+									<td style="text-align: center;"><?php echo $hadith->hadith_plain_en; ?></td>
+									<td style="text-align: center;"><?php echo $hadith->hadith_plain_ur; ?></td>
+									<td style="text-align: center;"><?php echo $hadith->hadith_marked_ar; ?></td>
+									<td style="text-align: center;"><?php echo $hadith->hadith_marked_en; ?></td>
+									<td style="text-align: center;"><?php echo $hadith->hadith_marked_ur; ?></td>
+									<td style="text-align: center;"><?php echo $hadith->hadith_raw_ar; ?></td>
+									<td style="text-align: center;"><?php echo $hadith->hadith_plain_ar; ?></td>
+									<td style="text-align: center;"><?php echo $hadith->authenticity_id; ?></td>
+									<td style="text-align: center;"><?php echo $hadith->hadith_id; ?></td>
+                                </tr>
+                            <?php endforeach; ?>
+                            
+                        </tbody>
+                    </table>
+            
+			<?php else: ?>
+				<div class="text-error">No record found</div>
+				
+			<?php endif; ?>
+        
+		</fieldset>
+		
 	</div>
 </body>
 </html>

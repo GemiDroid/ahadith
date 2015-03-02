@@ -3,19 +3,20 @@
 class Chapter_model extends CI_Model{
 
 
-  function get_all_chapters(){
-    $this->load->database('default');
-    $query = $this->db->get('chapter');
-    $data = '';
+	function get_all_chapters(){
+	  $this->load->database('default');
+	  $query = $this->db->get('chapter');
+	  $data = '';
 
-    foreach ($query->result() as $row):
+	  foreach ($query->result() as $row):
 
-      $data[] = $row;
-    endforeach;
+		$data[] = $row;
+	  endforeach;
 
-    return $data;
+	  return $data;
 
-    }
+	  }
+
 
     function get_chapter_by_id($chapter_id){
       $this->load->database('default');
@@ -24,7 +25,7 @@ class Chapter_model extends CI_Model{
       $query = $this->db->get('chapter');
 
       $data ='';
-      //echo $this->db->last_query();
+
       if($query->num_rows()>0):
       $data = $query->row();
       endif;

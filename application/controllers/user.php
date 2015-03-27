@@ -206,6 +206,16 @@
 			endif;
 		}
 
+	function user_favorite(){
+		//echo "call a controller function";
+		$user_id = $this->session->userdata('user_id');
+		//echo $user_id;
+		$data  = array('hadith_in_book_id'=>1,'hadith_book_id'=>'4','user_id'=>$user_id);
+		$this->load->model('user_model');
+		$this->user_model->insert_user_favorite($data);
+		
+		redirect('user/home');
+	}
 		/*
          * User registration
          *

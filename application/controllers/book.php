@@ -1,6 +1,32 @@
 <?php
 
 class Book extends CI_Controller{
+  function _remap( $method, $param ) {
+      
+    if( $method == 'view' ):
+      
+      //set default for parameter book_id
+	  if( !isset( $param[0] ) ):
+		$param[0] = '';
+	  endif;
+      
+      $this->view( $param[0] );
+        
+    //for all other method names, display an error message
+    else:
+        $list['error_msg'] = "The Page you are trying to view does not exists. Use the menu if you have access.";
+        $list['main_content'] = "message_view";
+        $this->load->view('includes/template', $list);
+    endif;
+  }
+
+  /*Method to view book
+   *
+   *@param string $book_id ID of book
+   *
+   *@return none
+   */
+  
   function view( $book_id ='' ) {
     $this->load->model('book_model');
     
@@ -19,8 +45,6 @@ class Book extends CI_Controller{
       $mode="edit";
       
     endif;
-    
-    
     
     $list['book_id'] = $book_id;
 	$list['data'] = $data;
@@ -47,7 +71,8 @@ class Book extends CI_Controller{
     //until all validations are cleared
     if( $this->form_validation->run() == FALSE ):
         //$this->load->view('includes/template', $list);
-        $this->load->view('book_view', $list);
+		$list['main_content'] = 'book_view';
+        $this->load->view('includes/template', $list);
         
     //when all validation are cleared, proceed to save
     else:

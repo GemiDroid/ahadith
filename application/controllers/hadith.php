@@ -2,33 +2,91 @@
 
 class Hadith extends CI_Controller {
 
-  //public function _remap($route){
-    //echo $route;
-//  }
-  public function index(){
-    echo 'running';
+  function _remap( $method, $param ) {
+			
+    if( $method == 'display' ):
+      $this->display();
+      
+    elseif( $method == 'read' ):
+      
+      //set default for parameter hadith_code
+	  if( !isset( $param[0] ) ):
+		$param[0] = '';
+	  endif;
+      
+      $this->read( $param[0] );
+      
+    elseif( $method == 'add' ):
+      $this->add();
+      
+    elseif( $method == 'update' ):
+    
+      //set default for parameter hadith_code
+	  if( !isset( $param[0] ) ):
+		$param[0] = '';
+	  endif;
+      
+      $this->update( $param[0] );
+    elseif( $method == 'delete' ):
+      
+      //set default for parameter hadith_code
+	  if( !isset( $param[0] ) ):
+		$param[0] = '';
+	  endif;
+      
+      $this->delete( $param[0] );
+        
+    //for all other method names, display an error message
+    else:
+        $list['error_msg'] = "The Page you are trying to view does not exists. Use the menu if you have access.";
+        $list['main_content'] = "message_view";
+        $this->load->view('includes/template', $list);
+    endif;
   }
+
+  /*Method to display all ahadith
+   *
+   *@return none
+   *
+   */
+  
   public function display(){
     $this->load->model('hadith_model');
-    $data['ahadith'] = $this->hadith_model->get_all_hadith();
-    //echo "<pre>";
-    //print_r($data);
-    $this->load->view('hadith_view',$data);
-
+    
+    $list['ahadith'] = $this->hadith_model->get_all_hadith();
+    $list['main_content'] = 'hadith_view';
+    
+    $this->load->view('includes/template',$list);
 
   }
 
-
+  /*Method to read hadith
+   *
+   *@param string $hadith_code Id of hadith
+   *
+   *@return none
+   */
+  
   public function read($hadith_code){
-      $this->load->model('hadith_model');
-      $data['hadith'] =  $this->hadith_model->get_hadith_by_code($hadith_code);
-      $this->load->view('read_hadith_view',$data);
+    $this->load->model('hadith_model');
+    $list['hadith'] =  $this->hadith_model->get_hadith_by_code($hadith_code);
+    $list['main_content'] = 'read_hadith_view';
+
+    $this->load->view('includes/template',$list);
 
   }
+  
+  /*Method to add hadith
+   *
+   *@return none
+   *
+   */
 
   public function add(){
     $this->load->helper('form');
-    $this->load->view('add_hadith_view');
+    $list['main_content'] = 'add_hadith_view';
+    $this->load->view('includes/template',$list);
+    
     if( !empty($this->input->post('mysubmit'))):
       $data['hadith_plain_ar'] = $this->input->post('txt_plain_ar');
       $data['hadith_plain_en'] = $this->input->post('txt_plain_en');
@@ -43,20 +101,25 @@ class Hadith extends CI_Controller {
       $this->hadith_model->insert_hadith($data);
 
       echo "Successfully inserted Hadith";
-
     endif;
 
   }
 
+  /*Method to update hadith
+   *
+   *@param string $hadith_code Id of hadith
+   *
+   *@return none
+   */
   public function update($hadith_code){
-    $this->load->model('hadith_model');
-    $data['hadith_code'] = $hadith_code;
-    $data['hadith'] =  $this->hadith_model->get_hadith_by_code($hadith_code);
-
-    var_dump($data);
-
     $this->load->helper('form');
-    $this->load->view('update_hadith_view',$data);
+    $this->load->model('hadith_model');
+    $list['hadith_code'] = $hadith_code;
+    $list['hadith'] =  $this->hadith_model->get_hadith_by_code($hadith_code);
+    
+    $list['main_content']= 'update_hadith_view';
+    $this->load->view('includes/template',$list);
+
     if( !empty($this->input->post('mysubmit'))):
       $hadith['hadith_plain_ar'] = $this->input->post('txt_plain_ar');
       $hadith['hadith_plain_en'] = $this->input->post('txt_plain_en');
@@ -71,13 +134,16 @@ class Hadith extends CI_Controller {
       $this->hadith_model->update_hadith($hadith_code,$hadith);
 
       echo "Successfully updated Hadith";
-
     endif;
-
-
-
   }
 
+  /*Method to delete hadith
+   *
+   *@param string $hadith_code Id of hadith
+   *
+   *@return none
+   *
+   */
   public function delete( $hadith_code ){
 
     $this->load->helper('url');

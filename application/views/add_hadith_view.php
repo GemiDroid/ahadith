@@ -37,8 +37,18 @@
         <td><?php echo form_textarea('txt_raw_ar');?></td>
       </tr>
       <tr>
-        <td><?php echo form_label('Authenticity','authenticity_id');?></td>
-        <td><?php echo form_input('authenticity_id');?></td>
+        <td><?php echo form_label('Authenticity','ddl_authenticity_id');?></td>
+        <td>
+            <?php if(!empty($authenticity)):?>
+
+            <select name="ddl_authenticity_id">
+              <?php foreach($authenticity as $row):?>
+                <option value="<?php echo $row->authenticity_id;?>" <?php echo  set_select('ddl_authenticity_id',$row->authenticity_id, TRUE); ?> ><?php echo $row->authenticity_id;?> </option>
+              <?php endforeach; ?>
+            </select>
+			
+	  <?php endif; ?>
+        </td>
       </tr>
       <tr>
         <td><?php echo form_submit('mysubmit','Submit Hadith');?></td>

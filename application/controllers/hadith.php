@@ -67,9 +67,9 @@ class Hadith extends CI_Controller {
    *@return none
    */
   
-  public function read($hadith_code){
+  public function read($hadith_id){
     $this->load->model('hadith_model');
-    $list['hadith'] =  $this->hadith_model->get_hadith_by_code($hadith_code);
+    $list['hadith'] =  $this->hadith_model->get_hadith_by_id($hadith_id);
     $list['main_content'] = 'read_hadith_view';
 
     $this->load->view('includes/template',$list);
@@ -95,7 +95,7 @@ class Hadith extends CI_Controller {
       $data['hadith_marked_en'] = $this->input->post('txt_marked_en');
       $data['hadith_marked_ur'] = $this->input->post('txt_marked_ur');
       $data['hadith_raw_ar'] = $this->input->post('txt_raw_ar');
-      $data['authenticity_id'] = $this->input->post('authenticity_id');
+      $data['authenticity_id'] = $this->input->post('ddl_authenticity_id');
 
       $this->load->model('hadith_model');
       $this->hadith_model->insert_hadith($data);
@@ -111,11 +111,11 @@ class Hadith extends CI_Controller {
    *
    *@return none
    */
-  public function update($hadith_code){
+  public function update($hadith_id){
     $this->load->helper('form');
     $this->load->model('hadith_model');
-    $list['hadith_code'] = $hadith_code;
-    $list['hadith'] =  $this->hadith_model->get_hadith_by_code($hadith_code);
+    $list['hadith_id'] = $hadith_id;
+    $list['hadith'] =  $this->hadith_model->get_hadith_by_id($hadith_id);
     
     $list['main_content']= 'update_hadith_view';
     $this->load->view('includes/template',$list);
@@ -128,10 +128,10 @@ class Hadith extends CI_Controller {
       $hadith['hadith_marked_en'] = $this->input->post('txt_marked_en');
       $hadith['hadith_marked_ur'] = $this->input->post('txt_marked_ur');
       $hadith['hadith_raw_ar'] = $this->input->post('txt_raw_ar');
-      $hadith['reliability'] = $this->input->post('reliability');
+      $hadith['authenticity_id'] = $this->input->post('authenticity_id');
 
       $this->load->model('hadith_model');
-      $this->hadith_model->update_hadith($hadith_code,$hadith);
+      $this->hadith_model->update_hadith($hadith_id,$hadith);
 
       echo "Successfully updated Hadith";
     endif;
@@ -144,12 +144,12 @@ class Hadith extends CI_Controller {
    *@return none
    *
    */
-  public function delete( $hadith_code ){
+  public function delete( $hadith_id ){
 
     $this->load->helper('url');
 
     $this->load->model('hadith_model');
-    $this->hadith_model->delete_hadith( $hadith_code );
+    $this->hadith_model->delete_hadith( $hadith_id );
 
     echo "Deleted Hadith";
   }

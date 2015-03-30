@@ -21,7 +21,7 @@
           <td><?php echo $authenticity->authenticity_title_en; ?></td>
           <td><?php echo $authenticity->authenticity_title_ur; ?></td>
           <td><?php echo $authenticity->authenticity_order; ?></td>
-          <td><a href='<?php echo ('http://local.ws/ahadith/index.php/authenticity/read/'.$authenticity->authenticity_id); ?>' >Read</a></td>
+          <td><a href='<?php echo ('http://localhost/ahadith/authenticity/read/'.$authenticity->authenticity_id); ?>' >Read</a></td>
         </tr>
       <?php endforeach; ?>
     </tbody>

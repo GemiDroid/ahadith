@@ -19,7 +19,7 @@
     <tbody>
 
         <tr>
-          <td><?php echo $hadith->hadith_code; ?></td>
+          <td><?php echo $hadith->hadith_id; ?></td>
           <td><?php echo $hadith->hadith_plain_ar; ?></td>
           <td><?php echo $hadith->hadith_plain_en; ?></td>
           <td><?php echo $hadith->hadith_plain_ur; ?></td>
@@ -27,7 +27,7 @@
           <td><?php echo $hadith->hadith_marked_en; ?></td>
           <td><?php echo $hadith->hadith_marked_ur; ?></td>
           <td><?php echo  $hadith->hadith_raw_ar; ?></td>
-          <td><?php echo $hadith->reliability; ?></td>
+          <td><?php echo $hadith->authenticity_id; ?></td>
         </tr>
 
     </tbody>

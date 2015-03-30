@@ -16,6 +16,11 @@
 				$this->home();
 			elseif( $method == 'registration' ):
 				$this->registration();
+			elseif( $method == 'user_favorite' ):
+				 if( !isset( $param[0] ) ):
+					$param[0] = '';
+					endif;
+				$this->user_favorite($param[0]);
 				
 			//for all other method names, display an error message
 			else:
@@ -69,7 +74,7 @@
 			  endif;
 			
 			  //if user doesn't exist.
-			  redirect('user/register');
+			  redirect('user/registration');
 			  
 			endif;
 		}
@@ -196,8 +201,10 @@
          */
 
 		function home(){
-		
+			
+			$this->load->model('user_model');
 			$list['user_id'] = $user_id = $this->session->userdata('user_id');
+			$list['ahadith'] = $this->user_model->get_all_hadith();
 			$list['main_content'] = 'user/user_home_view';
 			if( !empty( $user_id ) ):
 				$this->load->view('includes/template',$list);
@@ -206,12 +213,19 @@
 			endif;
 		}
 
-	function user_favorite(){
-		//echo "call a controller function";
+	function user_favorite($hadith_id){
+		
 		$user_id = $this->session->userdata('user_id');
-		//echo $user_id;
-		$data  = array('hadith_in_book_id'=>1,'hadith_book_id'=>'4','user_id'=>$user_id);
+		
 		$this->load->model('user_model');
+		$list['hadith_in_book'] =  $this->user_model->get_hadith_in_book($hadith_id);
+		var_dump($list);
+		$data = false;
+		foreach($list as $row):
+			$data->hadith_in_book_id = $row->hadith_in_book_id;
+			$data->hadith_book_id = $row->hadith_book_id;
+			$data->user_id = $user_id;
+		endforeach;
 		$this->user_model->insert_user_favorite($data);
 		
 		redirect('user/home');

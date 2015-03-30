@@ -17,9 +17,9 @@ class Hadith_model extends CI_Model{
 
     }
 
-    function get_hadith_by_code($hadith_code){
+    function get_hadith_by_id($hadith_id){
       $this->load->database('default');
-      $this->db->where('hadith_code',$hadith_code);
+      $this->db->where('hadith_id',$hadith_id);
 
       $query = $this->db->get('hadith');
 
@@ -36,21 +36,21 @@ class Hadith_model extends CI_Model{
 
     }
 
-    function update_hadith($hadith_code,$data){
+    function update_hadith($hadith_id,$data){
       $this->load->database('default');
-      $this->db->where('hadith_code',$hadith_code);
+      $this->db->where('hadith_id',$hadith_id);
       $this->db->update('hadith',$data);
 
     }
 
-    function delete_hadith($hadith_code){
+    function delete_hadith($hadith_id){
       $this->load->database('default');
-      $this->db->where('hadith_code',$hadith_code);
+      $this->db->where('hadith_id',$hadith_id);
       $this->db->delete('hadith');
 
     }
 
-}
+
 
   /*
     * Get a hadith book by id

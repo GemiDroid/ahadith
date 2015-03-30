@@ -34,9 +34,9 @@
           <td><?php echo $chapter->book_id; ?></td>
           <td><?php echo $chapter->hadith_book_id; ?></td>
 
-          <td><a href="<?php echo ('http://ahadith.ws/chapter/update/'.$chapter->chapter_id); ?>">Update</a></td>
+          <td><a href="<?php echo ('http://localhost/ahadith/chapter/update/'.$chapter->chapter_id); ?>">Update</a></td>
           <!--<td><a href="<?php echo ('http://local.ws/ahadith/index.php/chapter/delete/'.$chapter->chapter_id); ?>">Delete</a></td>-->
-          <td><a href="<?php echo ('http://ahadith.ws/chapter/delete/'.$chapter->chapter_id); ?>">Delete</a></td>
+          <td><a href="<?php echo ('http://localhost/ahadith/chapter/delete/'.$chapter->chapter_id); ?>">Delete</a></td>
         </tr>
 
     </tbody>

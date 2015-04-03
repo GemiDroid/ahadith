@@ -1,4 +1,13 @@
+<!doctype html>
 <?php $user_id = $this->session->userdata('user_id'); ?>
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>jQuery Load While Scroll</title>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>  
+	<script type="text/javascript" src="<?php echo base_url();?>assests/js/jquery-scrollspy.js"></script>
+
+</head>
 
 Welcome to Home! <?php echo $user_id; ?>
 <br>
@@ -6,45 +15,60 @@ Welcome to Home! <?php echo $user_id; ?>
 <br>
 <br>
     <!--<pre><?php echo  var_dump($ahadith); ?></pre>-->
+<body>
+    <div class="container">
+        <div id="scroll" style="height:200px; width:800px; border:solid; alignment-adjust: central; border-width: 2px; overflow-y: auto;">
+            <div class="content">
+                <div class="row">
+                  <div class="span16">
 
-    <div id="target" style=" height:100px; width:600px; border:solid; alignment-adjust: central; border-width: 2px; overflow-y: auto;">
-        <table >
-            <tbody>
-              <?php foreach((array)$ahadith as $hadith): ?>
-                <tr>
-                  <td><input type = 'button' id="btn_like" tabindex="<?php echo $hadith->hadith_id ; ?>" value = 'Hadith No. <?php echo $hadith->hadith_id ; ?>' onfocus="updateHistory(this)"/></td>
-                  <td><?php echo $hadith->hadith_plain_ar; ?></td>
-                  <td><?php echo $hadith->hadith_plain_en; ?></td>
-                  <td><?php echo $hadith->hadith_plain_ur; ?></td>
-                  <!--<td><button type="button" class="btn btn-success" onclick="window.location='<?php echo site_url("user/user_favorite/.'<?php echo $hadith->hadith_id ; ?>'");?>'">Like</button></td>-->
-                  <!--<td><?php echo anchor('user/user_favorite', 'Like', array('onclick'=>'user_favorite(\''. $hadith->hadith_id .'\');')); ?></td>-->
-                   <td><?php echo anchor('user/user_favorite/'.$hadith->hadith_id, 'Like'); ?></td>
-                 <td style="padding-top: 5em"></td>
-                </tr>
-               
+                    <?php foreach((array)$ahadith as $hadith): ?>
+
+                    <div class="color" id="hadith#<?php echo $hadith->hadith_id;?>" class="color"><h2>Hadith#<?php echo $hadith->hadith_id;?></h2></div>
+			                 
+                        <p>
+                            <?php echo $hadith->hadith_plain_ar; ?>
+                            <?php echo $hadith->hadith_plain_en; ?>
+                            <?php echo $hadith->hadith_plain_ur; ?>
+                            <?php echo anchor('user/user_favorite/'.$hadith->hadith_id, 'Like'); ?>
+                        </p>
+                
+                
                 <?php endforeach; ?>
-              
-            </tbody>
-        </table>
-    </div>
-    
-    <div id="log"></div>
-    
- <script src="https://code.jquery.com/jquery-1.10.2.js"></script>    
-<script type="text/javascript">
-   var count = 1 ;
-  
-    function updateHistory(a)
-    {
-        window.history.pushState(null, null, a.tabIndex);
-        count++ ;
-  
-    };
-    
-    $( "#target" ).scroll(function() {
-         window.history.pushState(null, null, $("#btn_like").attr("tabindex"));
-         
-    });
-  
+    	  
+		</div>
+          </div>
+        </div>
+      </div>
 
+    </div> <!-- /container -->
+</body>
+</html>
+    
+  
+<script type="text/javascript">
+   
+   var site_url="http://localhost/ahadith/user/home";
+	  
+	  $(document).ready(function() {
+		$('.color').each(function(i) {
+		  var position = $(this).position();
+		  console.log(position);
+		  console.log('min: ' + position.top + ' / max: ' + parseInt(position.top + $(this).height()));
+		  $(this).scrollspy({
+			  min: position.top,
+			  max: position.top + $(this).height(),
+			  onEnter: function(element, position) {
+				  if(console) console.log('entering ' +  element.id);
+				  //$("body").css('background-color', element.id);
+				  //window.location.hash = "#/";
+				  window.history.pushState(null,null,site_url+'/'+element.id);
+				  return false;
+			  },
+			  onLeave: function(element, position) {
+				  if(console) console.log('leaving ' +  element.id);
+			  }
+		  });
+		});
+	  });
  </script>

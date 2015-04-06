@@ -86,7 +86,9 @@ class Editor extends CI_Controller {
     elseif($action=='update'):
       $chapter->update($id);
     else:
-      echo 'Not found';
+      $list['error_msg'] = "The Page you are trying to view does not exists. Use the menu if you have access.";
+      $list['main_content'] = "message_view";
+      $this->load->view('includes/template', $list);
     endif;
 
   }

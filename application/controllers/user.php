@@ -1,22 +1,23 @@
 <?php
 
 	class User extends CI_Controller {		
-		
+
 		function _remap( $method, $param ) {
 			
 			if( $method == 'signin' ):
 				$this->signin();
 			elseif( $method == 'signout' ):
 				$this->signout();
-			elseif( $method == 'forgot_password' ):
+			elseif( $method == 'forgot-password' ):
 				$this->forgot_password();
-			elseif( $method == 'forgot_username' ):
+			elseif( $method == 'forgot-username' ):
 				$this->forgot_username();
 			elseif( $method == 'home' ):
 				$this->home();
 			elseif( $method == 'registration' ):
 				$this->registration();
-				
+			elseif( $method == 'user-favorite' ):
+				$this->user_favorite();
 			//for all other method names, display an error message
 			else:
 				$list['error_msg'] = "The Page you are trying to view does not exists. Use the menu if you have access.";

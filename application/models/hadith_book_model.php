@@ -7,10 +7,23 @@ class Hadith_book_model extends CI_Model{
 		$this->load->database('default');
 	}
 
+	/*
+		* Get all hadith books
+		*
+		* @return mixed
+	*/
 
 	public function get_all_hadith_books(){
-		$query = $this->db->query('select * from hadith_book');
-		return $query;
+		
+		$this->load->database('default');
+		$query = $this->db->get('hadith_book');
+		$data = '';
+	
+		foreach ($query->result() as $row):
+			$data[] = $row;
+		endforeach;
+	
+		return $data;
 	}
 
 	public function insert_hadith_book($data){
@@ -54,7 +67,7 @@ class Hadith_book_model extends CI_Model{
       *
       * @param integer $hadith_in_book_id
       * @return mixed
-    */
+	*/
 
 	  function get_hadith_in_book_by_id( $hadith_in_book_id ) {
          $this->load->database('default');

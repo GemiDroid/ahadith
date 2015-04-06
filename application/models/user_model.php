@@ -85,4 +85,51 @@
           $this->db->where('user_id', $user_id);
           $this->db->update('user', $data);
       }
+      
+      
+      
+    function get_hadith_in_book($hadith_id){
+        $this->load->database('default');
+        $this->db->where('hadith_id',$hadith_id);
+  
+        $query = $this->db->get('hadith_in_book');
+  
+        $data ='';
+  
+        if($query->num_rows()>0):
+        $data = $query->row();
+        endif;
+        return $data;
+        //echo $this->db->last_query();
+    }
+    
+    
+    function get_all_hadith(){
+       
+        $this->load->database('default');  
+        $q = $this->db->get('hadith');
+          
+        $data = FALSE;
+          
+        foreach ($q->result() as $row):
+            $data[] = $row;
+        endforeach;
+          
+        $q->free_result();
+        return $data;
+    
+    }
+    
+    
+     function insert_user_favorite($data){
+        $this->load->database('default');
+        //$data = array(
+	//		'hadith_in_book_id' => $hadith_in_book_id,
+	//		'hadith_book_id' => $hadith_book_id,
+	//		'user_id' => $user_id
+	//		);
+        $this->db->insert('user_favorite',$data);
+        //echo $this->db->last_query();
+
+    }
   }

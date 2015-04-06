@@ -27,9 +27,9 @@
           <td><?php echo (!empty($authenticity) ? $authenticity->authenticity_order : '') ?></td>
 
 
-          <td><a href="<?php echo ('http://local.ws/ahadith/index.php/authenticity/update/'.$authenticity->authenticity_id); ?>">Update</a></td>
+          <td><a href="<?php echo ('http://localhost/ahadith/authenticity/update/'.$authenticity->authenticity_id); ?>">Update</a></td>
           <!--<td><a href="<?php echo ('http://local.ws/ahadith/index.php/authenticity/delete/'.$authenticity->authenticity_id); ?>">Delete</a></td>-->
-          <td><a href="<?php echo ('http://local.ws/ahadith/index.php/authenticity/delete/'.$authenticity->authenticity_id); ?>">Delete</a></td>
+          <td><a href="<?php echo ('http://localhost/ahadith/authenticitydelete/'.$authenticity->authenticity_id); ?>">Delete</a></td>
         </tr>
 
     </tbody>

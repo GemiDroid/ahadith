@@ -202,7 +202,7 @@ class Hadith_book extends CI_Controller{
 	public function create(){
 
 		$this->load->helper('form');
-
+		
 		$data['hadith_book_id'] = $this->input->post('hadith_book_id');
 		$data['hadith_book_title_ar'] = $this->input->post('hadith_book_title_ar');
 		$data['hadith_book_title_en'] = $this->input->post('hadith_book_title_en');
@@ -228,6 +228,7 @@ class Hadith_book extends CI_Controller{
 		$hadith_book_title_ar = $this->input->post('hadith_book_title_ar');
 		$hadith_book_title_en = $this->input->post('hadith_book_title_en');
 		$hadith_book_title_ur = $this->input->post('hadith_book_title_ur');
+		$this->load->model('hadith_book_model');
 
 		$this->hadith_book_model->insert_hadith_book($hadith_book_id, $hadith_book_title_ar,$hadith_book_title_en, $hadith_book_title_ur);
 
@@ -243,7 +244,7 @@ class Hadith_book extends CI_Controller{
 	 */
 
 	public function edit($id){
-
+		$this->load->model('hadith_book_model');
 		$query = $this->hadith_book_model->get_hadith_book_by_id($id);
 		$book = $query->row();
 
@@ -266,7 +267,8 @@ class Hadith_book extends CI_Controller{
 		$hadith_book_title_ar = $this->input->post('hadith_book_title_ar');
 		$hadith_book_title_en = $this->input->post('hadith_book_title_en');
 		$hadith_book_title_ur = $this->input->post('hadith_book_title_ur');
-
+		
+		$this->load->model('hadith_book_model');
 		$this->hadith_book_model->update_hadith_book($hadith_book_id, $hadith_book_title_ar, $hadith_book_title_en, $hadith_book_title_ur);
 
 		redirect('/hadith_book/', 'location');

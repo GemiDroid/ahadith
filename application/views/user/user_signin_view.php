@@ -11,7 +11,9 @@
       
       <?php $attributes = array('class' => 'form-horizontal'); ?>
       <?php echo form_open( 'user/signin/' , $attributes ); ?>
-          
+      
+      <span style="color: red;"><?php echo $error_message; ?></span>
+      
       <div class="control-group">
           <label class="control-label" for="txt_user_id">User ID:</label>
           <div class="controls">
@@ -40,6 +42,8 @@
               <?php echo anchor(base_url() . "user/forgot-password/", "Forgot Password"); ?>
               <br/>
               <?php echo anchor('user/forgot-username/',"Forgot Username"); ?>
+              <br/>
+              <?php echo anchor('user/registration/',"Sign Up"); ?>
           </div>
       </div>
       <?php echo form_close(); ?>

@@ -8,9 +8,9 @@
       <?php echo form_open( 'user/forgot-password/' , $attributes ); ?>
           
       <div class="control-group">
-          <label class="control-label" for="txt_user_id">User ID:</label>
+          <label class="control-label" for="txt_user_email">User Email:</label>
           <div class="controls">
-            <input type="text" name="txt_user_id" id="txt_user_id" value="<?php echo set_value('txt_user_id', ( !empty($data)? $data->user_id :'')); ?>" size="50" />                             
+            <input type="text" name="txt_user_email" id="txt_user_email" value="<?php echo set_value('txt_user_email'); ?>" size="30" />                             
             <div class="help-inline">
               <span style="color: red;"><?php echo $error_user; ?></span>
               <span style="color: green;"><?php echo $success_user; ?></span>

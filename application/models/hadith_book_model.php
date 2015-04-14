@@ -19,6 +19,7 @@ class Hadith_book_model extends CI_Model{
 	* @return mixed
 	*/
 
+
 	public function get_all_hadith_books($lang='',$type_search_text='',$search_text_option= '', $hadith_book_id='', $book_id='',$all_hadith_book='',$all_book=''){
 
 		$this->load->database('default');
@@ -146,6 +147,24 @@ class Hadith_book_model extends CI_Model{
 			$data[] = $row;
 		endforeach;
 		
+
+	/*
+		* Get all hadith books
+		*
+		* @return mixed
+	*/
+
+	public function get_all_hadith_books(){
+		
+		$this->load->database('default');
+		$query = $this->db->get('hadith_book');
+		$data = '';
+	
+		foreach ($query->result() as $row):
+			$data[] = $row;
+		endforeach;
+	
+
 		return $data;
 	}
 	
@@ -237,7 +256,7 @@ class Hadith_book_model extends CI_Model{
       *
       * @param integer $hadith_in_book_id
       * @return mixed
-    */
+	*/
 
 	  function get_hadith_in_book_by_id( $hadith_in_book_id ) {
          $this->load->database('default');

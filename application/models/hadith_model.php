@@ -50,8 +50,6 @@ class Hadith_model extends CI_Model{
 
     }
 
-
-
   /*
     * Get a hadith book by id
     *

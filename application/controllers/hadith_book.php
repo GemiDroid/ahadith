@@ -71,6 +71,73 @@ class Hadith_book extends CI_Controller{
 
 	public function view($hadith_book_id='',$book_id='',$chapter_id='',$hadith_in_book_id=''){
 
+		//if the user is already not signed-in then redirect him/her to the signin()
+		$list['user_id'] = $user_id = $this->session->userdata('user_id');
+			
+		//if( !isset($user_id) OR empty($user_id) ):
+		//	redirect('user/signin');
+		//endif;
+		
+		if( $this->input->is_ajax_request() ):
+			$data = $this->input->post('data');
+			
+			if( $data['task'] == 'hadith-tag' ):
+			
+				$user_id = $this->session->userdata('user_id');
+			
+				$this->load->model('tag_model');
+				
+				$message=false;
+				
+				//delete all hadith tags before
+				$message = $this->tag_model->delete_hadith_tag( $data['hadith_id'] );
+				
+				if( !empty($data['tags_id']) ):
+				
+					$tags_id = explode(',',$data['tags_id']);
+					
+					foreach( $tags_id as $tag_id ):
+					
+						$hadith_tag = array(
+								'hadith_id' => $data['hadith_id'],
+								'tag_id' => $tag_id,
+								'suggested_by'=>$user_id,
+								'approved_by'=>null
+								);
+						
+						$message =  $this->tag_model->add_hadith_tag( $hadith_tag );
+						
+					endforeach;
+					
+				endif;
+				
+				//get updated list of hadith_tags
+				$hadith_tags = $this->tag_model->get_hadith_tag_by_hadith_id_and_user_id( $data['hadith_id'], $user_id );
+				
+				$hadith_tags_html = "<ul>";
+				
+				if(!empty( $hadith_tags )):
+					foreach( $hadith_tags as $hadith_tag ):
+						$hadith_tags_html .=  "<li>".$hadith_tag->tag_title_en."</li>";	
+					endforeach;
+					
+				endif;
+				
+				$hadith_tags_html .= "</ul>";
+				
+				$data = new stdClass();
+				$data->message = $message;
+				$data->hadith_tags_html=$hadith_tags_html;
+				
+				echo json_encode( $data );
+				
+				return;
+				
+			endif;
+				
+		endif;
+				
+	
 		$this->load->model('hadith_book_model');
 
 		if(!empty( $hadith_book_id ) AND $this->hadith_book_model->get_hadith_book_by_id( $hadith_book_id ) === FALSE ):
@@ -102,6 +169,15 @@ class Hadith_book extends CI_Controller{
 		if( !empty( $hadith_book_id ) ):
 			$this->load->model('hadith_model');
 			$list['ahadith'] = $this->hadith_model->get_ahadith_by_hadith_book_id( $hadith_book_id, $book_id, $chapter_id, $hadith_in_book_id );
+			
+			//$user_id = $this->session->userdata('user_id');
+			
+			$this->load->model('tag_model');
+			
+			for( $i=0;$i<count($list['ahadith']);$i++ ):
+				$list['ahadith'][$i]->hadith_tags = $this->tag_model->get_hadith_tag_by_hadith_id_and_user_id( $list['ahadith'][$i]->hadith_id, $user_id );
+			endfor;
+			
 		endif;
 		
 		$list['ahadith_books'] = $this->hadith_book_model->get_all_hadith_books();
@@ -114,7 +190,6 @@ class Hadith_book extends CI_Controller{
 		$list['main_content'] ='hadith_book/index';
 		
 		$this->load->view('includes/template', $list);
-
 	}
 
 	/*Method to create hadith_book

@@ -15,7 +15,7 @@
         }
     </style>
     
-    
+
 </head>
 <body>
     <header>
@@ -42,7 +42,11 @@
         </div>
     </header>
     
+
+    <script type="text/javascript">
     
+    </script>
+
     
     <section id="main_body" class="container-fluid">
         

@@ -1,0 +1,13 @@
+@font-face {
+	font-family: 'arabic';
+	src: local('☺'), url('../fonts/scheherazade.ttf') format('truetype');
+	font-weight: normal;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'urdu';
+	src: local('☺'), url('../fonts/NafeesWeb.ttf') format('truetype');
+	font-weight: normal;
+	font-style: normal;
+}

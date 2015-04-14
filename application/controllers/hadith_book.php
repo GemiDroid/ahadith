@@ -72,11 +72,11 @@ class Hadith_book extends CI_Controller{
 	public function view($hadith_book_id='',$book_id='',$chapter_id='',$hadith_in_book_id=''){
 
 		//if the user is already not signed-in then redirect him/her to the signin()
-		$user_id = $this->session->userdata('user_id');
+		$list['user_id'] = $user_id = $this->session->userdata('user_id');
 			
-		if( !isset($user_id) OR empty($user_id) ):
-			redirect('user/signin');
-		endif;
+		//if( !isset($user_id) OR empty($user_id) ):
+		//	redirect('user/signin');
+		//endif;
 		
 		if( $this->input->is_ajax_request() ):
 			$data = $this->input->post('data');
@@ -170,7 +170,7 @@ class Hadith_book extends CI_Controller{
 			$this->load->model('hadith_model');
 			$list['ahadith'] = $this->hadith_model->get_ahadith_by_hadith_book_id( $hadith_book_id, $book_id, $chapter_id, $hadith_in_book_id );
 			
-			$user_id = $this->session->userdata('user_id');
+			//$user_id = $this->session->userdata('user_id');
 			
 			$this->load->model('tag_model');
 			
@@ -190,7 +190,6 @@ class Hadith_book extends CI_Controller{
 		$list['main_content'] ='hadith_book/index';
 		
 		$this->load->view('includes/template', $list);
-
 	}
 
 	/*Method to create hadith_book

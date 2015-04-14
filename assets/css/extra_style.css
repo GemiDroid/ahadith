@@ -1,0 +1,322 @@
+a {
+    color: Black;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+a:link, a:visited {
+    color: Black;
+    text-decoration: none;
+}
+
+.modal-header h4 {
+	color: #EEE;
+	font-weight: bold;
+	text-shadow: #666 1px 1px;
+}
+
+@media (min-width: 1200px) {
+  html {
+    font-size: 18px;
+  }
+}
+
+body > header.container-fluid {
+	padding-left: 0px;
+	padding-right: 0px;
+}
+
+:lang(ar) {
+	font-family: 'Scheherazade', arabic, serif;
+	direction: rtl;
+}
+
+p:lang(ar) {
+  font-size: 1.7rem;
+}
+
+.navbar-brand span:lang(ar) {
+  font-family: "Nafees Web Naskh",Nafees,urdu,serif;
+  font-size: 2.5rem;
+  font-weight: normal;
+}
+
+:lang(ur) {
+	font-family: 'Jameel Noori Nastaleeq', 'Nafees Nastaleeq', Nafees, urdu, serif;
+	direction: rtl;
+}
+
+p:lang(ur) {
+  font-size: 1.4rem;
+}
+
+h1.main-heading {
+    margin: 5px 0px;
+    font-family: 'Ceviche One', cursive;
+    font-weight: normal;
+    color: #F4F1C4; /*#FDFBE4;*/
+    color: #469877\9;
+    font-size: 3.05em;
+    text-shadow: #386553 -2px -2px 0px, /* lighter #469877 */
+                 #386553 -1px -2px 0px,
+                 #386553 0px -2px 0px,
+                 #386553 1px -2px 0px,
+                 #386553 2px -2px 0px,
+                 
+                 #386553 -2px -1px 0px,
+                 #386553 -1px -1px 0px,
+                 #386553 0px -1px 0px,
+                 #386553 1px -1px 0px,
+                 #386553 2px -1px 0px,
+                 
+                 #386553 -2px 0px 0px,
+                 #386553 -1px 0px 0px,
+                 #386553 1px 0px 0px,
+                 #386553 2px 0px 0px,
+                 
+                 #386553 -2px 1px 0px,
+                 #386553 -1px 1px 0px,
+                 #386553 0px 1px 0px,
+                 #386553 1px 1px 0px,
+                 #386553 2px 1px 0px,                 
+                 
+                 #386553 -2px 2px 0px,
+                 #386553 -1px 2px 0px,
+                 #386553 0px 2px 0px,
+                 #386553 1px 2px 0px,
+                 #386553 2px 2px 0px,
+                 
+                 #666 -3px 3px 3px;
+}
+
+h1.main-heading span:lang(ar) {
+    font-family: 'Nafees Web Naskh', Nafees, urdu, serif;
+}
+
+body > div.container {
+    border: 1px solid #386553;
+    background-color: #386553;
+    -moz-border-radius: 10px 10px 10px 10px;
+    border-radius: 10px 10px 10px 10px;
+    -moz-box-shadow: 0px 0px 5px #386553;
+    -webkit-box-shadow: 0px 0px 5px #386553;
+    box-shadow: 0px 0px 5px #386553;
+}
+
+@media (max-width: 767px) {
+	body > div.container {
+		margin-left: 6px;
+		margin-right: 6px;
+	}
+}
+
+body > div.container > header,
+body > div.container > footer {
+    padding: 10px;
+	min-height: 40px;
+}
+
+body > div.container > header {
+    color: #EEE;
+    font-weight: bold;
+    text-shadow: #666 1px 1px;
+    font-size: 1.15rem;
+    
+    background: #469877; /* old browsers */
+    background: -moz-linear-gradient(top, #469877 0%, #386553 100%); /* firefox */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#469877), color-stop(100%,#386553)); /* webkit */
+    background: -o-linear-gradient(top, #469877 0%, #386553 100%); /* opera */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#469877', endColorstr='#386553',GradientType=0 ); /* ie */
+    
+    -moz-border-radius: 10px 10px 0px 0px;
+    border-radius: 10px 10px 0px 0px;
+}
+
+body > div.container > header h2 {
+	font-size: 1.20rem;
+	font-weight: bold;
+	margin: 0px;
+}
+
+body > div.container > header :lang(ar) {
+    font-size: 1.6rem;
+    position: absolute;
+	font-weight: normal;
+}
+
+body > div.container > section.row {
+	background-color: #F4F1C4;
+}
+
+body > div.container > section.row > aside,
+body > div.container > section.row > section {
+	padding: 30px 20px;
+	box-shadow: inset #386553 0px 0px 3px;
+}
+
+body > div.container > section.row > section {
+	border-left: 1px solid #386553;
+}
+
+body > div.container > section.row > section h3 {
+	margin: 0px;
+}
+
+/**************************************************************************************************/
+/*************************************** Books List - Start ***************************************/
+/**************************************************************************************************/
+
+#books {
+    list-style-type: decimal;
+    font-weight: bold;
+    /*height: 500px;*/
+    overflow: auto;
+    overflow-x: hidden;    
+}
+
+#books ol {
+	padding-left: 35px;
+}
+
+#books ol > div {
+	margin-left: -35px;
+}
+
+#books a:link {
+    padding-left: 5px;
+    display: block;
+    color:Black;
+    font-size: 12pt;
+    font-weight:bold;
+    text-decoration:none;
+}
+
+#books div:lang(ar) {
+	font-weight: normal;
+	font-size: 1.5rem;
+	direction: rtl;
+	text-align: right;
+}
+
+#books a:hover {
+    text-shadow: -1px -1px 4px #386553, 1px 1px 4px #386553;
+}
+
+#books a:link.selected {
+    text-shadow: -1px -1px 4px #386553, 1px 1px 4px #386553;
+}
+
+/**************************************************************************************************/
+/**************************************** Books List - Ends ***************************************/
+/**************************************************************************************************/
+
+/**************************************************************************************************/
+/********************************* Hadith Display Settings - Start ********************************/
+/**************************************************************************************************/
+
+#hadith-contents hr {
+    color: #469877;
+    background-color: #469877;
+}
+
+img.bookmark_buttons {
+    cursor: pointer;
+}
+
+#hadith-contents article {
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+#hadith-contents h3 {
+    padding-bottom: 0.75rem;
+    padding-top: 0.75rem;
+    box-shadow: 0px 3px 5px -5px #386553, 0px -3px 5px -5px #386553, 3px 0px 5px #D6D3A4, -3px 0px 5px #D6D3A4;
+    border-top: 1px solid #386553;
+    border-bottom: 1px solid #386553;
+    background-color: #D6D3A4;
+	font-size: 1.15rem;
+    font-weight: bold;
+}
+
+#hadith-contents h3:lang(ar) {
+    font-size: 1.9rem;
+    direction: rtl;
+}
+
+#hadith-contents p:lang(ar) {
+    text-align: justify;
+}
+
+#hadith-contents h3:lang(ur) {
+    font-size: 1.7rem;
+    font-weight: bold;
+    direction: rtl;
+    line-height: 2.0;
+}
+
+#hadith-contents p:lang(ur) {
+    font-weight: normal;
+    line-height: 2.0;
+}
+
+/**************************************************************************************************/
+/********************************** Hadith Display Settings - Ends ********************************/
+/**************************************************************************************************/
+
+/**************************************************************************************************/
+/*********************************** Pagination Settings - Start **********************************/
+/**************************************************************************************************/
+
+section p.pagination {
+    text-align: center;
+	display: block;
+}
+
+section p.pagination:first-child {
+    margin-top: 5px;
+}
+
+section p.pagination:last-child {
+    margin-bottom: 5px;
+}
+
+section p.pagination a, section p.pagination strong {
+    padding: 2px 6px;
+    border: 1px solid #386553;
+    border-radius: 3px;
+    background-color: #F4F1C4;    
+    text-decoration: none;
+    color: #386553;
+}
+
+section p.pagination strong, section p.pagination a:hover {
+    color: #F4F1C4;
+    background: #386553;
+}
+
+/**************************************************************************************************/
+/*********************************** Pagination Settings - Ends ***********************************/
+/**************************************************************************************************/
+
+body > div.container > footer {
+    color: #EEE;
+    font-weight: bold;
+    text-shadow: #666 1px 1px;
+    
+    background: #469877; /* old browsers */
+    background: -moz-linear-gradient(top, #469877 0%, #386553 100%); /* firefox */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#469877), color-stop(100%,#386553)); /* webkit */
+    background: -o-linear-gradient(top, #469877 0%, #386553 100%); /* opera */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#469877', endColorstr='#386553',GradientType=0 ); /* ie */
+    
+    -moz-border-radius: 0px 0px 10px 10px;
+    border-radius: 0px 0px 10px 10px;
+
+    clear: both;
+}
+
+body > footer p {
+	text-align: center;
+	padding: 20px 10px;
+}

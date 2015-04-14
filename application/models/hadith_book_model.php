@@ -2,17 +2,200 @@
 
 class Hadith_book_model extends CI_Model{
 
-
 	public function __construct(){
 		$this->load->database('default');
 	}
+	
+	/*
+	* Get all hadith books optional parameter
+	*
+	* @param string $lang language option
+	* @param string $text search text
+	* @param string $words search text option
+	* @param string $hadith_book_id hadith book ID
+	* @param string $book_id Book ID
+	* 
+	*
+	* @return mixed
+	*/
 
+	public function get_all_hadith_books($lang='',$type_search_text='',$search_text_option= '', $hadith_book_id='', $book_id='',$all_hadith_book='',$all_book=''){
 
-	public function get_all_hadith_books(){
-		$query = $this->db->query('select * from hadith_book');
-		return $query;
+		$this->load->database('default');
+		 
+		if(!empty($lang)):
+			if( $lang == 'Arabic' ):
+				
+				$this->db->select('hadith_plain_ar AS hadith_body');
+		
+				if(!empty($type_search_text)):
+					if(!empty($search_text_option)):
+					//exact phrase
+						if($search_text_option=='Exact Phrase'):
+							$this->db->like('hadith_plain_ar',$type_search_text);
+						endif;
+					//all word
+						if($search_text_option=='All Words'):
+							
+							$this->db->like('hadith_plain_ar',$type_search_text);
+						endif;
+						
+					//any word
+						if($search_text_option=='Any Word'):
+							$words[] = explode(" ",$type_search_text);
+							
+							var_dump($words);// die();
+							for($i=0;$i<count($words);$i++):
+							
+							//foreach($words as $type_search_text=>$value):	
+								$this->db->or_like('hadith_plain_ar',$words[$i]);
+							//endforeach;	
+								
+							endfor;
+						endif;	
+					endif;
+				endif;
+			endif;
+		
+			if( $lang == 'English' ):
+				
+				$this->db->select('hadith_plain_en AS hadith_body');
+				
+				if(!empty($type_search_text)):
+				
+					if(!empty($search_text_option)):
+					//exact phrase
+						if($search_text_option=='Exact Phrase'):
+							$this->db->like('hadith_plain_en',$type_search_text);
+
+						endif;
+					//all word
+						if($search_text_option=='All Words'):
+			
+							$this->db->like('hadith_plain_en',$type_search_text);
+						endif;
+						
+					//any word
+						if($search_text_option=='Any Word'):
+							$keywords[] = explode(" ",$type_search_text);
+							
+							var_dump($keywords); //die();
+							for($i=0;$i<count($keywords);$i++):
+							
+								$this->db->or_like('hadith_plain_en',$keywords[$i]);
+							
+							endfor;
+						endif;	
+					endif;
+				endif;
+			endif;
+		
+			if( $lang == 'Urdu' ):
+				
+				$this->db->select('hadith_plain_ur AS hadith_body');
+			
+				if(!empty($type_search_text)):
+					if(!empty($search_text_option)):
+					//exact phrase
+						if($search_text_option=='Exact Phrase'):
+							$this->db->like('hadith_plain_ur',$type_search_text);
+						endif;
+					//all word
+						if($search_text_option=='All Words'):
+							
+							$this->db->like('hadith_plain_ur',$type_search_text);
+						endif;
+						
+					//any word
+						if($search_text_option=='Any Word'):
+							$words[] = explode(" ",$type_search_text);
+							
+							var_dump($words); //die();
+							for($i=0;$i<count($words);$i++):
+								
+								$this->db->or_like('hadith_plain_ur',$words[$i]);
+								
+							endfor;
+						endif;	
+					endif; 
+				endif;
+			endif;	
+		endif;
+		
+		//if all books(checkbox) for hadith books is not checked
+		
+		if(empty($all_hadith_book)):
+			if( !empty($hadith_book_id) ):
+				$this->db->where('hadith_book_id',$hadith_book_id);
+			endif;
+			if( !empty($book_id) ):
+				$this->db->where('book_id',$book_id);
+			endif;
+
+		endif;	
+			
+		
+		$this->db->select('hadith_id');
+		
+		$query = $this->db->get('view_hadith_in_book');
+		$q = $this->db->last_query();
+		echo $q;
+		$data = '';
+		
+		foreach ($query->result() as $row):
+			$data[] = $row;
+		endforeach;
+		
+		return $data;
 	}
+	
+	
+	function get_book_by_id($book_id){
+		
+		$this->load->database('default');
+		$this->db->where('book_id',$book_id);
+		$query = $this->db->get('book');
+		$data = '';
+	    
+		foreach ($query->result() as $row):
+	    
+		  $data[] = $row;
+		endforeach;
+	    
+		return $data;
 
+		
+	}
+	
+	function get_all_books($hadith_book_id){
+		$this->load->database('default');
+		$this->db->where('hadith_book_id',$hadith_book_id);
+		$query = $this->db->get('book');
+		$data = '';
+	    
+		foreach ($query->result() as $row):
+	    
+		  $data[] = $row;
+		endforeach;
+	    
+		return $data;
+
+	}
+		
+	function get_hadith_books(){
+		$this->load->database('default');
+		$query = $this->db->get('hadith_book');
+		$data = '';
+	    
+		foreach ($query->result() as $row):
+	    
+		  $data[] = $row;
+		endforeach;
+	    
+		return $data;
+
+	}
+	
 	public function insert_hadith_book($data){
 
 		$this->load->database('default');

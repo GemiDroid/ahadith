@@ -9,7 +9,7 @@
     <tbody>
 
       <?php echo validation_errors(); ?>
-      <?php echo form_open('user/register'); ?>
+      <?php echo form_open('user/registration'); ?>
 
       <tr>
         <td><?php echo form_label('Username','txt_username');?></td>

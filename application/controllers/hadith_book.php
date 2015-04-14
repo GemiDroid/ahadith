@@ -210,4 +210,5 @@ class Hadith_book extends CI_Controller{
 		$this->load->model('hadith_book_model');
 		$this->hadith_book_model->delete_hadith_book_by_id($hadith_book_id);
 	}
+	
 }

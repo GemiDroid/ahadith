@@ -75,11 +75,13 @@
         <div style="height: 300px; width: 800px; border:1px solid; overflow-y: auto">
             
             <?php foreach($ahadith as $row):?>
+            <?php if(!empty($row->hadith_body)): ?>
            
-            <h3> Hadith No. <?php echo $row->hadith_id;?></h3>
+            <h3><?php echo $row->hadith_book_name; ?>, <?php echo $row->book_name; ?>, Hadith No. <?php echo $row->hadith_id;?></h3>
            
             <?php echo $row->hadith_body;?>
           
+            <?php endif; ?>
             
             <?php endforeach; ?>
         </div>

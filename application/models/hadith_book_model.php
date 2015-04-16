@@ -38,21 +38,41 @@ class Hadith_book_model extends CI_Model{
 					//all word
 						if($search_text_option=='All Words'):
 							
-							$this->db->like('hadith_plain_ar',$type_search_text);
+							//$this->db->like('hadith_plain_ar',$type_search_text);
+	
+							$searchterm = explode(' ',$type_search_text);
+
+							$searchColumns = array("hadith_plain_ar");
+							$searchCondition = '';
+						      
+							for($i = 0; $i < count($searchColumns); $i++)
+							  {
+							      $searchFieldName = $searchColumns[$i];
+							      $searchCondition .= "($searchFieldName LIKE '%" . implode("%' AND $searchFieldName LIKE '%", $searchterm) . "%')";
+							      if($i+1 < count($searchColumns)) $searchCondition .= " AND ";
+							   }
+							$sql = $this->db->where($searchCondition);
+							
+							
 						endif;
 						
 					//any word
 						if($search_text_option=='Any Word'):
-							$words[] = explode(" ",$type_search_text);
 							
-							var_dump($words);// die();
-							for($i=0;$i<count($words);$i++):
+							$searchterm = explode(' ',$type_search_text);
+
+							$searchColumns = array("hadith_plain_ar");
+							$searchCondition = '';
+						      
+							for($i = 0; $i < count($searchColumns); $i++)
+							  {
+							      $searchFieldName = $searchColumns[$i];
+							      $searchCondition .= "($searchFieldName LIKE '%" . implode("%' OR $searchFieldName LIKE '%", $searchterm) . "%')";
+							      if($i+1 < count($searchColumns)) $searchCondition .= " OR ";
+							   }
+							$sql = $this->db->where($searchCondition);
 							
-							//foreach($words as $type_search_text=>$value):	
-								$this->db->or_like('hadith_plain_ar',$words[$i]);
-							//endforeach;	
-								
-							endfor;
+							
 						endif;	
 					endif;
 				endif;
@@ -73,20 +93,55 @@ class Hadith_book_model extends CI_Model{
 					//all word
 						if($search_text_option=='All Words'):
 			
-							$this->db->like('hadith_plain_en',$type_search_text);
+							//$this->db->like('hadith_plain_en',$type_search_text);
+							
+							
+							$searchterm = explode(' ',$type_search_text);
+
+							$searchColumns = array("hadith_plain_en");
+							$searchCondition = '';
+						      
+							for($i = 0; $i < count($searchColumns); $i++)
+							  {
+							      $searchFieldName = $searchColumns[$i];
+							      $searchCondition .= "($searchFieldName LIKE '%" . implode("%' AND $searchFieldName LIKE '%", $searchterm) . "%')";
+							      if($i+1 < count($searchColumns)) $searchCondition .= " AND ";
+							   }
+							$sql = $this->db->where($searchCondition);
+							
+							
 						endif;
 						
 					//any word
 						if($search_text_option=='Any Word'):
-							$keywords[] = explode(" ",$type_search_text);
+							//$keywords[] = explode(" ",$type_search_text);
+							//
+							//var_dump($keywords); //die();
+							//for($i=0;$i<count($keywords);$i++):
+							//
+							//	$this->db->or_like('hadith_plain_en',$keywords[$i]);
+							//
+							//endfor;
 							
-							var_dump($keywords); //die();
-							for($i=0;$i<count($keywords);$i++):
 							
-								$this->db->or_like('hadith_plain_en',$keywords[$i]);
 							
-							endfor;
-						endif;	
+							 $searchterm = explode(' ',$type_search_text);
+
+							$searchColumns = array("hadith_plain_en");
+							$searchCondition = '';
+						      
+							for($i = 0; $i < count($searchColumns); $i++)
+							  {
+							      $searchFieldName = $searchColumns[$i];
+							      $searchCondition .= "($searchFieldName LIKE '%" . implode("%' OR $searchFieldName LIKE '%", $searchterm) . "%')";
+							      if($i+1 < count($searchColumns)) $searchCondition .= " OR ";
+							   }
+							$sql = $this->db->where($searchCondition);
+							//$sql = "SELECT * FROM view_in_hadith_book WHERE $searchCondition;";
+							
+							//echo $sql;
+						endif;
+						
 					endif;
 				endif;
 			endif;
@@ -104,19 +159,40 @@ class Hadith_book_model extends CI_Model{
 					//all word
 						if($search_text_option=='All Words'):
 							
-							$this->db->like('hadith_plain_ur',$type_search_text);
+							//$this->db->like('hadith_plain_ur',$type_search_text);
+						
+							$searchterm = explode(' ',$type_search_text);
+
+							$searchColumns = array("hadith_plain_ur");
+							$searchCondition = '';
+						      
+							for($i = 0; $i < count($searchColumns); $i++)
+							  {
+							      $searchFieldName = $searchColumns[$i];
+							      $searchCondition .= "($searchFieldName LIKE '%" . implode("%' AND $searchFieldName LIKE '%", $searchterm) . "%')";
+							      if($i+1 < count($searchColumns)) $searchCondition .= " AND ";
+							   }
+							$sql = $this->db->where($searchCondition);	
+							
 						endif;
 						
 					//any word
 						if($search_text_option=='Any Word'):
-							$words[] = explode(" ",$type_search_text);
 							
-							var_dump($words); //die();
-							for($i=0;$i<count($words);$i++):
-								
-								$this->db->or_like('hadith_plain_ur',$words[$i]);
-								
-							endfor;
+							$searchterm = explode(' ',$type_search_text);
+
+							$searchColumns = array("hadith_plain_ur");
+							$searchCondition = '';
+						      
+							for($i = 0; $i < count($searchColumns); $i++)
+							  {
+							      $searchFieldName = $searchColumns[$i];
+							      $searchCondition .= "($searchFieldName LIKE '%" . implode("%' OR $searchFieldName LIKE '%", $searchterm) . "%')";
+							      if($i+1 < count($searchColumns)) $searchCondition .= " OR ";
+							   }
+							$sql = $this->db->where($searchCondition);
+							
+							
 						endif;	
 					endif; 
 				endif;
@@ -137,6 +213,8 @@ class Hadith_book_model extends CI_Model{
 			
 		
 		$this->db->select('hadith_id');
+		$this->db->select('hadith_book_id');
+		$this->db->select('book_id');
 		
 		$query = $this->db->get('view_hadith_in_book');
 		$q = $this->db->last_query();
@@ -147,26 +225,28 @@ class Hadith_book_model extends CI_Model{
 			$data[] = $row;
 		endforeach;
 		
-
+		return $data;
+		
+	}
 	/*
 		* Get all hadith books
 		*
 		* @return mixed
 	*/
-
-	public function get_all_hadith_books(){
-		
-		$this->load->database('default');
-		$query = $this->db->get('hadith_book');
-		$data = '';
-	
-		foreach ($query->result() as $row):
-			$data[] = $row;
-		endforeach;
-	
-
-		return $data;
-	}
+	//
+	//function get_all_hadith_books(){
+	//	
+	//	$this->load->database('default');
+	//	$query = $this->db->get('hadith_book');
+	//	$data = '';
+	//
+	//	foreach ($query->result() as $row):
+	//		$data[] = $row;
+	//	endforeach;
+	//
+	//
+	//	return $data;
+	//}
 	
 	
 	function get_book_by_id($book_id){
@@ -212,10 +292,10 @@ class Hadith_book_model extends CI_Model{
 		endforeach;
 	    
 		return $data;
-
+	
 	}
 	
-	public function insert_hadith_book($data){
+	function insert_hadith_book($data){
 
 		$this->load->database('default');
 
@@ -274,7 +354,7 @@ class Hadith_book_model extends CI_Model{
          return $data;
       }
 
-	public function delete_hadith_book_by_id($hadith_book_id){
+	function delete_hadith_book_by_id($hadith_book_id){
 
 		$this->load->database('default');
 		$this->db->where('hadith_book_id',$hadith_book_id);
@@ -282,7 +362,7 @@ class Hadith_book_model extends CI_Model{
 
 	}
 
-	public function update_hadith_book($hadith_book_id, $hadith_book_title_ar, $hadith_book_title_en, $hadith_book_title_ur){
+	function update_hadith_book($hadith_book_id, $hadith_book_title_ar, $hadith_book_title_en, $hadith_book_title_ur){
 
 		$data = array(
 			'hadith_book_title_ar' => $hadith_book_title_ar,
@@ -293,5 +373,5 @@ class Hadith_book_model extends CI_Model{
 		$this->db->where('hadith_book_id', $hadith_book_id);
 		$this->db->update('hadith_book', $data);
 		return $query;
-	}
+	}	
 }

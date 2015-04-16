@@ -180,7 +180,7 @@ class Hadith_book extends CI_Controller{
 			
 		endif;
 		
-		$list['ahadith_books'] = $this->hadith_book_model->get_all_hadith_books();
+		$list['ahadith_books'] = $this->hadith_book_model->get_hadith_books();
 		
 		$this->load->model('tag_model');
 		$list['tags'] = $this->tag_model->get_all_tags();

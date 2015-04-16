@@ -13,6 +13,9 @@
   <table>
     <tbody>
 
+
+      <?php echo validation_errors(); ?>
+
       <?php echo form_open('user/registration'); ?>
 
       <tr>

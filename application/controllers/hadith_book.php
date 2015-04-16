@@ -200,6 +200,7 @@ class Hadith_book extends CI_Controller{
 		$list['book'] = $this->book_model->get_book_by_id( $book_id );
 		$list['chapter'] = $this->chapter_model->get_chapter_by_hadith_and_book_id( $hadith_book_id, $book_id )[0];
 		$list['hadith_book'] = $this->hadith_book_model->get_hadith_book_by_id( $hadith_book_id );
+
 		
 		$this->load->model('tag_model');
 		$list['tags'] = $this->tag_model->get_all_tags();
@@ -304,4 +305,5 @@ class Hadith_book extends CI_Controller{
 		$this->load->model('hadith_book_model');
 		$this->hadith_book_model->delete_hadith_book_by_id($hadith_book_id);
 	}
+	
 }

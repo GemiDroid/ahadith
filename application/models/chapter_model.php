@@ -16,6 +16,8 @@ class Chapter_model extends CI_Model{
 	  return $data;
 
 	  }
+	  
+	  
 
 
     function get_chapter_by_id($chapter_id){
@@ -29,6 +31,28 @@ class Chapter_model extends CI_Model{
       if($query->num_rows()>0):
       $data = $query->row();
       endif;
+      return $data;
+
+    }
+	
+	function get_chapter_by_hadith_and_book_id( $hadith_book_id,$book_id ){
+      $this->load->database('default');
+      
+	  $this->db->where('hadith_book_id',$hadith_book_id);
+	  $this->db->where('book_id',$book_id);
+
+      $query = $this->db->get('chapter');
+
+      $data ='';
+
+      if($query->num_rows()>0):
+		foreach ($query->result() as $row):
+			$data[] = $row;
+		endforeach;
+      endif;
+      
+	  $query->free_result();
+	  
       return $data;
 
     }

@@ -25,7 +25,22 @@ class Hadith_book_model extends CI_Model{
 	
 		return $data;
 	}
-
+	
+	public function get_books_by_hadith_book_id( $hadith_book_id ){
+		
+		$this->load->database('default');
+		$this->db->where('hadith_book_id',$hadith_book_id);
+		
+		$query = $this->db->get('book');
+		$data = '';
+	
+		foreach ($query->result() as $row):
+			$data[] = $row;
+		endforeach;
+	
+		return $data;
+	}
+	
 	public function insert_hadith_book($data){
 
 		$this->load->database('default');

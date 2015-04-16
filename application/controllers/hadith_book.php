@@ -141,26 +141,40 @@ class Hadith_book extends CI_Controller{
 		$this->load->model('hadith_book_model');
 
 		if(!empty( $hadith_book_id ) AND $this->hadith_book_model->get_hadith_book_by_id( $hadith_book_id ) === FALSE ):
-			echo "Provided Hadith Book ID doesn't exist.";
+		
+			$list['error_msg'] = "Provided Hadith Book ID doesn't exist. Use the menu if you have access.";
+			$list['main_content'] = "message_view";
+			$this->load->view('includes/template', $list);
 			return;
 		endif;
 
 		$this->load->model('book_model');
 
-		if(!empty( $book_id ) AND $this->book_model->get_book_by_id( $book_id ) === FALSE ):
-			echo "Provided Book ID doesn't exist.";
-			return;
+		if(!empty( $book_id ) ):
+			if($this->book_model->get_book_by_id( $book_id ) === FALSE ):
+				$list['error_msg'] = "Provided Book ID doesn't exist.Use the menu if you have access.";
+				$list['main_content'] = "message_view";
+				$this->load->view('includes/template', $list);
+				return;
+			endif;
 		endif;
 
 		$this->load->model('chapter_model');
 
-		if(!empty( $chapter_id ) AND $this->chapter_model->get_chapter_by_id( $chapter_id ) === FALSE ):
-			echo "Provided Chapter ID doesn't exist.";
-			return;
+		if( !empty( $chapter_id ) ):
+			if($this->chapter_model->get_chapter_by_id( $chapter_id ) === FALSE ):
+				$list['error_msg'] = "Provided Chapter ID doesn't exist.Use the menu if you have access.";
+				$list['main_content'] = "message_view";
+				$this->load->view('includes/template', $list);
+				return;
+			endif;
+			$chapter_id = !empty($chapter_id)? $chapter_id: $this->chapter_model->get_chapter_by_hadith_and_book_id( $hadith_book_id, $book_id )->chapter_id;
 		endif;
 
 		if(!empty( $hadith_in_book_id ) AND $this->hadith_book_model->get_hadith_in_book_by_id( $hadith_in_book_id ) === FALSE ):
-			echo "Provided Hadith In Book ID doesn't exist.";
+			$list['error_msg'] = "Provided Hadith In Book ID doesn't exist.Use the menu if you have access.";
+			$list['main_content'] = "message_view";
+			$this->load->view('includes/template', $list);
 			return;
 		endif;
 
@@ -170,17 +184,22 @@ class Hadith_book extends CI_Controller{
 			$this->load->model('hadith_model');
 			$list['ahadith'] = $this->hadith_model->get_ahadith_by_hadith_book_id( $hadith_book_id, $book_id, $chapter_id, $hadith_in_book_id );
 			
-			//$user_id = $this->session->userdata('user_id');
-			
 			$this->load->model('tag_model');
 			
 			for( $i=0;$i<count($list['ahadith']);$i++ ):
 				$list['ahadith'][$i]->hadith_tags = $this->tag_model->get_hadith_tag_by_hadith_id_and_user_id( $list['ahadith'][$i]->hadith_id, $user_id );
+				$list['ahadith'][$i]->chapter_title_en = $this->chapter_model->get_chapter_by_id( $list['ahadith'][$i]->chapter_id )->chapter_title_en;
 			endfor;
 			
 		endif;
 		
-		$list['ahadith_books'] = $this->hadith_book_model->get_all_hadith_books();
+		$list['ahadith_books'] = $this->hadith_book_model->get_books_by_hadith_book_id( $hadith_book_id );
+		
+		$book_id = !empty($book_id)? $book_id: $list['ahadith_books'][0]->book_id;	
+		
+		$list['book'] = $this->book_model->get_book_by_id( $book_id );
+		$list['chapter'] = $this->chapter_model->get_chapter_by_hadith_and_book_id( $hadith_book_id, $book_id )[0];
+		$list['hadith_book'] = $this->hadith_book_model->get_hadith_book_by_id( $hadith_book_id );
 		
 		$this->load->model('tag_model');
 		$list['tags'] = $this->tag_model->get_all_tags();

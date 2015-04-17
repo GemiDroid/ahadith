@@ -53,15 +53,17 @@
                     <tr>
                         <td><?php echo form_label('Book Selected','ddl_book');?></td>
                         <td>
-                            <?php if(!empty($books)):?>
+                            
 
                             <select name="ddl_book">
+                                <?php if(!empty($books)):?>
                               <?php foreach($books as $row):?>
                                 <option value="<?php echo $row->book_id; ?>"  <?php echo  set_select('ddl_book',$row->book_id, FALSE); ?> ><?php echo $row->book_title_en;?> </option>
                               <?php endforeach; ?>
+                              <?php endif; ?>
                             </select>
                                         
-                          <?php endif; ?>
+                          
                         </td>
                         <td><?php echo form_checkbox('all_books', 'accept', FALSE);?>All Books</td>
                     </tr>

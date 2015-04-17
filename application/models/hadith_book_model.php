@@ -295,22 +295,8 @@ class Hadith_book_model extends CI_Model{
 	
 	}
 	
-	public function get_books_by_hadith_book_id( $hadith_book_id ){
-		
-		$this->load->database('default');
-		$this->db->where('hadith_book_id',$hadith_book_id);
-		
-		$query = $this->db->get('book');
-		$data = '';
-	
-		foreach ($query->result() as $row):
-			$data[] = $row;
-		endforeach;
-	
-		return $data;
-	}
-	
-	public function insert_hadith_book($data){
+	function insert_hadith_book($data){
+
 		$this->load->database('default');
 
 		$this->db->insert('hadith_book', $data);
@@ -330,19 +316,33 @@ class Hadith_book_model extends CI_Model{
     */
       function get_hadith_book_by_id( $hadith_book_id ) {
          $this->load->database('default');
-
+	
          $this->db->where('hadith_book_id', $hadith_book_id);
          $q = $this->db->get('hadith_book');
-
-         $data = FALSE;
-
-         if($q->num_rows() > 0):
-             $data = $q->row();
-         endif;
-
-         $q->free_result();
-         return $data;
+	$data = '';
+	
+		foreach ($q->result() as $row):
+			$data[] = $row;
+		endforeach;
+	
+		return $data;
       }
+      
+      
+       public function get_books_by_hadith_book_id( $hadith_book_id ){
+		
+		$this->load->database('default');
+		$this->db->where('hadith_book_id',$hadith_book_id);
+		
+		$query = $this->db->get('book');
+		$data = '';
+	
+		foreach ($query->result() as $row):
+			$data[] = $row;
+		endforeach;
+	
+		return $data;
+	}
 
 
 	  /*

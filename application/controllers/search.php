@@ -62,21 +62,21 @@ class Search extends CI_Controller{
             $this->load->model('hadith_book_model');
             $list['books'] = $this->hadith_book_model->get_all_books($hadith_book_id);
             $list['ahadith'] = $this->hadith_book_model->get_all_hadith_books($search_language,$type_search_text,$search_text_option,$hadith_book,$book,$all_hadith_books,$all_books);
-           
-            $book_id = empty($this->input->post('ddl_books'))? $list['books'][0]->book_id : $this->input->post('ddl_book');
+  
+            //$book_id = empty($this->input->post('ddl_books'))? $list['books'][0]->book_id : $this->input->post('ddl_book');
             //$data1['book'] = $this->hadith_book_model->get_book_by_id($book_id);
-            $data['hadith_book_names'] = $this->hadith_book_model->get_hadith_book_by_id($hadith_book_id);
+            //$data['hadith_book_names'] = $this->hadith_book_model->get_hadith_book_by_id($hadith_book_id);
             
-            $data1['book'] = $this->hadith_book_model->get_all_books($hadith_book_id);
+            //$data1['book'] = $this->hadith_book_model->get_all_books($hadith_book_id);
              
-            for($j=0;$j<count($data['hadith_book_names']);$j++):
+            for($j=0;$j<count($list['ahadith']);$j++):
                 //$list['ahadith'][$j]->hadith_book_name = $data['hadith_book_names']->hadith_book_title_en;
-                $list['ahadith'][$j]->hadith_book_name = $this->hadith_book_model->get_hadith_book_by_id( $hadith_book_id )->hadith_book_title_en;
+                $list['ahadith'][$j]->hadith_book_name = $this->hadith_book_model->get_hadith_book_by_id( $list['ahadith'][0]->hadith_book_id)->hadith_book_title_en;
             endfor;
             
-            for($i=0;$i<count($data1['book']);$i++):
-              //$list['ahadith'][$i]->book_name = $this->hadith_book_model->get_all_books($hadith_book_id)->book_title_en;
-               $list['ahadith'][$i]->book_name = $data1['book'][$i]->book_title_en;   
+            for($i=0;$i<count($list['ahadith']);$i++):
+              $list['ahadith'][$i]->book_name = $this->hadith_book_model->get_all_books($list['ahadith'][0]->hadith_book_id)->book_title_en;
+              // $list['ahadith'][$i]->book_name = $data1['book'][$i]->book_title_en;   
             endfor;
 
             $this->load->view('includes/template',$list);

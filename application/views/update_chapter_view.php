@@ -40,24 +40,31 @@
       </tr>
       <tr>
         <td><?php echo form_label('Book Id','txt_book_id');?></td>
-        <td><?php if(!empty($books)):?>
+        <td>
+        <select name="ddl_book_id">
+        <?php if(!empty($books)):?>
           <?php foreach($books as $row):?>
-            <select name="ddl_book_id">
+            
               <option value="<?php echo $row->book_id;?>" <?php echo  set_select('ddl_book_id',$row->book_id, TRUE); ?> ><?php echo $row->hadith_book_id;?> </option>
-            </select>
+           
           <?php endforeach; ?>
           <?php endif;?>
-          </td>
+         </select>  
+        </td>
       </tr>
       <tr>
         <td><?php echo form_label('Hadith_Book_Id','txt_hadith_book_id_ar');?></td>
-        <td><?php if(!empty($hadith_books)):?>
+        <td>
+      <select name="ddl_hadith_book_id">        
+        <?php if(!empty($hadith_books)):?>
           <?php foreach($hadith_books as $row):?>
-            <select name="ddl_hadith_book_id">
+            
               <option value="<?php echo $row->hadith_book_id;?>" <?php echo  set_select('ddl_hadith_book_id',$row->hadith_book_id, TRUE); ?> ><?php echo $row->hadith_book_id;?> </option>
-            </select>
+            
           <?php endforeach; ?>
-          <?php endif;?></td>
+          <?php endif;?>
+        </select>  
+        </td>
       </tr>
       <tr>
         <td><?php echo form_submit('mysubmit','Submit Authenticity');?></td>

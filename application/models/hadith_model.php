@@ -16,6 +16,20 @@ class Hadith_model extends CI_Model{
     return $data;
 
     }
+    
+    function get_all_authenticity(){
+    $this->load->database('default');
+    $query = $this->db->get('authenticity');
+    $data = '';
+
+    foreach ($query->result() as $row):
+
+      $data[] = $row;
+    endforeach;
+
+    return $data;
+
+    }
 
     function get_hadith_by_id($hadith_id){
       $this->load->database('default');

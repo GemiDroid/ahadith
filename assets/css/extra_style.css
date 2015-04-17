@@ -320,3 +320,30 @@ body > footer p {
 	text-align: center;
 	padding: 20px 10px;
 }
+
+.search-box {
+    margin: 20px auto;
+    width: 740px;
+	font-family: "PT Sans",arial,serif;
+	font-size: medium;
+}
+
+.ltr {
+    direction: ltr;
+}
+.full-width {
+    width: 100%;
+}
+
+
+
+input[type="button"], input[type="submit"], input[type="reset"], 
+button {
+    background: -moz-linear-gradient(center top , rgba(235, 235, 235, 1) 0%, rgba(220, 220, 220, 1) 50%, rgba(210, 210, 210, 1) 64%, rgba(193, 193, 193, 1) 100%) repeat scroll 0 0 rgba(0, 0, 0, 0);
+}
+
+
+input, select, button {
+    background: none repeat scroll 0 0 #fdfbe4;
+    border: 1px solid Black;
+}

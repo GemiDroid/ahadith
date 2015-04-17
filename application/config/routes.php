@@ -126,9 +126,10 @@ $route['editor'] = "editor/chapter/add";
 $route['book/view'] = "book/view";
 $route['book/view/(:any)'] = "book/view/$1";
 
-$route['assests/js/jquery-ias.min.js'] = "assests/js/jquery-ias.min.js";
 
 $route['search'] = "search";
+
+
 
 $route['(:any)/book/(:any)/chapter/(\d+)/hadith'] = "hadith_book/view/$1/$2/$3/1";
 $route['(:any)/book/(:any)/chapter/(\d+)/hadith/(\d+)'] = "hadith_book/view/$1/$2/$3/$4";

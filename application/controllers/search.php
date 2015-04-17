@@ -21,66 +21,88 @@ class Search extends CI_Controller{
 //	 */
 //
     public function index(){
-        $this->load->helper('form');
+		
+		$this->load->model('hadith_book_model');
+		$this->load->helper('form');
+		
+		//detect an ajax call, which will happen when the user change the hadith_book_id
+        if( $this->input->is_ajax_request() ):
+            $data = $this->input->post('data');
+			if ($data['task'] == 'load-books'):
+				
+				//get all books from hadith_book_id
+				$books = $this->hadith_book_model->get_all_books($data['hadith_book_id']);	
+				
+				//get options for books select drop down
+				$books_html='';
+				if( !empty( $books ) ):
+					foreach( $books as $row ):
+						$books_html .= '<option value="'.$row->book_id.'"'. set_select('ddl_book',$row->book_id, FALSE) .' >'. $row->book_title_en .'</option>';
+					endforeach;
+				else:
+					$books_html= '<option>None</option>';
+				endif;
+				
+				$data = new stdClass();
+				$data->books = $books_html;
+				
+				echo json_encode( $data );
+				return;
+			endif;
+		endif;
         
-        $this->load->model('hadith_book_model');
+		//get hadith books
         $list['hadith_books'] = $this->hadith_book_model->get_hadith_books();
-        
-        $list['main_content'] = 'search_view';
-
-        if(empty($this->input->post('mysubmit'))):
-     
-            //if dwopdown list is empty upload default 
-            $hadith_book_id = empty($this->input->post('ddl_hadith_book'))? $list['hadith_books'][0]->hadith_book_id : $this->input->post('ddl_hadith_book');
-               
-            $this->load->model('hadith_book_model');
-            $list['books'] = $this->hadith_book_model->get_all_books($hadith_book_id);
-            $book_id = empty($this->input->post('ddl_books'))? $list['books'][0]->book_id : $this->input->post('ddl_book');
+		
+		$hadith_book_id = $list['hadith_books'][0]->hadith_book_id;
+		
+        $this->load->model('hadith_book_model');
             
-            $this->load->view('includes/template',$list);
-        
-        else:
-            //echo "clicked";
-            $search_language = $this->input->post('search_language');
-            $type_search_text = $this->input->post('type_search_text');
-            $search_text_option = $this->input->post('txt_word');
+		$list['books'] = $this->hadith_book_model->get_all_books($hadith_book_id);
+		
+        if( !empty( $this->input->post() ) ):
+		
+			//echo "<pre>"; print_r( $this->input->post() ); echo "</pre>";
+		
+			//get all post data
+            $search_language = $this->input->post('rad_search_language');
+            $type_search_text = $this->input->post('txt_search_text');
+            $search_text_option = $this->input->post('rad_word');
             $display_per_page = $this->input->post('ddl_display_per_page');
             $hadith_book = $this->input->post('ddl_hadith_book');
-            $book = $this->input->post('ddl_book');
-            $all_hadith_books = $this->input->post('all_hadith_books');
-            $all_books = $this->input->post('all_books');
+            $book_id = $this->input->post('ddl_book');
+            $all_hadith_books = $this->input->post('chk_hadith_books');
+            $all_books = $this->input->post('chk_all_books');
             
-            //var_dump($book);
-            //if(($all_hadith_books)):
-            //     $hadith_book = '';
-            //     
-            //else:
-            //     $hadith_book = 1;
-            //endif;
-            
-            $hadith_book_id = empty($this->input->post('ddl_hadith_book'))? $list['hadith_books'][0]->hadith_book_id : $this->input->post('ddl_hadith_book');
+			//
+            $hadith_book_id = empty( $hadith_book )? $list['hadith_books'][0]->hadith_book_id : $hadith_book;
+		
             $this->load->model('hadith_book_model');
-            $list['books'] = $this->hadith_book_model->get_all_books($hadith_book_id);
-            $list['ahadith'] = $this->hadith_book_model->get_all_hadith_books($search_language,$type_search_text,$search_text_option,$hadith_book,$book,$all_hadith_books,$all_books);
-  
-            //$book_id = empty($this->input->post('ddl_books'))? $list['books'][0]->book_id : $this->input->post('ddl_book');
-            //$data1['book'] = $this->hadith_book_model->get_book_by_id($book_id);
-            //$data['hadith_book_names'] = $this->hadith_book_model->get_hadith_book_by_id($hadith_book_id);
-            
-            //$data1['book'] = $this->hadith_book_model->get_all_books($hadith_book_id);
-             
-            for($j=0;$j<count($list['ahadith']);$j++):
-                //$list['ahadith'][$j]->hadith_book_name = $data['hadith_book_names']->hadith_book_title_en;
-                $list['ahadith'][$j]->hadith_book_name = $this->hadith_book_model->get_hadith_book_by_id( $list['ahadith'][0]->hadith_book_id)->hadith_book_title_en;
-            endfor;
-            
-            for($i=0;$i<count($list['ahadith']);$i++):
-              $list['ahadith'][$i]->book_name = $this->hadith_book_model->get_all_books($list['ahadith'][0]->hadith_book_id)->book_title_en;
-              // $list['ahadith'][$i]->book_name = $data1['book'][$i]->book_title_en;   
-            endfor;
 
-            $this->load->view('includes/template',$list);
+            
+			$list['books'] = $this->hadith_book_model->get_all_books($hadith_book_id);
+            $list['ahadith'] = $this->hadith_book_model->get_all_hadith_books($search_language,$type_search_text,$search_text_option,$hadith_book,$book_id,$all_hadith_books,$all_books,$display_per_page);
+			
+			if( !empty( $list['ahadith'] ) ):
+				
+				//get hadith_book_name for each hadith
+				for($j=0;$j<count($list['ahadith']);$j++):
+					$list['ahadith'][$j]->hadith_book_name = $this->hadith_book_model->get_hadith_book_by_id( $list['ahadith'][$j]->hadith_book_id )->hadith_book_title_en;
+				endfor;
+				
+				$this->load->model('book_model');
+				
+				//get book_name for each hadith
+				for($i=0;$i<count($list['ahadith']);$i++):
+				   $list['ahadith'][$i]->book_name = $this->book_model->get_book_by_id( $list['ahadith'][$i]->book_id )->book_title_en;   
+				endfor;
+			endif;
+
             
         endif;
+		
+		$list['main_content'] = 'search_view';
+		
+		$this->load->view('includes/template',$list);
     }
 }

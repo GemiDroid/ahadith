@@ -35,27 +35,33 @@
       <tr>
         <td><?php echo form_label('Book Id','txt_book_id');?></td>
         <td>
+          
+          <select name="ddl_book_id">
           <?php if(!empty($books)):?>
           <?php foreach($books as $row):?>
-            <select name="ddl_book_id">
-              <option value="<?php echo $row->book_id;?>" <?php echo  set_select('ddl_book_id',$row->book_id, TRUE); ?> ><?php echo $row->book_title_ar;?> </option>
-            </select>
+            
+              <option value="<?php echo $row->book_id;?>" <?php echo  set_select('ddl_book_id',$row->book_id, TRUE); ?> ><?php echo $row->book_title_en;?> </option>
+           
           <?php endforeach; ?>
         <?php else:
             echo 'No book has been added ' . anchor('book/view','Add Book');?>
           <?php endif;?>
+           </select>
         </td>
       </tr>
       <tr>
         <td><?php echo form_label('Hadith Book Id','txt_hadith_book_id');?></td>
         <td>
+          
+          <select name="ddl_hadith_book_id">
           <?php if(!empty($hadith_books)):?>
             <?php foreach($hadith_books as $row):?>
-              <select name="ddl_hadith_book_id">
+              
                 <option value="<?php echo $row->hadith_book_id;?>" <?php echo  set_select('ddl_hadith_book_id',$row->hadith_book_id, TRUE); ?> ><?php echo $row->hadith_book_id;?> </option>
-              </select>
+              
             <?php endforeach; ?>
           <?php endif;?>
+          </select>
         </td>
       </tr>
 

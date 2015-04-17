@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 
 <body>
-  <h2>Adding All Ahadith</h2>
+  <h3>Adding All Ahadith</h3>
   <table>
 
     <tbody>
@@ -39,15 +39,17 @@
       <tr>
         <td><?php echo form_label('Authenticity','ddl_authenticity_id');?></td>
         <td>
-            <?php if(!empty($authenticity)):?>
+            
 
             <select name="ddl_authenticity_id">
+              <?php if(!empty($authenticity)):?>
               <?php foreach($authenticity as $row):?>
                 <option value="<?php echo $row->authenticity_id;?>" <?php echo  set_select('ddl_authenticity_id',$row->authenticity_id, TRUE); ?> ><?php echo $row->authenticity_id;?> </option>
               <?php endforeach; ?>
+              <?php endif; ?>
             </select>
 			
-	  <?php endif; ?>
+	  
         </td>
       </tr>
       <tr>

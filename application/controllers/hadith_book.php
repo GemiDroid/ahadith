@@ -264,9 +264,11 @@ class Hadith_book extends CI_Controller{
 
 	public function edit($id){
 		$this->load->model('hadith_book_model');
-		$query = $this->hadith_book_model->get_hadith_book_by_id($id);
-		$book = $query->row();
+		//$query = $this->hadith_book_model->get_hadith_book_by_id($id);
+		//$book = $query->row();
 
+		$book = $this->hadith_book_model->get_hadith_book_by_id($id);	
+		
 		$url = base_url("hadith_book/update");
 
 		$list['book'] = $book;

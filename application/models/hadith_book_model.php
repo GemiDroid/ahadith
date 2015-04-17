@@ -20,213 +20,88 @@ class Hadith_book_model extends CI_Model{
 	*/
 
 
-	public function get_all_hadith_books($lang='',$type_search_text='',$search_text_option= '', $hadith_book_id='', $book_id='',$all_hadith_book='',$all_book=''){
-
-		$this->load->database('default');
-		 
-		if(!empty($lang)):
-			if( $lang == 'Arabic' ):
-				
-				$this->db->select('hadith_plain_ar AS hadith_body');
+	public function get_all_hadith_books($lang='en',$type_search_text='',$search_text_option= '', $hadith_book_id='', $book_id='',$all_hadith_book='',$all_book='',$display_per_page=''){
 		
-				if(!empty($type_search_text)):
-					if(!empty($search_text_option)):
-					//exact phrase
-						if($search_text_option=='Exact Phrase'):
-							$this->db->like('hadith_plain_ar',$type_search_text);
-						endif;
-					//all word
-						if($search_text_option=='All Words'):
-							
-							//$this->db->like('hadith_plain_ar',$type_search_text);
-	
-							$searchterm = explode(' ',$type_search_text);
-
-							$searchColumns = array("hadith_plain_ar");
-							$searchCondition = '';
-						      
-							for($i = 0; $i < count($searchColumns); $i++)
-							  {
-							      $searchFieldName = $searchColumns[$i];
-							      $searchCondition .= "($searchFieldName LIKE '%" . implode("%' AND $searchFieldName LIKE '%", $searchterm) . "%')";
-							      if($i+1 < count($searchColumns)) $searchCondition .= " AND ";
-							   }
-							$sql = $this->db->where($searchCondition);
-							
-							
-						endif;
-						
-					//any word
-						if($search_text_option=='Any Word'):
-							
-							$searchterm = explode(' ',$type_search_text);
-
-							$searchColumns = array("hadith_plain_ar");
-							$searchCondition = '';
-						      
-							for($i = 0; $i < count($searchColumns); $i++)
-							  {
-							      $searchFieldName = $searchColumns[$i];
-							      $searchCondition .= "($searchFieldName LIKE '%" . implode("%' OR $searchFieldName LIKE '%", $searchterm) . "%')";
-							      if($i+1 < count($searchColumns)) $searchCondition .= " OR ";
-							   }
-							$sql = $this->db->where($searchCondition);
-							
-							
-						endif;	
-					endif;
-				endif;
-			endif;
+		//lang value will be 'ar','ur' or 'en'
+		$hadith_plain = 'hadith_plain_'.$lang;
 		
-			if( $lang == 'English' ):
-				
-				$this->db->select('hadith_plain_en AS hadith_body');
-				
-				if(!empty($type_search_text)):
-				
-					if(!empty($search_text_option)):
-					//exact phrase
-						if($search_text_option=='Exact Phrase'):
-							$this->db->like('hadith_plain_en',$type_search_text);
-
-						endif;
-					//all word
-						if($search_text_option=='All Words'):
-			
-							//$this->db->like('hadith_plain_en',$type_search_text);
-							
-							
-							$searchterm = explode(' ',$type_search_text);
-
-							$searchColumns = array("hadith_plain_en");
-							$searchCondition = '';
-						      
-							for($i = 0; $i < count($searchColumns); $i++)
-							  {
-							      $searchFieldName = $searchColumns[$i];
-							      $searchCondition .= "($searchFieldName LIKE '%" . implode("%' AND $searchFieldName LIKE '%", $searchterm) . "%')";
-							      if($i+1 < count($searchColumns)) $searchCondition .= " AND ";
-							   }
-							$sql = $this->db->where($searchCondition);
-							
-							
-						endif;
-						
-					//any word
-						if($search_text_option=='Any Word'):
-							//$keywords[] = explode(" ",$type_search_text);
-							//
-							//var_dump($keywords); //die();
-							//for($i=0;$i<count($keywords);$i++):
-							//
-							//	$this->db->or_like('hadith_plain_en',$keywords[$i]);
-							//
-							//endfor;
-							
-							
-							
-							 $searchterm = explode(' ',$type_search_text);
-
-							$searchColumns = array("hadith_plain_en");
-							$searchCondition = '';
-						      
-							for($i = 0; $i < count($searchColumns); $i++)
-							  {
-							      $searchFieldName = $searchColumns[$i];
-							      $searchCondition .= "($searchFieldName LIKE '%" . implode("%' OR $searchFieldName LIKE '%", $searchterm) . "%')";
-							      if($i+1 < count($searchColumns)) $searchCondition .= " OR ";
-							   }
-							$sql = $this->db->where($searchCondition);
-							//$sql = "SELECT * FROM view_in_hadith_book WHERE $searchCondition;";
-							
-							//echo $sql;
-						endif;
-						
-					endif;
-				endif;
-			endif;
-		
-			if( $lang == 'Urdu' ):
-				
-				$this->db->select('hadith_plain_ur AS hadith_body');
-			
-				if(!empty($type_search_text)):
-					if(!empty($search_text_option)):
-					//exact phrase
-						if($search_text_option=='Exact Phrase'):
-							$this->db->like('hadith_plain_ur',$type_search_text);
-						endif;
-					//all word
-						if($search_text_option=='All Words'):
-							
-							//$this->db->like('hadith_plain_ur',$type_search_text);
-						
-							$searchterm = explode(' ',$type_search_text);
-
-							$searchColumns = array("hadith_plain_ur");
-							$searchCondition = '';
-						      
-							for($i = 0; $i < count($searchColumns); $i++)
-							  {
-							      $searchFieldName = $searchColumns[$i];
-							      $searchCondition .= "($searchFieldName LIKE '%" . implode("%' AND $searchFieldName LIKE '%", $searchterm) . "%')";
-							      if($i+1 < count($searchColumns)) $searchCondition .= " AND ";
-							   }
-							$sql = $this->db->where($searchCondition);	
-							
-						endif;
-						
-					//any word
-						if($search_text_option=='Any Word'):
-							
-							$searchterm = explode(' ',$type_search_text);
-
-							$searchColumns = array("hadith_plain_ur");
-							$searchCondition = '';
-						      
-							for($i = 0; $i < count($searchColumns); $i++)
-							  {
-							      $searchFieldName = $searchColumns[$i];
-							      $searchCondition .= "($searchFieldName LIKE '%" . implode("%' OR $searchFieldName LIKE '%", $searchterm) . "%')";
-							      if($i+1 < count($searchColumns)) $searchCondition .= " OR ";
-							   }
-							$sql = $this->db->where($searchCondition);
-							
-							
-						endif;	
-					endif; 
-				endif;
-			endif;	
-		endif;
-		
-		//if all books(checkbox) for hadith books is not checked
-		
-		if(empty($all_hadith_book)):
-			if( !empty($hadith_book_id) ):
-				$this->db->where('hadith_book_id',$hadith_book_id);
-			endif;
-			if( !empty($book_id) ):
-				$this->db->where('book_id',$book_id);
-			endif;
-
-		endif;	
-			
-		
+		//rename column name for all languages
+		$this->db->select( $hadith_plain. ' AS hadith_body');
 		$this->db->select('hadith_id');
 		$this->db->select('hadith_book_id');
-		$this->db->select('book_id');
+		$this->db->select('book_id');		
+	
+		if($search_text_option == 'Any Word'):
+							
+			$searchterm = explode(' ',$type_search_text);
+
+			$searchColumns = array( $hadith_plain );
+			$searchCondition = '';
+			  
+			for($i = 0; $i < count($searchColumns); $i++):
+				  $searchFieldName = $searchColumns[$i];
+				  $searchCondition .= "($searchFieldName LIKE '%" . implode("%' OR $searchFieldName LIKE '%", $searchterm) . "%')";
+				  if($i+1 < count($searchColumns)) $searchCondition .= " OR ";
+			endfor;
+			$sql = $this->db->where($searchCondition);
+			
+		elseif($search_text_option == 'All Words'):
+						
+			$searchterm = explode(' ',$type_search_text);
+
+			$searchColumns = array( $hadith_plain );
+			$searchCondition = '';
+			  
+			for($i = 0; $i < count($searchColumns); $i++):
+				  $searchFieldName = $searchColumns[$i];
+				  $searchCondition .= "($searchFieldName LIKE '%" . implode("%' AND $searchFieldName LIKE '%", $searchterm) . "%')";
+				  if($i+1 < count($searchColumns)) $searchCondition .= " AND ";
+			endfor;
+			$sql = $this->db->where($searchCondition);
+			
+		elseif( !empty( $type_search_text ) ):
+		//case insenstive search
+			$this->db->like('LOWER('.$hadith_plain.')',strtolower($type_search_text) );
+		endif;	
+	
+		//all hadith book option is not selected
+		if( empty( $all_hadith_book ) ):
+			//hadith_book_id is not empty
+			if(!empty( $hadith_book_id )):
+				$this->db->where( 'hadith_book_id',$hadith_book_id );
+			endif;
+		endif;
+
+		//all hadith book option and all book is not selected
+		//if(  empty($all_hadith_book ) AND empty( $all_book ) ):
+		if(  empty( $all_book ) ):
+			//if all_hadith_book is selected also
+			if( empty($all_hadith_book) ):
+			//if(!empty( $book_id )):
+				$this->db->where( 'book_id',$book_id );
+			endif;
+		endif;
 		
-		$query = $this->db->get('view_hadith_in_book');
-		$q = $this->db->last_query();
-		echo $q;
+		if( !empty( $display_per_page ) ):
+			$this->db->limit( $display_per_page );
+		endif;
+		
+		$q = $this->db->get('view_hadith_in_book');
+
+		
+		//echo $this->db->last_query();
+		
 		$data = '';
 		
-		foreach ($query->result() as $row):
-			$data[] = $row;
-		endforeach;
+		if($q->num_rows() > 0):
+			foreach ($q->result() as $row):
+				$data[] = $row;
+			endforeach;
+		endif;
+		
+		$q->free_result();
 		
 		return $data;
-		
 	}
 	/*
 		* Get all hadith books
@@ -283,15 +158,17 @@ class Hadith_book_model extends CI_Model{
 		
 	function get_hadith_books(){
 		$this->load->database('default');
-		$query = $this->db->get('hadith_book');
-		$data = '';
-	    
-		foreach ($query->result() as $row):
-	    
-		  $data[] = $row;
-		endforeach;
-	    
-		return $data;
+		
+		$q = $this->db->get('hadith_book');
+		
+		$data = FALSE;
+          
+        foreach ($q->result() as $row):
+            $data[] = $row;
+        endforeach;
+          
+        $q->free_result();
+        return $data;
 	
 	}
 	

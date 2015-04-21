@@ -16,7 +16,7 @@
 					<a class="navbar-brand visible-xs" style="height: auto;" href="#">
 						<h2 class="col-xs-12"><?php echo $hadith_book->hadith_book_title_en; ?></h2>
 						<h2 class="col-xs-12">
-							Book: <?php echo $book_title_en; ?>
+							Book: <?php echo $book->book_title_en; ?>
 						</h2>
 					</a>
 				</div>
@@ -43,22 +43,36 @@
 			</aside>
 			
 			<section id="hadith-contents" class="col-sm-9 col-lg-10">
-				<p class="pagination">&nbsp;<strong>1</strong>&nbsp;<a href="http://www.ahadith.net/muslim/book/1/chap/10">2</a>&nbsp;<a href="http://www.ahadith.net/muslim/book/1/chap/20">3</a>&nbsp;<a href="http://www.ahadith.net/muslim/book/1/chap/10">&gt;</a>&nbsp;&nbsp;<a href="http://www.ahadith.net/muslim/book/1/chap/90">Last ›</a></p>
+				
+				<p class="pagination">&nbsp;
+					<?php echo $pages; ?>		
+				</p>
 				
 				<?php $chapter_title_en = ''; $i=1; ?>
 				<?php if(!empty($ahadith)): ?>				
 					<?php foreach( $ahadith as $hadith ): ?>
 					
-					<?php if( $hadith->chapter_title_en != $chapter_title_en ): ?>
-						<h3><?php echo $i++.'. '. $hadith->chapter_title_en; ?></h3>
-					<?php endif; ?>
+					<div class="hadith" id="<?php echo $hadith->hadith_in_book_id; ?>">
 					
-						<article>
-							<div style="padding-top: 3px; padding-bottom: 3px;"><a id="<?php echo $hadith->hadith_book_id; ?>/book/<?php echo $hadith->book_id; ?>/chapter/<?php echo $hadith->chapter_id; ?>/hadith/<?php echo $hadith->hadith_in_book_id;?>">Hadith No: <?php echo $hadith->hadith_in_book_id;?></a><span style="padding-left: 30px;"><a name="b93" class="bookmark_link">Bookmark &nbsp;|&nbsp;&nbsp;<span class="glyphicon glyphicon-star-empty" aria-hidden="true" style="position: relative; top: 3px;"></span></a></span>
-								<?php foreach( $hadith->hadith_tags as $hadith_tag ): ?>
-									<span class="label label-default pull-right" style="margin-left: 5px;"><?php echo $hadith_tag->tag_title_en; ?></span>
-								<?php endforeach; ?>
-								<span class="glyphicon glyphicon-plus pull-right" aria-hidden="true" style="position: relative; top: 3px; margin-left: 5px;"></span>
+						<?php if( $hadith->chapter_title_en != $chapter_title_en ): ?>
+							<h3><?php echo $i++.'. '. $hadith->chapter_title_en; ?></h3>
+						<?php endif; ?>
+						
+						<article id="<?php echo $hadith->hadith_book_id; ?>/book/<?php echo $hadith->book_id; ?>/chapter/<?php echo $hadith->chapter_id; ?>/hadith/<?php echo $hadith->hadith_in_book_id;?>">
+							<div style="padding-top: 3px; padding-bottom: 3px;">
+								<!--Hadith ID and Bookmark-->
+								<a id="<?php echo $hadith->hadith_book_id; ?>/book/<?php echo $hadith->book_id; ?>/chapter/<?php echo $hadith->chapter_id; ?>/hadith/<?php echo $hadith->hadith_in_book_id;?>">Hadith No: <?php echo $hadith->hadith_in_book_id;?></a><span style="padding-left: 30px;"><a name="b93" class="bookmark_link">Bookmark &nbsp;|&nbsp;&nbsp;<span class="glyphicon glyphicon-star-empty" aria-hidden="true" style="position: relative; top: 3px;"></span></a></span>
+								<!--if user is login-->
+								<?php if( !empty($user_id) ): ?>
+									<div class="hadith_tags">
+										<?php if( !empty($hadith->hadith_tags) ): ?>
+											<?php foreach( $hadith->hadith_tags as $hadith_tag ): ?>
+												<span class="label label-default pull-right" style="margin-left: 5px;"><?php echo $hadith_tag->tag_title_en; ?></span>
+											<?php endforeach; ?>
+										<?php endif; ?>
+									</div>
+									<span class="add_tag glyphicon glyphicon-plus pull-right" aria-hidden="true" style="position: relative; top: 3px; margin-left: 5px;"></span>
+								<?php endif; ?>
 							</div>
 							<p lang="ar"><?php echo $hadith->hadith_plain_ar; ?></p>
 							<p><?php echo $hadith->hadith_plain_en; ?></p>
@@ -66,11 +80,27 @@
 						</article>
 						
 						<hr />
-						<?php $chapter_title_en = $hadith->chapter_title_en; ?>
+						<div class="tag_modal_body" style="display: none;">
+							<!--<label for="ddl_hadith_tags">Hadith Tags</label>-->
+							<select class="ddl_hadith_tags form-control" multiple style="width: 20%; display: inline;" size="<?php echo count($tags); ?>">
+								<?php if( !empty($hadith->hadith_tags) ): ?>
+									<?php foreach( $hadith->hadith_tags as $hadith_tag ): ?>
+										<option value="<?php echo $hadith_tag->tag_id; ?>"><?php echo $hadith_tag->tag_title_en; ?></option>
+									<?php endforeach; ?>
+								<?php endif; ?>
+							</select>
+							
+							<span class="hadith_id" style="display: none;" ><?php echo $hadith->hadith_id; ?></span>
+							<span class="hadith_in_book_id" style="display: none;" ><?php echo $hadith->hadith_in_book_id; ?></span>
+						</div>
+					</div>
 					<?php endforeach; ?>
 				<?php endif; ?>
-				
-				<p class="pagination">&nbsp;<strong>1</strong>&nbsp;<a href="http://www.ahadith.net/muslim/book/1/chap/10">2</a>&nbsp;<a href="http://www.ahadith.net/muslim/book/1/chap/20">3</a>&nbsp;<a href="http://www.ahadith.net/muslim/book/1/chap/10">&gt;</a>&nbsp;&nbsp;<a href="http://www.ahadith.net/muslim/book/1/chap/90">Last ›</a></p>
+		
+				<p class="pagination">&nbsp;
+					<?php echo $pages; ?>		
+				</p>				
+							
 			</section>
 			
 		</section>
@@ -89,26 +119,64 @@
 			<div class="modal-content">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-					<h4 class="modal-title">Modal title</h4>
+					<h4 class="modal-title">Tags for Hadith</h4>
 				</div>
 				<div class="modal-body">
-					<p>One fine body&hellip;</p>
+					<span class="text-error"></span>
+					<p>Here you can suggest modifications to the tags or add new ones.</p>
+					<!--<label for="ddl_tags">Available Tags</label>-->
+					<select multiple class="ddl_tags form-control" style="width: 20%; display: inline;">
+						<?php if(!empty($tags)): ?>
+							<?php foreach($tags as $tag): ?>
+								<option value="<?php echo $tag->tag_id; ?>"><?php echo $tag->tag_title_en; ?></option>
+							<?php endforeach; ?>
+						<?php endif; ?>
+					</select>
+				
+					<button class="btn_add"><</button>
+					<button class="btn_remove">></button>
+					
 				</div>
 				<div class="modal-footer">
+					<button type="button" class="btn_add_tag btn btn-primary">Add New Tag</button>
 					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-					<button type="button" class="btn btn-primary">Save changes</button>
+					<button type="button" class="btn_submit btn btn-primary">Save changes</button>
 				</div>
 			</div><!-- /.modal-content -->
 		</div><!-- /.modal-dialog -->
 	</div><!-- /.modal -->
 	
+	<div id="new_tag_modal" class="modal fade">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title">Add New Tag for Hadith</h4>
+				</div>
+				<div class="modal-body">
+					<span class="text-error"></span>
+					<p>Suggest a name for the tag.</p>
+					<input name="txt_new_tag" id="txt_new_tag" value=""/>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn_back btn btn-default">Back</button>
+					<button type="button" class="btn_suggest btn btn-primary">Suggest</button>
+				</div>
+			</div><!-- /.modal-content -->
+		</div><!-- /.modal-dialog -->
+	</div>
+	
 	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 	<!-- Include all compiled plugins (below), or include individual files as needed -->
 	<script src="<?php echo base_url(); ?>assets/js/bootstrap.min.js"></script>
-	
+	<script type="text/javascript" src="<?php echo base_url();?>assets/js/jquery-scrollspy.js"></script>
+		
 	<script type="text/javascript">
 		$(document).ready(function() {
+			
+			//cursor tag for add tag label
+			$('.add_tag').css('cursor','pointer');
 			
 			function adjust_heights() {
 				$('body > div.container > section.row > aside').height('auto');
@@ -136,5 +204,192 @@
 			$('#myModal').on('shown.bs.modal', function () {
 				$('#myInput').focus()
 			});
+			
+			//Scroll Spy code for ahadith
+			
+			//default scroll should be within div
+			//var container_scroll = '#hadith-contents';
+			//add class for div scroll
+			//$('#scroll').addClass('scroll_div');
+	
+			//checkbox change event for
+			//$('#checkbox_display').change(function() {
+			//	
+			//	if ( $(this).is(':checked') == true ) {
+			//		$('#scroll').addClass('scroll_div');
+			//		container_scroll = '#scroll';
+			//	}else{
+			//		$('#scroll').removeClass('scroll_div');
+			//		container_scroll = window;
+			//	}	
+			
+			//base url for window history
+			var site_url="<?php echo base_url(); ?>";
+			
+			$('.hadith').each(function(i) {
+		
+				var position = $(this).position();
+				console.log(position);
+				console.log('min: ' + position.top + ' / max: ' + parseInt(position.top + $(this).height()));
+				
+				var element_url = $(this).find('article').attr('id');
+				
+				$(this).scrollspy({
+					container: window,
+					min: position.top,
+					max: position.top + $(this).height(),
+					onEnter: function(element, position) {
+						//need complete URL
+						//if(console) console.log('entering ' +  element_url);
+						//element_id is 
+							window.history.pushState(null,null,site_url+element_url);
+							return false;
+						},
+						onLeave: function(element, position) {
+							//if(console) console.log('leaving ' +  element_url);
+						}
+				});
+			});
+			
+			//end Scroll Spy code for ahadith
+			
+			$('.add_tag').on('click', function() {
+				//remove existing html for that hadith
+				$('#myModal .modal-body').find('.ddl_hadith_tags').remove();
+				$('#myModal .modal-body').find('.hadith_id').remove();
+				$('#myModal .modal-body').find('.hadith_in_book_id').remove();
+				//add new html code for that hadith
+				$('#myModal .modal-body').append($(this).parent().parent().parent().find('.tag_modal_body').html());
+				$('#myModal').modal('show');
+			});
+			
+			$('.btn_add').on( "click", function() {
+		
+				//get tag_id from ddl_tags
+				var tag_id = $(this).parent().parent().find('.ddl_tags').val();
+				//get tag_text from ddl_tags
+				var tag_text = $(this).parent().parent().find('.ddl_tags option:selected').text();
+				
+				//if ddl_tag is selected
+				if( tag_id != null ){
+					//if option is already not added in ddl_hadith_tags, then add
+					if ( $(this).parent().parent().find('.ddl_hadith_tags').find('option[value="'+tag_id+'"]').length == '0' ) {
+						$(this).parent().parent().find('.ddl_hadith_tags').append('<option value="'+tag_id+'">'+tag_text+'</option>');	
+					}
+				}
+			});
+			
+			$('.btn_remove').on( "click", function() {
+		
+				//get tag_id from ddl_tags
+				var hadith_tag_id = $(this).parent().parent().find('.ddl_hadith_tags').val();
+				//get tag_text from ddl_tags
+				var hadith_tag_text = $(this).parent().parent().find('.ddl_hadith_tags option:selected').text();
+				
+				//if ddl_tag is selected
+				if( hadith_tag_id != null ){
+					//if option is already not added in ddl_hadith_tags, then add
+					//alert( $(this).parent().parent().find('.ddl_hadith_tags').find('option[value="'+hadith_tag_id+'"]').length );
+					$(this).parent().parent().find('.ddl_hadith_tags').find('option[value="'+ hadith_tag_id +'"]').remove();
+
+				}
+			});
+			
+			$('.btn_back').on( "click", function() {
+				//reset error
+				$('#myModal .text-error').text('');
+				//show modal with existing values
+				$('#myModal').modal('show');
+				$('#new_tag_modal').modal('hide');
+			});
+			
+			$('.btn_suggest').on( "click", function() {
+				
+				//check if that tag already exsiting in all tags drop down
+				error="";
+				error = $('.ddl_tags').find('option').map(function() { if($(this).text() == $('#txt_new_tag').val() ){ return "Tag Already Exist"; } }).get().toString();
+				
+				if (error != '') {
+					$('#new_tag_modal .text-error').text(error);	
+				}else{
+					//then add tag text
+					$('#myModal').modal('show');
+					$('#new_tag_modal').modal('hide');
+					$('.ddl_tags').append('<option>'+$('#txt_new_tag').val()+'</option>')
+				}
+			});
+	
+			$('.btn_add_tag').on( "click", function() {
+				$('#myModal').modal('hide');
+				//reset value
+				$('#txt_new_tag').val('');
+				$('#new_tag_modal .text-error').text('');
+				$('#new_tag_modal').modal('show');
+				
+			});
+	
+			$('.btn_submit').on( "click", function() {
+				
+				//hadith_id is stored in span which is not displayed
+				hadith_in_book_id = $(this).parent().parent().find('.hadith_in_book_id').text();
+				
+				//prepare the data to be passed
+				var result = {};
+				result['task'] = 'hadith-tag';
+				result['tags_id'] = $(this).parent().parent().find('.ddl_hadith_tags').find('option').map(function() { if($(this).val() != $(this).text() ){ return $(this).val();} }).get().toString();
+				//hadith_id is stored in span which is not displayed
+				result['hadith_id'] = $(this).parent().parent().find('.hadith_id').text();
+				
+				var all_tags = $(this).parent().parent().find('.ddl_tags').find('option').map(function() { return $(this).val() }).get().toString();
+				
+				//if both drop downs lists are empty, 
+				if ( result['tags_id'] =='' && all_tags == '' ){					
+					$('#myModal .text-error').text('Please add new Tag.');
+					return false;
+				}
+				
+				var new_tags = new Array();
+				
+				//loop through ddl_hadith_tags to get new tags
+				$(this).parent().parent().find('.ddl_hadith_tags option').each(function() {
+					//new tag 's value and option are same, in option tag
+					if ( $(this).val() == $(this).text() ) {
+						new_tags.push( $(this).text() );
+					}
+				});
+				
+				result['new_tags'] = new_tags.toString();
+				
+				$.ajax({
+					type: "POST",
+					url: '<?php echo base_url(); ?>hadith_book/view',
+					data: { data: result },
+					beforeSend: function() {
+						$('#alert_message span').text('Deleting Record ...');
+						$('#alert_message').removeClass('alert-success alert-error').show();
+					},
+					success: function(data) {
+						try {
+							data = $.parseJSON( data );
+						
+							if (data.message.type == 'success') {
+								$('#myModal').modal('hide');
+								//$('.hadith_in_book_id').parent().parent().find('.hadith_tags').html(data.hadith_tags_html);
+								$('#'+hadith_in_book_id).find('.ddl_hadith_tags').html(data.hadith_tags_options);
+								$('#'+hadith_in_book_id).find('.hadith_tags').html(data.hadith_tags_html);
+							}
+						}
+						catch(e) {
+							//$('#alert_message span').text('An error occured ... Server responded with an error');
+							//$('#alert_message').addClass('alert-error').show();
+						}
+					},
+					error: function() {
+						//$('#alert_message span').text('An error occured ... Try again!');
+						//$('#alert_message').addClass('alert-error').show();
+					}
+				});
+			});
+			
 		});
 	</script>	

@@ -5,24 +5,32 @@ class Chapter_model extends CI_Model{
 
 	function get_all_chapters(){
 	  $this->load->database('default');
+	  
 	  $query = $this->db->get('chapter');
-	  $data = '';
+	  $data = FALSE;
 
-	  foreach ($query->result() as $row):
-
-		$data[] = $row;
-	  endforeach;
+	  if($query->num_rows()>0):
+		foreach ($query->result() as $row):
+		  $data[] = $row;
+		endforeach;
+	  endif;
 
 	  return $data;
 
-	  }
-	  
-	  
+	}
+	
 
-
-    function get_chapter_by_id($chapter_id){
+    function get_chapter_by_id($chapter_id, $book_id='', $hadith_book_id=''){
       $this->load->database('default');
       $this->db->where('chapter_id',$chapter_id);
+	  
+	  if( !empty( $book_id ) ):
+		$this->db->where('book_id',$book_id);
+	  endif;
+	  
+	  if( !empty( $hadith_book_id ) ):
+		$this->db->where('hadith_book_id',$hadith_book_id);
+	  endif;
 
       $query = $this->db->get('chapter');
 

@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 
 <body>
-  <h2>Displaying All Ahadith</h2>
-  <table>
+  <h3>Displaying All Ahadith</h3>
+  <table border="1">
     <thead>
       <tr>
         <th>ID</th>
@@ -12,7 +12,7 @@
         <th>Arabic Mark</th>
         <th>English Mark</th>
         <th>Urdu Mark</th>
-        <th>Raw</th>
+        <th>Raw Arabic</th>
         <th>Authenticity</th>
       </tr>
     </thead>

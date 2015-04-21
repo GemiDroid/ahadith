@@ -84,6 +84,8 @@ class Hadith extends CI_Controller {
 
   public function add(){
     $this->load->helper('form');
+    $this->load->model('hadith_model');
+    $list['authenticity'] = $this->hadith_model->get_all_authenticity();
     $list['main_content'] = 'add_hadith_view';
     $this->load->view('includes/template',$list);
     
@@ -114,6 +116,7 @@ class Hadith extends CI_Controller {
   public function update($hadith_id){
     $this->load->helper('form');
     $this->load->model('hadith_model');
+    $list['authenticity'] = $this->hadith_model->get_all_authenticity();
     $list['hadith_id'] = $hadith_id;
     $list['hadith'] =  $this->hadith_model->get_hadith_by_id($hadith_id);
     

@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 
 <body>
-  <h2>Reading a hadith</h2>
-  <table>
+  <h3>Reading a hadith</h3>
+  <table border="1">
     <thead>
       <tr>
         <th>ID</th>

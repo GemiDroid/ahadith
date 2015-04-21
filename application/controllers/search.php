@@ -78,6 +78,7 @@ class Search extends CI_Controller{
             $hadith_book_id = empty( $hadith_book )? $list['hadith_books'][0]->hadith_book_id : $hadith_book;
 		
             $this->load->model('hadith_book_model');
+
             
 			$list['books'] = $this->hadith_book_model->get_all_books($hadith_book_id);
             $list['ahadith'] = $this->hadith_book_model->get_all_hadith_books($search_language,$type_search_text,$search_text_option,$hadith_book,$book_id,$all_hadith_books,$all_books,$display_per_page);
@@ -96,6 +97,7 @@ class Search extends CI_Controller{
 				   $list['ahadith'][$i]->book_name = $this->book_model->get_book_by_id( $list['ahadith'][$i]->book_id )->book_title_en;   
 				endfor;
 			endif;
+
             
         endif;
 		

@@ -3,8 +3,13 @@
 class Tag_model extends CI_Model{
 
 
-  function get_all_tags(){
+  function get_all_tags( $user_id='' ){
     $this->load->database('default');
+    
+    if( $user_id != '' ):
+      $this->db->where('suggested_by',$user_id);
+    endif;
+    
     $query = $this->db->get('tag');
     $data = '';
 
@@ -43,7 +48,32 @@ class Tag_model extends CI_Model{
     
     return $data;
   }
-		
+	
+    
+  /*
+    * Method to add hadith_tag
+    *
+    * @param array $data
+    * @return boolean
+    */
+  function add_tag( $data ) {
+    $this->load->database('default');
+     
+    $this->db->insert('tag', $data);
+    
+    $message = FALSE;
+     
+    //check if errors were encountered while inserting
+    if( $this->db->_error_message() ):  
+      $message['type'] = "error";
+      $message['body'] = $this->db->_error_message();
+    else:
+      $message['type'] = "success";
+      $message['body'] = "Successfully added Hadith Tag.";
+    endif;
+    
+    return $message;
+  }	
   
   /*
     * Method to add hadith_tag
@@ -97,5 +127,24 @@ class Tag_model extends CI_Model{
      
      return $message;
   }
-        
+  
+  function get_last_tag_id(){
+     $this->load->database('default');
+            
+      $this->db->select_max('tag_id', 'max_tag_id');
+      $q = $this->db->get('tag');
+  
+      $data = FALSE;
+      
+      //default id will be 1
+      $temp = 1;
+      
+      if($q->num_rows() > 0):
+          $temp = $q->row();
+          $temp = $temp->max_tag_id;
+      endif;
+      
+      return $temp;
+      
+  }
 }

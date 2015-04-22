@@ -2,44 +2,35 @@
 
 class Hadith_model extends CI_Model{
 
+    /*
+        * Get a all ahadith
+        * @return mixed
+    */
+        
 
-  function get_all_hadith(){
-    $this->load->database('default');
-    $query = $this->db->get('hadith');
-    $data = '';
-
-    foreach ($query->result() as $row):
-
-      $data[] = $row;
-    endforeach;
-
-    return $data;
-
-    }
+    function get_all_hadith(){
+        $this->load->database('default');
+        $query = $this->db->get('hadith');
+        $data = '';
     
-    function get_all_authenticity(){
-    $this->load->database('default');
-    $query = $this->db->get('authenticity');
-    $data = '';
-
-    foreach ($query->result() as $row):
-
-      $data[] = $row;
-    endforeach;
-
-    return $data;
+        foreach ($query->result() as $row):
+    
+          $data[] = $row;
+        endforeach;
+    
+        return $data;
 
     }
 
     function get_hadith_by_id($hadith_id){
-      $this->load->database('default');
-      $this->db->where('hadith_id',$hadith_id);
-
-      $query = $this->db->get('hadith');
-
-      $data ='';
-      $data = $query->row();
-      return $data;
+        $this->load->database('default');
+        $this->db->where('hadith_id',$hadith_id);
+        
+        $query = $this->db->get('hadith');
+        
+        $data ='';
+        $data = $query->row();
+        return $data;
 
     }
 
@@ -67,57 +58,45 @@ class Hadith_model extends CI_Model{
   /*
     * Get a hadith book by id
     *
-    * @param integer $hadith_book_id
+    * @param string $hadith_book_id optional
+    * @param string $book_id optional
+    * @param int $chapter_id optional
+    * @param int $hadith_in_book_id optional
     * @return mixed
   */
   function get_ahadith_by_hadith_book_id( $hadith_book_id='',$book_id='',$chapter_id='',$hadith_in_book_id='' ) {
 
-     // $sql_query = '';
-     //
-     //if( !empty( $book_id ) ):
-     // $sql_query = 'AND book_id = "'.$book_id.'" ';
-     //endif;
-     //
-     //if( !empty( $chapter_id ) ):
-     // $sql_query .= 'AND chapter_id = "'.$chapter_id.'" ';
-     //endif;
-     //
-     //if( !empty( $hadith_in_book_id ) ):
-     // $sql_query .= 'AND hadith_in_book_id = "'.$hadith_in_book_id.'" ';
-     //endif;
-     //
-     //$this->load->database('default');
-     //
-     //$this->db->where('hadith_id IN (SELECT hadith_id FROM hadith_in_book WHERE hadith_book_id = "'.$hadith_book_id.'" '.$sql_query.' )');
-     //
-     //$q = $this->db->get('hadith');
-     //$q = $this->db->get('view_hadith_in_book');
+    $this->load->database('default');
 
-     //echo $this->db->last_query();
+    if( $hadith_book_id !='' ):
+        $this->db->where('hadith_book_id',$hadith_book_id);
+    endif;
+     
+    if( $book_id !='' ):
+        $this->db->where('book_id',$book_id);
+    endif;
 
-     $this->load->database('default');
+    //get 10 onwards chapters
+    if( $chapter_id != '' ):
+        $this->db->where('chapter_id >= ',$chapter_id);
+        $this->db->where('chapter_id < ',$chapter_id+9);
+    endif;
 
-     if( !empty( $book_id ) ):
-      $this->db->where('book_id',$book_id);
-     endif;
+    if( $hadith_in_book_id != '' ):
+        $this->db->where('hadith_in_book_id',$hadith_in_book_id );
+    endif;
 
-     if( !empty( $chapter_id ) ):
-      $this->db->where('chapter_id',$chapter_id);
-     endif;
+    $q = $this->db->get('view_hadith_in_book');
 
-     if( !empty( $hadith_in_book_id ) ):
-      $this->db->where('hadith_in_book_id',$hadith_in_book_id );
-     endif;
+    //echo $this->db->last_query();
+     
+    $data = FALSE;
 
-     $q = $this->db->get('view_hadith_in_book');
-
-     $data = FALSE;
-
-     foreach ($q->result() as $row):
+    foreach ($q->result() as $row):
         $data[] = $row;
-     endforeach;
+    endforeach;
 
-     $q->free_result();
-     return $data;
+    $q->free_result();
+    return $data;
   }
 }

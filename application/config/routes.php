@@ -133,9 +133,9 @@ $route['search'] = "search";
 
 $route['(:any)/book/(:any)/chapter/(\d+)/hadith'] = "hadith_book/view/$1/$2/$3/1";
 $route['(:any)/book/(:any)/chapter/(\d+)/hadith/(\d+)'] = "hadith_book/view/$1/$2/$3/$4";
-$route['(:any)/book/(:any)/chapter'] = "hadith_book/view/$1/$2/1";
+$route['(:any)/book/(:any)/chapter'] = "hadith_book/view/$1/$2/";
 $route['(:any)/book/(:any)/chapter/(\d+)'] = "hadith_book/view/$1/$2/$3";
-$route['(:any)/book'] = "hadith_book/view/$1/1";
+$route['(:any)/book'] = "hadith_book/view/$1/";
 $route['(:any)/book/(:any)'] = "hadith_book/view/$1/$2";
 $route['(:any)'] = "hadith_book/view/$1";
 

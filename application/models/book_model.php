@@ -42,10 +42,15 @@
       * @param integer $book_id
       * @return array
       */
-      function get_book_by_id( $book_id ) {
+      function get_book_by_id( $book_id, $hadith_book_id='' ) {
          $this->load->database('default');
          
          $this->db->where('book_id', $book_id);
+		 
+		 if( !empty( $hadith_book_id ) ):
+			$this->db->where('hadith_book_id', $hadith_book_id );
+		 endif;
+		 
          $q = $this->db->get('book');
          
          $data = FALSE;

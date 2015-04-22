@@ -347,3 +347,6 @@ input, select, button {
     background: none repeat scroll 0 0 #fdfbe4;
     border: 1px solid Black;
 }
+.text-error{
+  color: #b94a48;
+}

@@ -191,22 +191,22 @@ class Hadith_book_model extends CI_Model{
       * @param integer $hadith_book_id
       * @return mixed
     */
-      function get_hadith_book_by_id( $hadith_book_id ) {
-         $this->load->database('default');
+	function get_hadith_book_by_id( $hadith_book_id ) {
+		$this->load->database('default');
 	
-         $this->db->where('hadith_book_id', $hadith_book_id);
-         $q = $this->db->get('hadith_book');
-	$data = '';
+		$this->db->where('hadith_book_id', $hadith_book_id);
+		$q = $this->db->get('hadith_book');
+		$data = '';
 	
 		foreach ($q->result() as $row):
 			$data[] = $row;
 		endforeach;
 	
 		return $data;
-      }
+	}
       
       
-       public function get_books_by_hadith_book_id( $hadith_book_id ){
+	public function get_books_by_hadith_book_id( $hadith_book_id ){
 		
 		$this->load->database('default');
 		$this->db->where('hadith_book_id',$hadith_book_id);

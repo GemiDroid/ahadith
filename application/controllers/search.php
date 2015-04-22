@@ -72,35 +72,30 @@ class Search extends CI_Controller{
             $hadith_book = $this->input->post('ddl_hadith_book');
             $book_id = $this->input->post('ddl_book');
             $all_hadith_books = $this->input->post('chk_hadith_books');
-            $all_books = $this->input->post('chk_all_books');
-            
-			//
+            $all_books = $this->input->post('chk_all_books');            
+                        //
             $hadith_book_id = empty( $hadith_book )? $list['hadith_books'][0]->hadith_book_id : $hadith_book;
-		
+                
             $this->load->model('hadith_book_model');
 
-            
-			$list['books'] = $this->hadith_book_model->get_all_books($hadith_book_id);
+	    $list['books'] = $this->hadith_book_model->get_all_books($hadith_book_id);
             $list['ahadith'] = $this->hadith_book_model->get_all_hadith_books($search_language,$type_search_text,$search_text_option,$hadith_book,$book_id,$all_hadith_books,$all_books,$display_per_page);
-			
-			if( !empty( $list['ahadith'] ) ):
-				
-				//get hadith_book_name for each hadith
-				for($j=0;$j<count($list['ahadith']);$j++):
-					$list['ahadith'][$j]->hadith_book_name = $this->hadith_book_model->get_hadith_book_by_id( $list['ahadith'][$j]->hadith_book_id )->hadith_book_title_en;
-				endfor;
-				
-				$this->load->model('book_model');
-				
-				//get book_name for each hadith
-				for($i=0;$i<count($list['ahadith']);$i++):
-				   $list['ahadith'][$i]->book_name = $this->book_model->get_book_by_id( $list['ahadith'][$i]->book_id )->book_title_en;   
-				endfor;
-			endif;
-
-            
-        endif;
 		
+                if( !empty( $list['ahadith'] ) ):
+                        
+                        //get hadith_book_name for each hadith
+                        for($j=0;$j<count($list['ahadith']);$j++):
+                            $list['ahadith'][$j]->hadith_book_name = $this->hadith_book_model->get_hadith_book_by_id( $list['ahadith'][$j]->hadith_book_id )->hadith_book_title_en;
+                        endfor;
+                        
+                        $this->load->model('book_model');
+                        
+                        //get book_name for each hadith
+                        for($i=0;$i<count($list['ahadith']);$i++):
+                           $list['ahadith'][$i]->book_name = $this->book_model->get_book_by_id( $list['ahadith'][$i]->book_id )->book_title_en;   
+                        endfor;
+                endif;
+        endif;
 		$list['main_content'] = 'search_view';
 		
 		$this->load->view('includes/template',$list);

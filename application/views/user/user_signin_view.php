@@ -3,8 +3,17 @@
     color:red;
   }
 </style>
+
+<div class="container">
+		<header class="row">
+            <h2 class="col-sm-3 col-lg-2 hidden-xs">Signin/Register</h2>
+		</header>
+        <section class="row">
+          
+  <div class="search-box">        
+          
 <div id="contents">
-  <h2 style="margin-bottom: 0px;">Signin to Ahadith</h2>
+  <h2>Signin to Ahadith</h2>
   
   <fieldset id="block_add_book">
       <legend>Fill the form:</legend>
@@ -14,6 +23,9 @@
       
       <!--<span style="color: red;"><?php echo $error_message; ?></span>
       -->
+      
+      
+      
       <div class="control-group">
           <label class="control-label" for="txt_user_id">User ID:</label>
           <div class="controls">
@@ -46,6 +58,15 @@
               <?php echo anchor('user/registration/',"Sign Up"); ?>
           </div>
       </div>
+      
+      </div>
       <?php echo form_close(); ?>
   </fieldset>
+</div>
+
+
+
+		</section>
+        <footer class="row">			
+		</footer>
 </div>

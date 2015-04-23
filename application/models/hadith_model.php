@@ -99,4 +99,20 @@ class Hadith_model extends CI_Model{
     $q->free_result();
     return $data;
   }
+  
+   function get_all_authenticity(){
+        $this->load->database('default');
+        $query = $this->db->get('authenticity');
+        $data = '';
+    
+        foreach ($query->result() as $row):
+    
+          $data[] = $row;
+        endforeach;
+    
+        return $data;
+
+    }
+
+  
 }

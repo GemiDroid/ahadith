@@ -87,8 +87,45 @@ class Hadith_book extends CI_Controller{
 				
 				$message=false;
 				
-				//delete all hadith tags before
-				//$message = $this->tag_model->delete_hadith_tag( $data['hadith_id'] );
+				//get selected hadith's tags
+				$hadith_tags_arr = $this->tag_model->get_hadith_tag_by_hadith_id_and_user_id( $data['hadith_id'], $user_id );
+				
+				
+				//for existing tags
+				if( !empty($data['tags_id']) ):
+				
+					$tags_id = explode(',',$data['tags_id']);
+					
+					//delete tags whcih were added before, n now user didnt select them
+					if( !empty( $hadith_tags_arr ) ):
+						foreach( $hadith_tags_arr as $row ):
+							if(  !in_array($row->tag_id,$tags_id) ):
+								//delete tag
+								$this->tag_model->delete_hadith_tag_by_id( $row->hadith_tag_id );
+							endif;
+						endforeach;
+					endif;
+					
+					//adding existing tags to hadith_tag
+					foreach( $tags_id as $tag_id ):
+						//check if that tag already exist in database
+						if( $this->tag_model->get_hadith_by_tag_and_hadith_id( $tag_id, $data['hadith_id'] ) === FALSE ):
+					
+							$hadith_tag = array(
+									'hadith_id' => $data['hadith_id'],
+									'tag_id' => $tag_id,
+									'suggested_by'=>$user_id,
+									'approved_by'=>null
+									);
+							
+							$message =  $this->tag_model->add_hadith_tag( $hadith_tag );
+						endif;
+					endforeach;
+				else:
+					//if user didnt select any tag, delete tags which were added before
+					$this->tag_model->delete_hadith_tag( $data['hadith_id']);					
+				endif;
+				
 				
 				//get new tags whcih are not avaialble in tag table
 				if( !empty($data['new_tags']) ):
@@ -104,41 +141,20 @@ class Hadith_book extends CI_Controller{
 										);
 						//add tag in tag table
 						$message = $this->tag_model->add_tag( $tag_data );
-						if( $message['type'] == 'success' ):
 							
-							$tag_id = $this->tag_model->get_last_tag_id();
-						
-							//add that tag also in hadith tag
-							$hadith_tag = array(
-								'hadith_id' => $data['hadith_id'],
-								'tag_id' => $tag_id,
-								'suggested_by'=>$user_id,
-								'approved_by'=>null
-								);
-						
-							$message =  $this->tag_model->add_hadith_tag( $hadith_tag );
-						endif;
-					endforeach;
-				endif;
-				
-				//for existing tags
-				if( !empty($data['tags_id']) ):
-				
-					$tags_id = explode(',',$data['tags_id']);
-					
-					foreach( $tags_id as $tag_id ):
-					
+						$tag_id = $this->tag_model->get_last_tag_id();
+							
+						//add that tag also in hadith tag
 						$hadith_tag = array(
 								'hadith_id' => $data['hadith_id'],
 								'tag_id' => $tag_id,
 								'suggested_by'=>$user_id,
 								'approved_by'=>null
-								);
-						
-						$message =  $this->tag_model->add_hadith_tag( $hadith_tag );
-						
-					endforeach;
+							);
 					
+						$message =  $this->tag_model->add_hadith_tag( $hadith_tag );
+							
+					endforeach;
 				endif;
 				
 				//get updated list of hadith_tags
@@ -171,7 +187,7 @@ class Hadith_book extends CI_Controller{
 	
 		$this->load->model('hadith_book_model');
 
-		if(!empty( $hadith_book_id ) AND $this->hadith_book_model->get_hadith_book_by_id( $hadith_book_id ) === FALSE ):
+		if($hadith_book_id !='' AND $this->hadith_book_model->get_hadith_book_by_id( $hadith_book_id ) == FALSE ):
 		
 			$list['error_msg'] = "Provided Hadith Book ID doesn't exist. Use the menu if you have access.";
 			$list['main_content'] = "message_view";
@@ -181,7 +197,7 @@ class Hadith_book extends CI_Controller{
 
 		$this->load->model('book_model');
 
-		if(!empty( $book_id ) ):
+		if( $book_id != '' ):
 			//check book by its hadith book id
 			if($this->book_model->get_book_by_id( $book_id, $hadith_book_id ) == FALSE ):
 				$list['error_msg'] = "Provided Book ID doesn't exist.Use the menu if you have access.";
@@ -193,7 +209,7 @@ class Hadith_book extends CI_Controller{
 
 		$this->load->model('chapter_model');
 
-		if( !empty( $chapter_id ) ):
+		if( $chapter_id != '' ):
 			//check chapter by its book and hadith book id
 			if( $this->chapter_model->get_chapter_by_id( $chapter_id, $book_id, $hadith_book_id ) == FALSE ):
 				$list['error_msg'] = "Provided Chapter ID doesn't exist in given Hadith Book.Use the menu if you have access.";
@@ -204,7 +220,7 @@ class Hadith_book extends CI_Controller{
 		endif;
 		
 		//check hadith by its chapter, book and hadith book id
-		if(!empty( $hadith_in_book_id ) AND $this->hadith_book_model->get_hadith_in_book_by_id( $hadith_in_book_id, $chapter_id, $book_id, $hadith_book_id ) === FALSE ):
+		if($hadith_in_book_id != '' AND $this->hadith_book_model->get_hadith_in_book_by_id( $hadith_in_book_id, $chapter_id, $book_id, $hadith_book_id ) == FALSE ):
 			$list['error_msg'] = "Provided Hadith In Book ID doesn't exist in given Book and Chapter.Use the menu if you have access.";
 			$list['main_content'] = "message_view";
 			$this->load->view('includes/template', $list);
@@ -212,6 +228,8 @@ class Hadith_book extends CI_Controller{
 		endif;
 		
 		$list['ahadith_books'] = $this->hadith_book_model->get_books_by_hadith_book_id( $hadith_book_id );
+		
+		//var_dump( $list['ahadith_books']  ); die();
 		
 		$book_id = !empty($book_id)? $book_id: $list['ahadith_books'][0]->book_id;
 		
@@ -221,15 +239,18 @@ class Hadith_book extends CI_Controller{
 			$this->load->model('hadith_model');
 			$list['ahadith'] = $this->hadith_model->get_ahadith_by_hadith_book_id( $hadith_book_id, $book_id, $chapter_id, $hadith_in_book_id );
 			
-			$this->load->model('tag_model');
+			if(!empty( $list['ahadith'] )):
 			
-			for( $i=0;$i<count($list['ahadith']);$i++ ):
-				$list['ahadith'][$i]->hadith_tags = $this->tag_model->get_hadith_tag_by_hadith_id_and_user_id( $list['ahadith'][$i]->hadith_id, $user_id );
-				$list['ahadith'][$i]->chapter_title_en = $this->chapter_model->get_chapter_by_id( $list['ahadith'][$i]->chapter_id )->chapter_title_en;
-			endfor;
-			
+				$this->load->model('tag_model');
+				for( $i=0;$i<count($list['ahadith']);$i++ ):
+					$list['ahadith'][$i]->hadith_tags = $this->tag_model->get_hadith_tag_by_hadith_id_and_user_id( $list['ahadith'][$i]->hadith_id, $user_id );
+					$list['ahadith'][$i]->chapter_title_en = $this->chapter_model->get_chapter_by_id( $list['ahadith'][$i]->chapter_id )->chapter_title_en;
+				endfor;
+				
+			endif;
+				
 		endif;
-		
+				
 		$list['book'] = $this->book_model->get_book_by_id( $book_id );
 		$list['chapters'] = $this->chapter_model->get_chapter_by_hadith_and_book_id( $hadith_book_id, $book_id );
 		

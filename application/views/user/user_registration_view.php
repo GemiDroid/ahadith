@@ -16,7 +16,7 @@
 
       <?php echo validation_errors(); ?>
 
-      <?php echo form_open('user/registration'); ?>
+      <?php echo form_open('user/register'); ?>
 
       <tr>
         <td><?php echo form_label('Username','txt_username');?></td>

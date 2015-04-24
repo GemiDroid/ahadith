@@ -61,16 +61,21 @@
 						<article id="<?php echo $hadith->hadith_book_id; ?>/book/<?php echo $hadith->book_id; ?>/chapter/<?php echo $hadith->chapter_id; ?>/hadith/<?php echo $hadith->hadith_in_book_id;?>">
 							<div style="padding-top: 3px; padding-bottom: 3px;">
 								<!--Hadith ID and Bookmark-->
-								<a id="<?php echo $hadith->hadith_book_id; ?>/book/<?php echo $hadith->book_id; ?>/chapter/<?php echo $hadith->chapter_id; ?>/hadith/<?php echo $hadith->hadith_in_book_id;?>">Hadith No: <?php echo $hadith->hadith_in_book_id;?></a><span style="padding-left: 30px;"><a name="b93" class="bookmark_link">Bookmark &nbsp;|&nbsp;&nbsp;<span class="glyphicon glyphicon-star-empty" aria-hidden="true" style="position: relative; top: 3px;"></span></a></span>
+								<a id="<?php echo $hadith->hadith_book_id; ?>/book/<?php echo $hadith->book_id; ?>/chapter/<?php echo $hadith->chapter_id; ?>/hadith/<?php echo $hadith->hadith_in_book_id;?>">Hadith No: <?php echo $hadith->hadith_in_book_id;?></a>
+								<span style="padding-left: 30px;">
+									<a name="b93" class="bookmark_link">Bookmark &nbsp;|&nbsp;&nbsp;
+										<span class="glyphicon glyphicon-star-empty" aria-hidden="true" style="position: relative; top: 3px;"></span>
+									</a>
+								</span>
 								<!--if user is login-->
 								<?php if( !empty($user_id) ): ?>
-									<div class="hadith_tags">
+									<span class="hadith_tags">
 										<?php if( !empty($hadith->hadith_tags) ): ?>
 											<?php foreach( $hadith->hadith_tags as $hadith_tag ): ?>
 												<span class="label label-default pull-right" style="margin-left: 5px;"><?php echo $hadith_tag->tag_title_en; ?></span>
 											<?php endforeach; ?>
 										<?php endif; ?>
-									</div>
+									</span>
 									<span class="add_tag glyphicon glyphicon-plus pull-right" aria-hidden="true" style="position: relative; top: 3px; margin-left: 5px;"></span>
 								<?php endif; ?>
 							</div>
@@ -95,6 +100,12 @@
 						</div>
 					</div>
 					<?php endforeach; ?>
+				<?php else: ?>
+					<div>
+						<span class='text-error' style='margin-top: 50px; margin-bottom: 100px;'>
+							Ahadith not found.
+						</span>
+					</div>
 				<?php endif; ?>
 		
 				<p class="pagination">&nbsp;
@@ -114,7 +125,7 @@
 		<p>A Project of <a href="http://mishkat.pk" target="_blank">Mishkat Welfare Trust</a>.</p>
 	</footer>-->
 	
-	<div id="myModal" class="modal fade">
+	<div id="myModal" class="modal fade" tabindex="-1">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -133,8 +144,8 @@
 						<?php endif; ?>
 					</select>
 				
-					<button class="btn_add"><</button>
-					<button class="btn_remove">></button>
+					<button class="btn_add">></button>
+					<button class="btn_remove"><</button>
 					
 				</div>
 				<div class="modal-footer">
@@ -175,8 +186,12 @@
 	<script type="text/javascript">
 		$(document).ready(function() {
 			
+			//remove <hr> from last hadith
+			$(".hadith").last().find('hr').remove();
+			
 			//cursor tag for add tag label
 			$('.add_tag').css('cursor','pointer');
+			
 			
 			function adjust_heights() {
 				$('body > div.container > section.row > aside').height('auto');
@@ -305,17 +320,22 @@
 			
 			$('.btn_suggest').on( "click", function() {
 				
+				//get trimed value of tag
+				new_tag = $.trim( $('#txt_new_tag').val() );
+				
 				//check if that tag already exsiting in all tags drop down
 				error="";
-				error = $('.ddl_tags').find('option').map(function() { if($(this).text() == $('#txt_new_tag').val() ){ return "Tag Already Exist"; } }).get().toString();
+				error = $('.ddl_tags').find('option').map(function() { if($(this).text() == new_tag ){ return "Tag Already Exist"; } }).get().toString();
 				
-				if (error != '') {
-					$('#new_tag_modal .text-error').text(error);	
+				if (error != '' ) {
+					$('#new_tag_modal .text-error').text(error);
+				}else if ( new_tag == '' ){
+					$('#new_tag_modal .text-error').text('Tag cannot be empty string.');
 				}else{
 					//then add tag text
 					$('#myModal').modal('show');
 					$('#new_tag_modal').modal('hide');
-					$('.ddl_tags').append('<option>'+$('#txt_new_tag').val()+'</option>')
+					$('.ddl_tags').append('<option>'+ new_tag +'</option>')
 				}
 			});
 	
@@ -372,12 +392,12 @@
 						try {
 							data = $.parseJSON( data );
 						
-							if (data.message.type == 'success') {
+							//if (data.message.type == 'success') {
 								$('#myModal').modal('hide');
 								//$('.hadith_in_book_id').parent().parent().find('.hadith_tags').html(data.hadith_tags_html);
 								$('#'+hadith_in_book_id).find('.ddl_hadith_tags').html(data.hadith_tags_options);
 								$('#'+hadith_in_book_id).find('.hadith_tags').html(data.hadith_tags_html);
-							}
+							//}
 						}
 						catch(e) {
 							//$('#alert_message span').text('An error occured ... Server responded with an error');

@@ -48,6 +48,25 @@ class Tag_model extends CI_Model{
     
     return $data;
   }
+  
+  function get_hadith_by_tag_and_hadith_id( $tag_id, $hadith_id ){
+    $this->load->database('default');
+     
+    $this->db->where('hadith_id', $hadith_id);
+    $this->db->where('tag_id', $tag_id);
+    
+    $q = $this->db->get('view_hadith_tag');
+     
+    $data = FALSE;
+			
+    if($q->num_rows() > 0):
+      $data = $q->row();
+    endif;
+			
+    $q->free_result();
+    
+    return $data;
+  }
 	
     
   /*
@@ -110,6 +129,34 @@ class Tag_model extends CI_Model{
      $this->load->database('default');
      
      $this->db->where('hadith_id', $hadith_id);
+     $this->db->delete('hadith_tag');
+     
+     $message = FALSE;
+     
+     //check if errors were encountered while deleting
+     if( $this->db->_error_message() ):
+         $message['type'] = 'error';
+         $message['body'] = 'Some error occured while deleting record - ' . $this->db->_error_message();
+         
+     else:
+         $message['type'] = 'success';
+         $message['body'] = 'Successfully deleted Hadith Tags.';
+         
+     endif;
+     
+     return $message;
+  }
+  
+   /*
+  * Delete hadith tag by hadith_tag_id
+  *
+  * @param string $hadith tag id
+  * @return mixed
+  */
+  function delete_hadith_tag_by_id( $hadith_tag_id) {
+     $this->load->database('default');
+     
+     $this->db->where('hadith_tag_id', $hadith_tag_id);
      $this->db->delete('hadith_tag');
      
      $message = FALSE;

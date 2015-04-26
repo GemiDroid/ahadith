@@ -55,7 +55,11 @@
 					<div class="hadith" id="<?php echo $hadith->hadith_in_book_id; ?>">
 					
 						<?php if( $hadith->chapter_title_en != $chapter_title_en ): ?>
-							<h3><?php echo $i++.'. '. $hadith->chapter_title_en; ?></h3>
+							<h3 class="chapters">
+								<p lang="EN"><?php echo $i++.'. '. $hadith->chapter_title_en; ?></p>
+								<p lang="UR" style="display: none;"><?php echo $i++.'. '. $hadith->chapter_title_ur; ?></p>
+								<p lang="AR" style="display: none;"><?php echo $i++.'. '. $hadith->chapter_title_ar; ?></p>
+							</h3>
 						<?php endif; ?>
 						
 						<article id="<?php echo $hadith->hadith_book_id; ?>/book/<?php echo $hadith->book_id; ?>/chapter/<?php echo $hadith->chapter_id; ?>/hadith/<?php echo $hadith->hadith_in_book_id;?>">
@@ -79,9 +83,9 @@
 									<span class="add_tag glyphicon glyphicon-plus pull-right" aria-hidden="true" style="position: relative; top: 3px; margin-left: 5px;"></span>
 								<?php endif; ?>
 							</div>
-							<p lang="ar"><?php echo $hadith->hadith_plain_ar; ?></p>
-							<p><?php echo $hadith->hadith_plain_en; ?></p>
-							<p lang="ur"><?php echo $hadith->hadith_plain_ur; ?></p>
+							<p lang="AR"><?php echo $hadith->hadith_plain_ar; ?></p>
+							<p lang="EN"><?php echo $hadith->hadith_plain_en; ?></p>
+							<p lang="UR"><?php echo $hadith->hadith_plain_ur; ?></p>
 						</article>
 						
 						<hr />
@@ -175,7 +179,89 @@
 				</div>
 			</div><!-- /.modal-content -->
 		</div><!-- /.modal-dialog -->
-	</div>
+	</div><!-- /.modal -->
+	
+	<div id="setting_modal" class="modal fade">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title">Change Display Options</h4>
+				</div>
+				<div class="modal-body">
+                    <div class="center"><span id="message">&nbsp;</span></div>
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <label for="chkDisplayChapters">
+                                        Display Chapters (ابواب):</label>
+                                </td>
+                                <td>
+                                    <input type="checkbox" checked="" name="chk_display_chapters" id="chk_display_chapters">
+                                </td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label for="ddl_chapters_lang">
+                                        Language of Chapters:</label>
+                                </td>
+                                <td>
+                                    <select id="ddl_chapters_lang" name="ddl_chapters_lang">
+                                        <option value="AR">Arabic</option>
+                                        <option selected="" value="EN">English</option>
+                                        <option value="UR">Urdu</option>
+                                    </select>
+                                </td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>&nbsp;</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <label>
+                                        Display Hadith in the following languages: </label>
+                                </td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td>
+                                    <input type="checkbox" checked="" name="chk_arabic" id="chk_arabic">
+                                    <label for="chk_arabic">Arabic</label>
+                                </td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td>
+                                    <input type="checkbox" checked="" name="chk_english" id="chk_english">
+                                    <label for="chk_english">English</label>
+                                </td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td>
+                                    <input type="checkbox" checked="" name="chk_urdu" id="chk_urdu">
+                                    <label for="chk_urdu">Urdu</label>
+                                </td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					<button type="button" id="btn_save_changes" class="btn btn-primary">Save Options</button>
+				</div>
+			</div><!-- /.modal-content -->
+		</div><!-- /.modal-dialog -->
+	</div> <!-- modal -->
 	
 	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
@@ -215,6 +301,40 @@
 				//$('#myModal').modal('show');
 				//return false;
 			});
+			
+			$('#optn_setting').on("click", function() {
+                $('#setting_modal').modal('show');   
+            });
+            
+            $('#btn_save_changes').on("click", function() {
+				
+				//if display chapters is disabled
+				if ( $('#chk_display_chapters').is(':checked') == false ) {
+					$('h3.chapters').css('display','none');
+				//if display chapters is enabled
+				}else{
+				
+					$('h3.chapters').css('display','block');
+					$('h3.chapters p').css('display','none');
+					$('h3.chapters').find('p[lang="'+$('#ddl_chapters_lang').val()+'"]').css('display','block');
+				}
+				
+				$('article p').css('display','none');
+				
+				if ( $('#chk_arabic').is(':checked') == true ) {
+					$('article').find('p[lang="AR"]').css('display','block');
+				}
+				
+				if ( $('#chk_english').is(':checked') == true ) {
+					$('article').find('p[lang="EN"]').css('display','block');
+				}
+				
+				if ( $('#chk_urdu').is(':checked') == true ) {
+					$('article').find('p[lang="UR"]').css('display','block');
+				}
+				
+				$('#setting_modal').modal('hide');
+            });
 			
 			$('#myModal').on('shown.bs.modal', function () {
 				$('#myInput').focus()

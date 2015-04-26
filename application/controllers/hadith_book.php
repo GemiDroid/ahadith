@@ -245,6 +245,8 @@ class Hadith_book extends CI_Controller{
 				for( $i=0;$i<count($list['ahadith']);$i++ ):
 					$list['ahadith'][$i]->hadith_tags = $this->tag_model->get_hadith_tag_by_hadith_id_and_user_id( $list['ahadith'][$i]->hadith_id, $user_id );
 					$list['ahadith'][$i]->chapter_title_en = $this->chapter_model->get_chapter_by_id( $list['ahadith'][$i]->chapter_id )->chapter_title_en;
+					$list['ahadith'][$i]->chapter_title_ar = $this->chapter_model->get_chapter_by_id( $list['ahadith'][$i]->chapter_id )->chapter_title_ar;
+					$list['ahadith'][$i]->chapter_title_ur = $this->chapter_model->get_chapter_by_id( $list['ahadith'][$i]->chapter_id )->chapter_title_ur;
 				endfor;
 				
 			endif;

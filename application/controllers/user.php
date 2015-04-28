@@ -88,8 +88,13 @@
 
 		function signout() {
 
-			//destroy the session data
-			$this->session->unset_userdata('user_id');
+			$user_data = $this->session->all_userdata();
+			
+			foreach( $user_data as $key=>$value ):
+				//destroy the session data
+				$this->session->unset_userdata( $key );
+			endforeach;
+			
 
 			//return to the signin page
 			redirect('user/signin');
@@ -205,65 +210,16 @@
 			
 		$this->load->model('user_model');
 		$list['user_id'] = $user_id = $this->session->userdata('user_id');
-		//$list['ahadith'] = $this->user_model->get_all_hadith();
-		$this->load->model('hadith_book_model');
-		$this->load->model('book_model');
-		$this->load->model('chapter_model');
-		
-		
-		
-		$list['ahadith'] = $this->hadith_book_model->get_all_view_hadith_in_book();
-		
-		//var_dump($list['ahadith'][0]);
-		
-		if( !empty( $list['ahadith'][0]->hadith_book_id ) ):
-			$this->load->model('hadith_model');
-			$list['ahadith'] = $this->hadith_model->get_ahadith_by_hadith_book_id( $list['ahadith'][0]->hadith_book_id, $list['ahadith'][0]->book_id, $list['ahadith'][0]->chapter_id, $list['ahadith'][0]->hadith_in_book_id );
+		if( isset( $user_id ) && !empty($user_id) ):
 			
-			$this->load->model('tag_model');
-			
-			for( $i=0;$i<count($list['ahadith']);$i++ ):
-				$list['ahadith'][$i]->hadith_tags = $this->tag_model->get_hadith_tag_by_hadith_id_and_user_id( $list['ahadith'][$i]->hadith_id, $user_id );
-				$list['ahadith'][$i]->chapter_title_en = $this->chapter_model->get_chapter_by_id( $list['ahadith'][$i]->chapter_id )->chapter_title_en;
-			endfor;
-			
-		endif;
-		
-		
-		
-		
-		$list['book'] = $this->book_model->get_book_by_id( $list['ahadith'][0]->book_id );
-		$list['chapters'] = $this->chapter_model->get_chapter_by_hadith_and_book_id( $list['ahadith'][0]->hadith_book_id, $list['ahadith'][0]->book_id );
-		$list['hadith_book'] = $this->hadith_book_model->get_hadith_book_by_id( $list['ahadith'][0]->hadith_book_id );
-		$list['ahadith_books'] = $this->hadith_book_model->get_books_by_hadith_book_id( $list['ahadith'][0]->hadith_book_id );
-		$this->load->model('tag_model');
-		
-		//get tags by user_id
-		$list['tags'] = $this->tag_model->get_all_tags( $user_id );
-		
-		$this->load->helper('form');
-		
-		//pagination code	
-		$this->load->library('pagination');
-		$config['base_url'] =  base_url().$list['hadith_book']->hadith_book_id.'/book/'. $list['book']->book_id .'/chapter/';
-		$config['total_rows'] = count( $list['chapters'] )+1;
-		$config['per_page'] = 10;
-		$this->pagination->initialize( $config );
-		$list['pages'] = $this->pagination->create_links();
-	
-		
-		//$list['main_content'] = 'user/user_home_view';
-		
-		
-		$list['main_content'] = 'hadith_book/index';
-		if( !empty( $user_id ) ):
-			$this->load->view('includes/template',$list);
-			//redirect('hadith_book/view'.$list['ahadith'][0]);
+			$this->load->model('hadith_book_model');
+			//get first hadith book id
+			$hadith_book_id = $this->hadith_book_model->get_hadith_books()[0]->hadith_book_id;
+			//redirect to hadith view page
+			redirect($hadith_book_id);
 		else:
-			//$this->signin();
 			redirect('user/signin');
-		endif;
-		
+		endif;	
 	}
 
 	function user_favorite($hadith_id){

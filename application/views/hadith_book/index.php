@@ -55,10 +55,10 @@
 					<div class="hadith" id="<?php echo $hadith->hadith_in_book_id; ?>">
 					
 						<?php if( $hadith->chapter_title_en != $chapter_title_en ): ?>
-							<h3 class="chapters">
-								<p lang="EN"><?php echo $i++.'. '. $hadith->chapter_title_en; ?></p>
-								<p lang="UR" style="display: none;"><?php echo $i++.'. '. $hadith->chapter_title_ur; ?></p>
-								<p lang="AR" style="display: none;"><?php echo $i++.'. '. $hadith->chapter_title_ar; ?></p>
+							<h3 class="chapters" >
+								<p lang="EN"><?php echo $i.'. '. $hadith->chapter_title_en; ?></p>
+								<p lang="UR" style="display: none"><?php echo $i.'. '. $hadith->chapter_title_ur; ?></p>
+								<p lang="AR" style="display: none"><?php echo $i++.'. '. $hadith->chapter_title_ar; ?></p>
 							</h3>
 						<?php endif; ?>
 						
@@ -192,13 +192,18 @@
                     <div class="center"><span id="message">&nbsp;</span></div>
                     <table>
                         <tbody>
+							<tr>
+								<td colspan="2">
+									<span id="display_error" class="text-error"></span>
+								</td>
+							</tr>
                             <tr>
                                 <td>
                                     <label for="chkDisplayChapters">
                                         Display Chapters (ابواب):</label>
                                 </td>
                                 <td>
-                                    <input type="checkbox" checked="" name="chk_display_chapters" id="chk_display_chapters">
+                                    <input type="checkbox" name="chk_display_chapters" id="chk_display_chapters" <?php echo set_checkbox('chk_display_chapters', '1', empty($chapter_display) OR $chapter_display == 'false'? FALSE: TRUE ); ?> />
                                 </td>
                                 <td></td>
                             </tr>
@@ -209,9 +214,9 @@
                                 </td>
                                 <td>
                                     <select id="ddl_chapters_lang" name="ddl_chapters_lang">
-                                        <option value="AR">Arabic</option>
-                                        <option selected="" value="EN">English</option>
-                                        <option value="UR">Urdu</option>
+										<option value="EN" <?php echo set_select('ddl_chapters_lang', 'EN', !empty( $chapter_language ) AND $chapter_language == 'EN'? TRUE:FALSE ); ?> >English</option>
+                                        <option value="AR" <?php echo set_select('ddl_chapters_lang', 'AR', !empty( $chapter_language ) AND $chapter_language == 'AR'? TRUE:FALSE); ?> >Arabic</option>
+                                        <option value="UR" <?php echo set_select('ddl_chapters_lang', 'UR', !empty( $chapter_language ) AND $chapter_language == 'UR'? TRUE:FALSE); ?>>Urdu</option>
                                     </select>
                                 </td>
                                 <td></td>
@@ -231,7 +236,7 @@
                             <tr>
                                 <td></td>
                                 <td>
-                                    <input type="checkbox" checked="" name="chk_arabic" id="chk_arabic">
+                                    <input type="checkbox" name="chk_arabic" id="chk_arabic" <?php echo set_checkbox('chk_arabic', '1', empty( $display_arabic_text ) OR $display_arabic_text != 'true'? FALSE: TRUE); ?> >
                                     <label for="chk_arabic">Arabic</label>
                                 </td>
                                 <td></td>
@@ -239,7 +244,7 @@
                             <tr>
                                 <td></td>
                                 <td>
-                                    <input type="checkbox" checked="" name="chk_english" id="chk_english">
+                                    <input type="checkbox" name="chk_english" id="chk_english" <?php echo set_checkbox('chk_english', '1', empty( $display_english_text ) OR $display_english_text != 'true'? FALSE: TRUE); ?>>
                                     <label for="chk_english">English</label>
                                 </td>
                                 <td></td>
@@ -247,7 +252,7 @@
                             <tr>
                                 <td></td>
                                 <td>
-                                    <input type="checkbox" checked="" name="chk_urdu" id="chk_urdu">
+                                    <input type="checkbox" name="chk_urdu" id="chk_urdu" <?php echo set_checkbox('chk_urdu', '1', empty( $display_urdu_text ) OR $display_urdu_text != 'true'? FALSE: TRUE); ?>>
                                     <label for="chk_urdu">Urdu</label>
                                 </td>
                                 <td></td>
@@ -271,6 +276,57 @@
 		
 	<script type="text/javascript">
 		$(document).ready(function() {
+			
+			//if user is login, then apply User Settings
+			<?php
+				if( isset($user_id) && !empty($user_id) ):
+					//session array is set
+					if( !empty($chapter_display) ):
+					
+					if( $chapter_display == 'false' ):
+			?>
+						$('h3.chapters').css('display','none');
+				<?php
+					//display chapter by its language
+					else:
+				?>
+						$('h3.chapters').css('display','block');
+						$('h3.chapters p').css('display','none');
+						$('h3.chapters').find('p[lang="<?php echo $chapter_language; ?>"]').css('display','block');
+				<?php
+					endif;
+				?>
+					//deafult
+					$('article p').css('display','none');
+					//check langauges for hadith
+				<?php
+					if( $display_arabic_text == 'true' ):	
+				?>
+						$('article').find('p[lang="AR"]').css('display','block');
+				<?php
+					endif;
+				?>
+				
+				<?php
+					if( $display_english_text == 'true' ):	
+				?>
+						$('article').find('p[lang="EN"]').css('display','block');
+				<?php
+					endif;
+				?>
+				
+				<?php
+					if( $display_urdu_text == 'true' ):	
+				?>
+						$('article').find('p[lang="UR"]').css('display','block');
+				<?php
+					endif;
+				?>
+			
+			<?php
+				endif;
+				endif;
+			?>
 			
 			//remove <hr> from last hadith
 			$(".hadith").last().find('hr').remove();
@@ -303,10 +359,16 @@
 			});
 			
 			$('#optn_setting').on("click", function() {
+				$('#display_error').text('');
                 $('#setting_modal').modal('show');   
             });
             
             $('#btn_save_changes').on("click", function() {
+				
+				if ( $('#chk_arabic').is(':checked') == false && $('#chk_english').is(':checked') == false && $('#chk_urdu').is(':checked') == false ) {
+					$('#display_error').text('You must select atleast one language');
+					return;
+				}
 				
 				//if display chapters is disabled
 				if ( $('#chk_display_chapters').is(':checked') == false ) {
@@ -334,6 +396,48 @@
 				}
 				
 				$('#setting_modal').modal('hide');
+	
+				//if user is login, then save these settings
+				<?php
+					if( isset($user_id) && !empty($user_id) ):
+				?>
+						//prepare the data to be passed
+						
+						var result ={};
+						
+						result['task'] = 'user-settings';
+						result['chapter_display'] = $('#chk_display_chapters').is(':checked');
+						result['chapter_language'] = $('#ddl_chapters_lang').val();
+						result['display_arabic_text'] = $('#chk_arabic').is(':checked');
+						result['display_english_text'] = $('#chk_english').is(':checked');
+						result['display_urdu_text'] = $('#chk_urdu').is(':checked');
+					
+						$.ajax({
+							type: "POST",
+							url: '<?php echo base_url(); ?>hadith_book/view',
+							data: { data: result },
+							beforeSend: function() {
+								$('#alert_message span').text('Deleting Record ...');
+								$('#alert_message').removeClass('alert-success alert-error').show();
+							},
+							success: function(data) {
+								try {
+									data = $.parseJSON( data );
+								
+								}
+								catch(e) {
+									//$('#alert_message span').text('An error occured ... Server responded with an error');
+									//$('#alert_message').addClass('alert-error').show();
+								}
+							},
+							error: function() {
+								//$('#alert_message span').text('An error occured ... Try again!');
+								//$('#alert_message').addClass('alert-error').show();
+							}
+						});
+				<?php
+					endif;
+				?>
             });
 			
 			$('#myModal').on('shown.bs.modal', function () {

@@ -84,11 +84,42 @@
          $q->free_result();
          return $data;
       }
+      
+      /*
+      * Get a user setting by setting_title and users_id
+      *
+      *@param string $setting_title
+      *@param string $user_id
+      * 
+      * @return array
+      */
+      function get_user_setting_by_id( $setting_title, $user_id ) {
+         $this->load->database('default');
 
+         $this->db->where('setting_title', $setting_title);
+         $this->db->where('user_id', $user_id);
+         $q = $this->db->get('user_setting');
+            
+         $data = FALSE;
+
+         if($q->num_rows() > 0):
+             $data = $q->row();
+         endif;
+
+         $q->free_result();
+         return $data;
+      }
+
+       /*
+      * Method to add user
+      *
+      * @param array $data
+      * @return array
+      */
+      
       function insert_user($user){
         $this->load->database('default');
         $this->db->insert('user',$user);
-        //echo $this->db->last_query();
 
       }
 
@@ -99,16 +130,13 @@
        * @param array $data
        * @return array
        */
-
-
-
+      
       function update_user( $user_id,$data ){
           $this->load->database('default');
 
           $this->db->where('user_id', $user_id);
           $this->db->update('user', $data);
       }
-      
       
       
     function get_hadith_in_book($hadith_id){
@@ -123,7 +151,6 @@
         $data = $query->row();
         endif;
         return $data;
-        //echo $this->db->last_query();
     }
     
     
@@ -144,15 +171,37 @@
     }
     
     
-     function insert_user_favorite($data){
+    function insert_user_favorite($data){
         $this->load->database('default');
-        //$data = array(
-	//		'hadith_in_book_id' => $hadith_in_book_id,
-	//		'hadith_book_id' => $hadith_book_id,
-	//		'user_id' => $user_id
-	//		);
         $this->db->insert('user_favorite',$data);
-        //echo $this->db->last_query();
-
     }
+    
+     /*
+      * Method to add user setting
+      *
+      * @param array $data
+    */
+    
+    function insert_user_setting($data){
+        $this->load->database('default');
+        $this->db->insert('user_setting',$data);
+    }
+    
+     /*
+       * Method to update user_setting based on setting title and user_id
+       *
+       * @param string $setting_title
+       * @param string $user_id
+       * @param array $data
+    */
+    
+    function update_user_setting($setting_title, $user_id,$data){
+        $this->load->database('default');
+        
+        $this->db->where('setting_title',$setting_title);
+        $this->db->where('user_id',$user_id);
+        
+        $this->db->update('user_setting',$data);
+    }
+    
   }

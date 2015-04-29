@@ -14,6 +14,7 @@
 	<link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>assets/css/extra_style.css" />
 	<!--<link rel="stylesheet/less" type="text/css" href="assets/less/bootstrap.less" />
 	<script src="assets/js/less.js" type="text/javascript"></script>-->
+    <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/jquery-1.9.1.js"></script>
 
 </head>
     <body>
@@ -36,7 +37,7 @@
                         
                         <div class="collapse navbar-collapse" id="main-navbar">
                             <ul class="nav navbar-nav">
-                                <li class="active"><a href="#">Home</a></li>
+                                <li class="active"><a href="<?php echo base_url(); ?>">Home</a></li>
                                 <li class="dropdown">
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
                                         Hadith Books <span class="caret"></span></a>
@@ -47,7 +48,7 @@
                                 </li>
                                 <li><a href="#">Narrators</a></li>
                                 <li><a href="<?php echo base_url()."search"; ?>">Search</a></li>
-                                <li><a href="#">Settings</a></li>
+                                <li><a href="#" id="optn_setting">Settings</span></a></li>
                                 <li><a href="#">Support Us</a></li>
                                 <!--if user is login-->
                                 <?php $user_id = $this->session->userdata('user_id'); ?>

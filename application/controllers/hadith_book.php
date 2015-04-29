@@ -71,8 +71,8 @@ class Hadith_book extends CI_Controller{
 
 	public function view($hadith_book_id='',$book_id='',$chapter_id='',$hadith_in_book_id=''){
 
-		//if the user is already not signed-in then redirect him/her to the signin()
-		$list['user_id'] = $user_id = $this->session->userdata('user_id');
+		//if session is empty, then user_id will be empty string, otherwise it would get '0' from session array
+		$list['user_id'] = $user_id = empty($this->session->userdata('user_id'))?'':$this->session->userdata('user_id');
 			
 			
 		//get ajax request for tags
@@ -180,6 +180,41 @@ class Hadith_book extends CI_Controller{
 				echo json_encode( $data );
 				
 				return;
+			elseif( $data['task'] == 'user-settings' ):
+				
+				//unset task, to make data settings array only
+				unset( $data['task'] );
+				
+				//unset user_setting sessions
+				$this->session->unset_userdata($data);
+				
+				//set user_setting sessions
+				$this->session->set_userdata( $data );
+				
+				$user_id = $this->session->userdata('user_id');
+				
+				$this->load->model('user_model');
+				
+				foreach( $data as $key => $value ):
+					
+					//if user setting was not inserted
+					if( empty($this->user_model->get_user_setting_by_id($key, $user_id)) ):
+					
+						$user_setting = array(
+							'setting_title' => $key,
+							'setting_value' => $value,
+							'user_id' => $user_id
+										);
+						//add setting by user id
+						$this->user_model->insert_user_setting( $user_setting );
+					else:
+						//update setting value
+						$this->user_model->update_user_setting($key, $user_id,array('setting_value'=>$value));
+					endif;
+					
+				endforeach;
+				
+				return;
 				
 			endif;
 				
@@ -229,8 +264,6 @@ class Hadith_book extends CI_Controller{
 		
 		$list['ahadith_books'] = $this->hadith_book_model->get_books_by_hadith_book_id( $hadith_book_id );
 		
-		//var_dump( $list['ahadith_books']  ); die();
-		
 		$book_id = !empty($book_id)? $book_id: $list['ahadith_books'][0]->book_id;
 		
 		$list['ahadith'] ='';
@@ -245,6 +278,8 @@ class Hadith_book extends CI_Controller{
 				for( $i=0;$i<count($list['ahadith']);$i++ ):
 					$list['ahadith'][$i]->hadith_tags = $this->tag_model->get_hadith_tag_by_hadith_id_and_user_id( $list['ahadith'][$i]->hadith_id, $user_id );
 					$list['ahadith'][$i]->chapter_title_en = $this->chapter_model->get_chapter_by_id( $list['ahadith'][$i]->chapter_id )->chapter_title_en;
+					$list['ahadith'][$i]->chapter_title_ar = $this->chapter_model->get_chapter_by_id( $list['ahadith'][$i]->chapter_id )->chapter_title_ar;
+					$list['ahadith'][$i]->chapter_title_ur = $this->chapter_model->get_chapter_by_id( $list['ahadith'][$i]->chapter_id )->chapter_title_ur;
 				endfor;
 				
 			endif;
@@ -255,6 +290,16 @@ class Hadith_book extends CI_Controller{
 		$list['chapters'] = $this->chapter_model->get_chapter_by_hadith_and_book_id( $hadith_book_id, $book_id );
 		
 		$list['hadith_book'] = $this->hadith_book_model->get_hadith_book_by_id( $hadith_book_id );
+		
+		$this->load->model('user_model');
+
+
+		//if session is empty then check its value in db, otherwise it would be empty		
+		$list['chapter_display'] = empty($this->session->userdata('chapter_display'))? (!empty($this->user_model->get_user_setting_by_id('chapter_display',$user_id))? $this->user_model->get_user_setting_by_id('chapter_display',$user_id)->setting_value:'') : $this->session->userdata('chapter_display');
+		$list['chapter_language'] = empty($this->session->userdata('chapter_language'))? (!empty($this->user_model->get_user_setting_by_id('chapter_language',$user_id))? $this->user_model->get_user_setting_by_id('chapter_language',$user_id)->setting_value:'') : $this->session->userdata('chapter_language');
+		$list['display_arabic_text'] = empty($this->session->userdata('display_arabic_text'))? (!empty($this->user_model->get_user_setting_by_id('display_arabic_text',$user_id))? $this->user_model->get_user_setting_by_id('display_arabic_text',$user_id)->setting_value:'') : $this->session->userdata('display_arabic_text');
+		$list['display_english_text'] = empty($this->session->userdata('display_english_text'))? (!empty($this->user_model->get_user_setting_by_id('display_english_text',$user_id))? $this->user_model->get_user_setting_by_id('display_english_text',$user_id)->setting_value:'') : $this->session->userdata('display_english_text');
+		$list['display_urdu_text'] = empty($this->session->userdata('display_urdu_text'))? (!empty($this->user_model->get_user_setting_by_id('display_urdu_text',$user_id))? $this->user_model->get_user_setting_by_id('display_urdu_text',$user_id)->setting_value:'') : $this->session->userdata('display_urdu_text');
 		
 		$this->load->model('tag_model');
 		
@@ -271,7 +316,6 @@ class Hadith_book extends CI_Controller{
 		$this->pagination->initialize( $config );
 		$list['pages'] = $this->pagination->create_links();
 	
-		
 		$list['main_content'] ='hadith_book/index';
 		
 		$this->load->view('includes/template', $list);

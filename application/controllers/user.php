@@ -97,8 +97,13 @@
 
 		function signout() {
 
-			//destroy the session data
-			$this->session->unset_userdata('user_id');
+			$user_data = $this->session->all_userdata();
+			
+			foreach( $user_data as $key=>$value ):
+				//destroy the session data
+				$this->session->unset_userdata( $key );
+			endforeach;
+			
 
 			//return to the signin page
 			redirect('user/signin');
@@ -214,6 +219,7 @@
 			
 		$this->load->model('user_model');
 		$list['user_id'] = $user_id = $this->session->userdata('user_id');
+
 		//$list['ahadith'] = $this->user_model->get_all_hadith();
 		$this->load->model('hadith_book_model');
 		$this->load->model('book_model');
@@ -266,6 +272,18 @@
 		//	redirect('user/signin');
 		//endif;
 		
+
+		if( isset( $user_id ) && !empty($user_id) ):
+			
+			$this->load->model('hadith_book_model');
+			//get first hadith book id
+			$hadith_book_id = $this->hadith_book_model->get_hadith_books()[0]->hadith_book_id;
+			//redirect to hadith view page
+			redirect($hadith_book_id);
+		else:
+			redirect('user/signin');
+		endif;	
+
 	}
 
 	function user_favorite($hadith_id){

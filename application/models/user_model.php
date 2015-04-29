@@ -102,11 +102,75 @@
 
 
 
-      function update_user( $user_id,$data ){
-          $this->load->database('default');
+      //function update_user( $user_id,$data ){
+      //    $this->load->database('default');
+      //
+      //    $this->db->where('user_id', $user_id);
+      //    $this->db->update('user', $data);
+      //}
+      
+      
+      function update_user($data){
+        
+        $this->db->where('user_id',$this->session->userdata('user_id'));
+        //$this->db->where('password',($this->input->post('txt_old_password')));
+        $query=$this->db->get('user');   
 
-          $this->db->where('user_id', $user_id);
-          $this->db->update('user', $data);
+        if ($query->num_rows() > 0):
+                $row = $query->row();
+                if($row->user_id==$this->session->userdata('user_id')):
+                    //$data = array(
+                    //  'password' => ($this->input->post('txt_new_password'))
+                    // );
+                    $this->db->where('user_id',$this->session->userdata('user_id'));
+                    //$this->db->where('password',($this->input->post('txt_old_password')));
+                    if($this->db->update('user', $data)) :
+                        return "Password Changed Successfully";
+                    else:
+                        return "Something Went Wrong, Password Not Changed";
+                    endif;
+                else:
+                    return "Something Went Wrong, Password Not Changed";
+                endif;
+
+
+         else:
+            return "Wrong Old Password";
+         endif;
+
+      }
+      
+      
+      function update_password(){
+       //  $this->db->select('user_id');
+        $this->db->where('user_id',$this->session->userdata('user_id'));
+        $this->db->where('password',($this->input->post('txt_old_password')));
+        $query=$this->db->get('user');   
+
+        if ($query->num_rows() > 0):
+                $row = $query->row();
+                if($row->user_id==$this->session->userdata('user_id')):
+                    $data = array(
+                      'password' => ($this->input->post('txt_new_password'))
+                     );
+                    $this->db->where('user_id',$this->session->userdata('user_id'));
+                    $this->db->where('password',($this->input->post('txt_old_password')));
+                    if($this->db->update('user', $data)) :
+                        return "Password Changed Successfully";
+                    else:
+                        return "Something Went Wrong, Password Not Changed";
+                    endif;
+                else:
+                    return "Something Went Wrong, Password Not Changed";
+                endif;
+
+
+         else:
+            return "Wrong Old Password";
+         endif;
+
+
+         
       }
       
       

@@ -16,6 +16,10 @@
 				$this->home();
 			elseif( $method == 'register' ):
 				$this->register();
+			elseif( $method == 'change-password' ):
+				$this->change_password();
+			elseif( $method == 'edit-profile' ):
+				$this->edit_profile();
 			elseif( $method == 'user_favorite' ):
 				 if( !isset( $param[0] ) ):
 					$param[0] = '';
@@ -75,8 +79,13 @@
 			  endif;
 			
 			  //if user doesn't exist.
-			  redirect('user/register');
+			  //redirect('user/signin');
 			  
+			 $list = array(
+					'error_message' => 'Invalid Username or Password'
+					);
+			  $list['main_content'] = 'user/user_signin_view';
+			  $this->load->view('includes/template', $list);
 			endif;
 		}
 
@@ -210,8 +219,6 @@
 		$this->load->model('book_model');
 		$this->load->model('chapter_model');
 		
-		
-		
 		$list['ahadith'] = $this->hadith_book_model->get_all_view_hadith_in_book();
 		
 		//var_dump($list['ahadith'][0]);
@@ -228,9 +235,6 @@
 			endfor;
 			
 		endif;
-		
-		
-		
 		
 		$list['book'] = $this->book_model->get_book_by_id( $list['ahadith'][0]->book_id );
 		$list['chapters'] = $this->chapter_model->get_chapter_by_hadith_and_book_id( $list['ahadith'][0]->hadith_book_id, $list['ahadith'][0]->book_id );
@@ -251,18 +255,16 @@
 		$this->pagination->initialize( $config );
 		$list['pages'] = $this->pagination->create_links();
 	
-		
-		//$list['main_content'] = 'user/user_home_view';
-		
-		
 		$list['main_content'] = 'hadith_book/index';
-		if( !empty( $user_id ) ):
+		//$user_id = $this->session->userdata('user_id');
+		//var_dump($user_id);
+		//if( !empty( $user_id ) ):
 			$this->load->view('includes/template',$list);
 			//redirect('hadith_book/view'.$list['ahadith'][0]);
-		else:
+		//else:
 			//$this->signin();
-			redirect('user/signin');
-		endif;
+		//	redirect('user/signin');
+		//endif;
 		
 	}
 
@@ -302,7 +304,7 @@
 			$this->form_validation->set_rules('txt_password', 'Password', 'required');
 			$this->form_validation->set_rules('txt_confirm_password', 'Password Confirmation', 'required|matches[txt_password]');
 			$this->form_validation->set_rules('txt_email', 'Email', 'required|valid_email');
-			$this->form_validation->set_rules('txt_gender', 'Gender', 'required');
+			$this->form_validation->set_rules('rad_gender', 'Gender', 'required');
 			$this->form_validation->set_rules('day', 'Day', 'required');
 			$this->form_validation->set_rules('month', 'Month', 'required');
 			$this->form_validation->set_rules('year', 'Year', 'required');
@@ -319,7 +321,7 @@
 				$data['email_address'] = $this->input->post('txt_email');
 				$data['full_name'] = $this->input->post('txt_full_name');
 				$data['date_of_birth'] = $this->input->post('year').'-'.$this->input->post('month').'-'.$this->input->post('day');
-				$data['gender'] = $this->input->post('txt_gender');
+				$data['gender'] = $this->input->post('rad_gender');
 				$data['country_code'] = $this->input->post('ddl_country_list');
 	
 				$this->load->model('user_model');
@@ -341,6 +343,92 @@
 	
 			endif;
 
-		}
+}
 
+
+	function change_password(){
+		$this->load->helper('form');
+		$this->load->library('form_validation');
+		$this->load->model('user_model');
+		$list['user_id'] = $user_id = $this->session->userdata('user_id');
+		
+		$list['user'] = $this->user_model->get_user_by_id($list['user_id']);
+		$old_password = $list['user']->password; 
+		//var_dump($old_password);
+		
+		$confirm_pass = $this->input->post('txt_confirm_password');
+		
+		$list['error_user'] ='';
+		$list['error_user1'] ='';
+		$list['error_user2'] ='';
+		$list['success_user'] ='';
+		
+		$this->load->library('form_validation');
+		$this->form_validation->set_rules('txt_old_password','Old Password','required');
+		$this->form_validation->set_rules('txt_new_password','New Password','required');
+		$this->form_validation->set_rules('txt_confirm_password','Confirm Password','required|matches[txt_new_password]');
+	
+		
+		
+		if ($this->form_validation->run() == TRUE):
+		   
+		   //update_password
+		  $string =  $this->user_model->update_password();
+		   echo $string;
+		   
+		endif;
+		
+		$list['main_content'] = 'user/user_change_password_view';
+		
+		$this->load->view('includes/template',$list);
+		
 	}
+	
+	
+	function edit_profile(){
+		
+		$this->load->helper('form');
+		$this->load->library('form_validation');
+		
+		$this->load->model('country_model');
+		$list['country'] = $this->country_model->get_all_countries();
+
+		$this->load->model('user_model');
+		$list['user_id'] = $user_id = $this->session->userdata('user_id');
+		//var_dump($user_id);
+		$list['user'] =  $this->user_model->get_user_by_id($user_id);
+			//var_dump($list['user']);
+		$list['main_content'] = 'user/user_edit_profile_view';
+		$this->load->view('includes/template',$list);
+		
+		$this->form_validation->set_rules('txt_email', 'Email', 'required|valid_email');
+		$this->form_validation->set_rules('rad_gender', 'Gender', 'required');
+		$this->form_validation->set_rules('day', 'Day', 'required');
+		$this->form_validation->set_rules('month', 'Month', 'required');
+		$this->form_validation->set_rules('year', 'Year', 'required');
+		$this->form_validation->set_rules('ddl_country_list', 'Country', 'required');
+		$this->form_validation->set_rules('txt_full_name', 'Full Name', 'required');
+
+		$list['main_content'] = 'user/user_edit_profile_view';
+		if ($this->form_validation->run() == FALSE):
+		  $this->load->view('includes/template',$list);
+
+		else:
+			if( !empty($this->input->post('btn_save'))):
+				$data['email_address'] = $this->input->post('txt_email');
+				$data['full_name'] = $this->input->post('txt_full_name');
+				$data['date_of_birth'] = $this->input->post('year').'-'.$this->input->post('month').'-'.$this->input->post('day');
+				$data['gender'] = $this->input->post('rad_gender');
+				$data['country_code'] = $this->input->post('ddl_country_list');
+	
+				  $this->load->model('user_model');
+				  //$this->user_model->update_user($user_id,$data);
+				$this->user_model->update_user($data);
+				  //$this->session->set_userdata('user_id',$data['user_id']);
+				  //redirect('user/home');
+				  echo "Successfully updated";
+			endif;
+
+		endif;
+	}
+}

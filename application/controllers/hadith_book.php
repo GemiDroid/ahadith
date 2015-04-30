@@ -81,8 +81,6 @@ class Hadith_book extends CI_Controller{
 			
 			if( $data['task'] == 'hadith-tag' ):
 			
-				$user_id = $this->session->userdata('user_id');
-			
 				$this->load->model('tag_model');
 				
 				$message=false;
@@ -191,8 +189,6 @@ class Hadith_book extends CI_Controller{
 				//set user_setting sessions
 				$this->session->set_userdata( $data );
 				
-				$user_id = $this->session->userdata('user_id');
-				
 				$this->load->model('user_model');
 				
 				foreach( $data as $key => $value ):
@@ -215,7 +211,27 @@ class Hadith_book extends CI_Controller{
 				endforeach;
 				
 				return;
+			
+			elseif( $data['task'] == 'hadith-bookmark' ):
 				
+				$this->load->model('user_model');
+				
+				if( $data['book_mark'] == 'add' ):
+				
+					$user_favorite = array(
+						'hadith_in_book_id' => $data['hadith_in_book_id'],
+						'hadith_book_id' => $data['hadith_book_id'],
+						'user_id' => $user_id
+										);
+					
+					$this->user_model->insert_user_favorite( $user_favorite );
+				else:
+					//delete book mark by id's.	
+					$this->user_model->delete_user_favorite( $data['hadith_in_book_id'], $data['hadith_book_id'], $user_id );
+					
+				endif;
+
+				return;				 
 			endif;
 				
 		endif;
@@ -270,6 +286,7 @@ class Hadith_book extends CI_Controller{
 
 		if( !empty( $hadith_book_id ) ):
 			$this->load->model('hadith_model');
+			$this->load->model('user_model');
 			$list['ahadith'] = $this->hadith_model->get_ahadith_by_hadith_book_id( $hadith_book_id, $book_id, $chapter_id, $hadith_in_book_id );
 			
 			if(!empty( $list['ahadith'] )):
@@ -280,6 +297,7 @@ class Hadith_book extends CI_Controller{
 					$list['ahadith'][$i]->chapter_title_en = $this->chapter_model->get_chapter_by_id( $list['ahadith'][$i]->chapter_id )->chapter_title_en;
 					$list['ahadith'][$i]->chapter_title_ar = $this->chapter_model->get_chapter_by_id( $list['ahadith'][$i]->chapter_id )->chapter_title_ar;
 					$list['ahadith'][$i]->chapter_title_ur = $this->chapter_model->get_chapter_by_id( $list['ahadith'][$i]->chapter_id )->chapter_title_ur;
+					$list['ahadith'][$i]->book_mark = $this->user_model->get_user_favorite( $list['ahadith'][$i]->hadith_in_book_id,$list['ahadith'][$i]->hadith_book_id, $user_id );
 				endfor;
 				
 			endif;

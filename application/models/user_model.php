@@ -239,6 +239,61 @@
     
     }
     
+    /*
+      * Get a user favorite by id
+      *
+      * @param string $user_favorite_id
+      * @return array
+      */
+    
+    function get_user_favorite_by_id( $user_favorite_id ){
+        
+        $this->load->database('default');
+        $this->db->where('user_favorite_id',$user_favorite_id);
+  
+        $query = $this->db->get('user_favorite');
+  
+        $data ='';
+  
+        if($query->num_rows()>0):
+            $data = $query->row();
+        endif;
+        return $data;
+    }
+    
+    /*
+      * Get a user favorite by hadith_in_book_id, hadith_book_id and user_id
+      *
+      * @param string $hadith_in_book_id
+      * @param string $hadith_book_id
+      * @param string $user_id
+      * * 
+      * @return array
+      */
+    
+    function get_user_favorite( $hadith_in_book_id, $hadith_book_id, $user_id ){
+        
+        $this->load->database('default');
+        $this->db->where('hadith_in_book_id',$hadith_in_book_id);
+        $this->db->where('user_id',$user_id);
+        
+  
+        $query = $this->db->get('user_favorite');
+  
+        $data ='';
+  
+        if($query->num_rows()>0):
+            $data = $query->row();
+        endif;
+        
+        return $data;
+    }
+    
+    /*
+      * Method to add user favorite
+      *
+      * @param array $data
+    */
     
     function insert_user_favorite($data){
         $this->load->database('default');
@@ -271,6 +326,24 @@
         $this->db->where('user_id',$user_id);
         
         $this->db->update('user_setting',$data);
+    }
+    
+    /*
+       * Method to delete user favorite based on hadith_in_book_id,hadith_book_id or user_id
+       *
+       * @param string $hadith_in_book_id
+       * @param string $hadith_book_id
+       * @param string $user_id
+       * 
+       */
+    function delete_user_favorite( $hadith_in_book_id, $hadith_book_id, $user_id ) {
+        $this->load->database('default');
+          
+        $this->db->where('hadith_in_book_id', $hadith_in_book_id);
+        $this->db->where('hadith_book_id', $hadith_book_id);
+        $this->db->where('user_id', $user_id);
+        
+        $this->db->delete('user_favorite');
     }
     
   }

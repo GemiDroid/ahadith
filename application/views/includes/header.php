@@ -52,8 +52,10 @@
                                 <li><a href="#">Support Us</a></li>
                                 <!--if user is login-->
                                 <?php $user_id = $this->session->userdata('user_id'); ?>
-                                <?php if( !empty($user_id) ): ?>
+                                
                                 <li class="dropdown">
+                                    <?php if( !empty($user_id) ): ?>
+                                    
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
                                         Welcome <?php echo $user_id; ?> <span class="caret"></span></a>
                                     <ul class="dropdown-menu" role="menu">
@@ -61,18 +63,20 @@
                                         <li><a href="<?php echo base_url()."user/change-password"; ?>">Change Password</a></li>
                                         <li><a href="<?php echo base_url()."user/signout"; ?>">Signout</a></li>
                                     </ul>
-                                </li>
-                               <!-- <li><a href="<?php echo base_url()."user/signout"; ?>">Signout</a></li>-->
+                              <!--  </li>-->
+                              
                                 <?php else: ?>
-                                <li class="dropdown">
+                               <!-- <li class="dropdown">-->
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
                                         Signin/Register <span class="caret"></span></a>
                                     <ul class="dropdown-menu" role="menu">
                                         <li><a href="<?php echo base_url()."user/signin"; ?>">Signin</a></li>
                                         <li><a href="<?php echo base_url()."user/register"; ?>">Register</a></li>
                                     </ul>
+                                    
+                                    <?php endif; ?>
                                 </li>
-                                <?php endif; ?>
+                                
                             </ul>
                         </div>
                     </div>

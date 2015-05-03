@@ -67,8 +67,9 @@
 								<!--Hadith ID and Bookmark-->
 								<a id="<?php echo $hadith->hadith_book_id; ?>/book/<?php echo $hadith->book_id; ?>/chapter/<?php echo $hadith->chapter_id; ?>/hadith/<?php echo $hadith->hadith_in_book_id;?>">Hadith No: <?php echo $hadith->hadith_in_book_id;?></a>
 								<span style="padding-left: 30px;">
-									<a name="b93" class="bookmark_link">Bookmark &nbsp;|&nbsp;&nbsp;
-										<span class="glyphicon glyphicon-star-empty" aria-hidden="true" style="position: relative; top: 3px;"></span>
+									<a name="b93" href="#" class="bookmark_link">Bookmark &nbsp;|&nbsp;&nbsp;
+										<!--if hadith is favorited then it will have filled star, otherwise empty-->
+										<span class="glyphicon <?php echo !empty($hadith->book_mark)? 'glyphicon-star':'glyphicon-star-empty' ?>" aria-hidden="true" style="position: relative; top: 3px;"></span>
 									</a>
 								</span>
 								<!--if user is login-->
@@ -268,13 +269,28 @@
 		</div><!-- /.modal-dialog -->
 	</div> <!-- modal -->
 	
-	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-	<!-- Include all compiled plugins (below), or include individual files as needed -->
-	<script src="<?php echo base_url(); ?>assets/js/bootstrap.min.js"></script>
+	<div id="bm_Modal" class="modal fade">
+		<div class="modal-dialog">
+		  <div class="modal-content">
+			<div class="modal-header">
+			  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			  <h4 class="modal-title">Bookmark Error!</h4>
+			</div>
+			<div class="modal-body">
+			  Please <a href="<?php echo base_url(). 'user/signin'; ?>">Signin</a> or <a href="<?php echo base_url(). 'user/register'; ?>">Register</a>.
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			</div>
+		  </div><!-- /.modal-content -->
+		</div><!-- /.modal-dialog -->
+	</div><!-- /.modal -->
+	
+	
 	<script type="text/javascript" src="<?php echo base_url();?>assets/js/jquery-scrollspy.js"></script>
 		
 	<script type="text/javascript">
+		
 		$(document).ready(function() {
 			
 			//if user is login, then apply User Settings
@@ -327,6 +343,7 @@
 				endif;
 				endif;
 			?>
+
 			
 			//remove <hr> from last hadith
 			$(".hadith").last().find('hr').remove();
@@ -356,6 +373,64 @@
 			$('nav a:first-child').on('click', function() {
 				//$('#myModal').modal('show');
 				//return false;
+			});
+			
+			$('.bookmark_link').on("click", function() {
+				
+				//if user is login
+				<?php if( !empty($user_id) ): ?>
+				
+					var action='';
+					//if bookmark is empty, then add
+					if ($(this).find('span').hasClass('glyphicon-star-empty') == true) {
+						$(this).find('span').removeClass('glyphicon-star-empty');
+						$(this).find('span').addClass('glyphicon-star');
+						action = 'add';
+					//if bookmark is added, then delete
+					}else{
+						$(this).find('span').removeClass('glyphicon-star');
+						$(this).find('span').addClass('glyphicon-star-empty');
+						action = 'delete';
+					}
+					
+					//get id of article tag
+					var hadith_url = $(this).parent().parent().parent().attr('id');
+					
+					//prepare the data to be passed
+					var result = {};
+					result['task'] = 'hadith-bookmark';
+					result['hadith_in_book_id'] = hadith_url.substring( hadith_url.lastIndexOf('/')+1 );
+					result['hadith_book_id'] = hadith_url.substring( 0, hadith_url.indexOf('/') );
+					result['book_mark'] = action;
+				
+					$.ajax({
+						type: "POST",
+						url: '<?php echo base_url(); ?>hadith_book/view',
+						data: { data: result },
+						beforeSend: function() {
+							$('#alert_message span').text('Deleting Record ...');
+							$('#alert_message').removeClass('alert-success alert-error').show();
+						},
+						success: function(data) {
+							try {
+								data = $.parseJSON( data );
+							}
+							catch(e) {
+								//$('#alert_message span').text('An error occured ... Server responded with an error');
+								//$('#alert_message').addClass('alert-error').show();
+							}
+						},
+						error: function() {
+							//$('#alert_message span').text('An error occured ... Try again!');
+							//$('#alert_message').addClass('alert-error').show();
+						}
+					});
+				//modal will appear to signin or register
+				<?php else: ?>
+					$('#bm_Modal').modal('show');
+				<?php endif; ?>
+				
+				
 			});
 			
 			$('#optn_setting').on("click", function() {

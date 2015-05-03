@@ -7,17 +7,20 @@
 	<title>Sayings of the Messenger (s.a.w) - www.Ahadith.net</title>
 	
 	<link href='http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic' rel='stylesheet' type='text/css' />
-        <link href='http://fonts.googleapis.com/css?family=Merienda+One|Ceviche+One|MedievalSharp' rel='stylesheet' type='text/css' />
+    <link href='http://fonts.googleapis.com/css?family=Merienda+One|Ceviche+One|MedievalSharp' rel='stylesheet' type='text/css' />
 	
+    <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/jquery-1.9.1.js"></script>
+    <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/bootstrap.js"></script>
+    
 	<link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>assets/css/fonts.css" />
 	<link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>assets/css/bootstrap_custom.css" />
 	<link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>assets/css/extra_style.css" />
 	<!--<link rel="stylesheet/less" type="text/css" href="assets/less/bootstrap.less" />
 	<script src="assets/js/less.js" type="text/javascript"></script>-->
-    <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/jquery-1.9.1.js"></script>
+    
 
 </head>
-    <body>
+    <body>    
 	
 	<header class="container-fluid">
 		<nav class="navbar navbar-default navbar-static-top" role="navigation">
@@ -50,6 +53,7 @@
                                 <li><a href="<?php echo base_url()."search"; ?>">Search</a></li>
                                 <li><a href="#" id="optn_setting">Settings</span></a></li>
                                 <li><a href="#">Support Us</a></li>
+
                                 <!--if user is login-->
                                 <?php $user_id = $this->session->userdata('user_id'); ?>
                                 
@@ -74,6 +78,7 @@
                                         <li><a href="<?php echo base_url()."user/register"; ?>">Register</a></li>
                                     </ul>
                                     
+
                                     <?php endif; ?>
                                 </li>
                                 
@@ -92,3 +97,9 @@
 	</header>
 	
     <div class="visible-xs">&nbsp;</div>
+    <script type="text/javascript">
+		$(document).ready(function() {
+            //initialize dropdown
+            $('.dropdown-toggle').dropdown();
+        });
+    </script>

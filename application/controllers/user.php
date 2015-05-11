@@ -247,11 +247,15 @@
 			
 		$this->load->model('user_model');
 		$list['user_id'] = $user_id = $this->session->userdata('user_id');
+		
+		//$list['ahadith'] = $this->user_model->get_all_hadith();
 		$this->load->model('hadith_book_model');
 		$this->load->model('book_model');
 		$this->load->model('chapter_model');
 		//$list = array();
 		$list['ahadith'] = $this->hadith_book_model->get_all_view_hadith_in_book();
+		//$list['ahadith'] = $this->user_model->get_user_role($user_id);
+		//var_dump($list['ahadith'][0]);
 		
 		if( !empty( $list['ahadith'][0]->hadith_book_id ) ):
 			$this->load->model('hadith_model');

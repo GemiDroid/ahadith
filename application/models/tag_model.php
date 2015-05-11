@@ -13,11 +13,12 @@ class Tag_model extends CI_Model{
     $query = $this->db->get('tag');
     $data = '';
 
-    foreach ($query->result() as $row):
-
-      $data[] = $row;
-    endforeach;
-
+    if($query->num_rows() > 0):
+      foreach ($query->result() as $row):
+        $data[] = $row;
+      endforeach;
+    endif;
+    
     return $data;
 
   }
@@ -29,20 +30,28 @@ class Tag_model extends CI_Model{
     * @param integer $hadith_id
     * @return mixed array
   */
-  function get_hadith_tag_by_hadith_id_and_user_id( $hadith_id,$user_id ) {
+  function get_hadith_tag_by_hadith_id_and_user_id( $hadith_id,$user_id='' ) {
     
     $this->load->database('default');
      
     $this->db->where('hadith_id', $hadith_id);
-    $this->db->where('suggested_by', $user_id);
+    
+    if( !empty($user_id) ):
+      $this->db->where('suggested_by', $user_id);
+    else:
+      //get approved tags, if user is not signed in
+      $this->db->where('approved_by !=','NULL'); 
+    endif;
     
     $q = $this->db->get('view_hadith_tag');
      
     $data = FALSE;
-			
-    foreach ($q->result() as $row):
-      $data[] = $row;
-    endforeach;
+	
+    if($q->num_rows() > 0):		
+      foreach ($q->result() as $row):
+        $data[] = $row;
+      endforeach;
+    endif;
 			
     $q->free_result();
     

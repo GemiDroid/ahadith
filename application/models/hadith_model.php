@@ -37,7 +37,7 @@ class Hadith_model extends CI_Model{
     function insert_hadith($hadith){
       $this->load->database('default');
       $this->db->insert('hadith',$hadith);
-      echo $this->db->last_query();
+      //echo $this->db->last_query();
 
     }
 
@@ -53,6 +53,12 @@ class Hadith_model extends CI_Model{
       $this->db->where('hadith_id',$hadith_id);
       $this->db->delete('hadith');
 
+    }
+    
+    function insert_error_report( $data ){
+        
+        $this->load->database('default');
+        $this->db->insert('error_report',$data);
     }
 
   /*
@@ -111,7 +117,6 @@ class Hadith_model extends CI_Model{
         endforeach;
     
         return $data;
-
     }
 
   

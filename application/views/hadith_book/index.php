@@ -72,15 +72,27 @@
 										<span class="glyphicon <?php echo !empty($hadith->book_mark)? 'glyphicon-star':'glyphicon-star-empty' ?>" aria-hidden="true" style="position: relative; top: 3px;"></span>
 									</a>
 								</span>
+								
+								<!--add flag for this hadith-->
+								<span style="padding-left: 30px;">
+									<a name="b93" href="#" class="flag_link">Flag &nbsp;|&nbsp;&nbsp;
+										<span class="glyphicon glyphicon-flag" aria-hidden="true" style="position: relative; top: 3px;"></span>
+									</a>
+									<span style="display: none;"><?php echo $hadith->hadith_id; ?></span>
+								</span>
+
+								
+								<span class="hadith_tags">
+									<?php if( !empty($hadith->hadith_tags) ): ?>
+										<?php foreach( $hadith->hadith_tags as $hadith_tag ): ?>
+											<span lang="EN" class="label label-default pull-right" style="margin-left: 5px;"><?php echo $hadith_tag->tag_title_en; ?></span>
+											<span lang="UR" style="display: none;" class="label label-default pull-right" style="margin-left: 5px;"><?php echo $hadith_tag->tag_title_ur; ?></span>
+											<span lang="AR" style="display: none;" class="label label-default pull-right" style="margin-left: 5px;"><?php echo $hadith_tag->tag_title_ar; ?></span>
+										<?php endforeach; ?>
+									<?php endif; ?>
+								</span>
 								<!--if user is login-->
 								<?php if( !empty($user_id) ): ?>
-									<span class="hadith_tags">
-										<?php if( !empty($hadith->hadith_tags) ): ?>
-											<?php foreach( $hadith->hadith_tags as $hadith_tag ): ?>
-												<span class="label label-default pull-right" style="margin-left: 5px;"><?php echo $hadith_tag->tag_title_en; ?></span>
-											<?php endforeach; ?>
-										<?php endif; ?>
-									</span>
 									<span class="add_tag glyphicon glyphicon-plus pull-right" aria-hidden="true" style="position: relative; top: 3px; margin-left: 5px;"></span>
 								<?php endif; ?>
 							</div>
@@ -90,7 +102,7 @@
 						</article>
 						
 						<hr />
-						<div class="tag_modal_body" style="display: none;">
+						<div class="tag_modal_body" style="display: none;" >
 							<!--<label for="ddl_hadith_tags">Hadith Tags</label>-->
 							<select class="ddl_hadith_tags form-control" multiple style="width: 20%; display: inline;" size="<?php echo count($tags); ?>">
 								<?php if( !empty($hadith->hadith_tags) ): ?>
@@ -100,7 +112,7 @@
 								<?php endif; ?>
 							</select>
 							
-							<span class="hadith_id" style="display: none;" ><?php echo $hadith->hadith_id; ?></span>
+							<span class="hadith_id" style="display: none;"><?php echo $hadith->hadith_id; ?></span>
 							<span class="hadith_in_book_id" style="display: none;" ><?php echo $hadith->hadith_in_book_id; ?></span>
 						</div>
 					</div>
@@ -286,12 +298,33 @@
 		</div><!-- /.modal-dialog -->
 	</div><!-- /.modal -->
 	
+	<div id="fm_Modal" class="modal fade">
+		<div class="modal-dialog">
+		  <div class="modal-content">
+			<div class="modal-header">
+			  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			  <h4 class="modal-title">Report Error!</h4>
+			</div>
+			<div class="modal-body">
+				<span class="text-error">fff</span>
+				<!--<label>Please report.</label>-->
+			  <textarea id="txt_error_report" cols="50">
+			  </textarea>
+			</div>
+			<div class="modal-footer">
+				<button type="button" id="btn_report" class="btn btn-primary">Report</button>
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			</div>
+		  </div><!-- /.modal-content -->
+		</div><!-- /.modal-dialog -->
+	</div><!-- /.modal -->
+	
 	
 	<script type="text/javascript" src="<?php echo base_url();?>assets/js/jquery-scrollspy.js"></script>
 		
 	<script type="text/javascript">
 		
-		$(document).ready(function() {
+		$(document).ready(function(){
 			
 			//if user is login, then apply User Settings
 			<?php
@@ -303,15 +336,20 @@
 			?>
 						$('h3.chapters').css('display','none');
 				<?php
-					//display chapter by its language
 					else:
 				?>
+						//display chapter by its language
 						$('h3.chapters').css('display','block');
 						$('h3.chapters p').css('display','none');
 						$('h3.chapters').find('p[lang="<?php echo $chapter_language; ?>"]').css('display','block');
 				<?php
 					endif;
 				?>
+					//display tag by its language
+					$('.hadith_tags').css('display','');
+					$('.hadith_tags span').css('display','none');
+					$('.hadith_tags').find('span[lang="'+$('#ddl_chapters_lang').val()+'"]').css('display','');
+				
 					//deafult
 					$('article p').css('display','none');
 					//check langauges for hadith
@@ -343,7 +381,6 @@
 				endif;
 				endif;
 			?>
-
 			
 			//remove <hr> from last hadith
 			$(".hadith").last().find('hr').remove();
@@ -373,6 +410,27 @@
 			$('nav a:first-child').on('click', function() {
 				//$('#myModal').modal('show');
 				//return false;
+			});
+			
+			var hadith_id='';
+			
+			$('.flag_link').on("click", function() {
+				
+				//if user is login
+				<?php if( !empty($user_id) ): ?>
+					
+					hadith_id =$(this).parent().find('span').text(); 
+					//clear fields
+					$('#fm_Modal').find('.text-error').text('');
+					$('#txt_error_report').val('');
+					$('#fm_Modal').modal('show');
+					
+				//modal will appear to signin or register
+				<?php else: ?>
+					$('#bm_Modal').modal('show');
+				<?php endif; ?>
+				
+				
 			});
 			
 			$('.bookmark_link').on("click", function() {
@@ -406,24 +464,7 @@
 					$.ajax({
 						type: "POST",
 						url: '<?php echo base_url(); ?>hadith_book/view',
-						data: { data: result },
-						beforeSend: function() {
-							$('#alert_message span').text('Deleting Record ...');
-							$('#alert_message').removeClass('alert-success alert-error').show();
-						},
-						success: function(data) {
-							try {
-								data = $.parseJSON( data );
-							}
-							catch(e) {
-								//$('#alert_message span').text('An error occured ... Server responded with an error');
-								//$('#alert_message').addClass('alert-error').show();
-							}
-						},
-						error: function() {
-							//$('#alert_message span').text('An error occured ... Try again!');
-							//$('#alert_message').addClass('alert-error').show();
-						}
+						data: { data: result }						
 					});
 				//modal will appear to signin or register
 				<?php else: ?>
@@ -451,10 +492,16 @@
 				//if display chapters is enabled
 				}else{
 				
+					//display chapter by its language
 					$('h3.chapters').css('display','block');
 					$('h3.chapters p').css('display','none');
 					$('h3.chapters').find('p[lang="'+$('#ddl_chapters_lang').val()+'"]').css('display','block');
 				}
+				
+				//display tag by its language
+				$('.hadith_tags').css('display','');
+				$('.hadith_tags span').css('display','none');
+				$('.hadith_tags').find('span[lang="'+$('#ddl_chapters_lang').val()+'"]').css('display','');
 				
 				$('article p').css('display','none');
 				
@@ -490,25 +537,7 @@
 						$.ajax({
 							type: "POST",
 							url: '<?php echo base_url(); ?>hadith_book/view',
-							data: { data: result },
-							beforeSend: function() {
-								$('#alert_message span').text('Deleting Record ...');
-								$('#alert_message').removeClass('alert-success alert-error').show();
-							},
-							success: function(data) {
-								try {
-									data = $.parseJSON( data );
-								
-								}
-								catch(e) {
-									//$('#alert_message span').text('An error occured ... Server responded with an error');
-									//$('#alert_message').addClass('alert-error').show();
-								}
-							},
-							error: function() {
-								//$('#alert_message span').text('An error occured ... Try again!');
-								//$('#alert_message').addClass('alert-error').show();
-							}
+							data: { data: result }
 						});
 				<?php
 					endif;
@@ -517,6 +546,30 @@
 			
 			$('#myModal').on('shown.bs.modal', function () {
 				$('#myInput').focus()
+			});
+			
+			$('#btn_report').on("click", function() {
+				
+				if ($('#txt_error_report').val().trim() == '') {
+					$('#fm_Modal').find('.text-error').text('Please report the error.');
+					return;
+				}
+				
+				//prepare the data to be passed
+				var result ={};
+				
+				result['task'] = 'report-error';
+				result['error_text'] = $('#txt_error_report').val().trim();
+				result['hadith_id'] = hadith_id;
+				
+				
+				$.ajax({
+					type: "POST",
+					url: '<?php echo base_url(); ?>hadith_book/view',
+					data: { data: result }
+				});
+				
+				$('#fm_Modal').modal('hide');
 			});
 			
 			//Scroll Spy code for ahadith
@@ -682,32 +735,9 @@
 				$.ajax({
 					type: "POST",
 					url: '<?php echo base_url(); ?>hadith_book/view',
-					data: { data: result },
-					beforeSend: function() {
-						$('#alert_message span').text('Deleting Record ...');
-						$('#alert_message').removeClass('alert-success alert-error').show();
-					},
-					success: function(data) {
-						try {
-							data = $.parseJSON( data );
-						
-							//if (data.message.type == 'success') {
-								$('#myModal').modal('hide');
-								//$('.hadith_in_book_id').parent().parent().find('.hadith_tags').html(data.hadith_tags_html);
-								$('#'+hadith_in_book_id).find('.ddl_hadith_tags').html(data.hadith_tags_options);
-								$('#'+hadith_in_book_id).find('.hadith_tags').html(data.hadith_tags_html);
-							//}
-						}
-						catch(e) {
-							//$('#alert_message span').text('An error occured ... Server responded with an error');
-							//$('#alert_message').addClass('alert-error').show();
-						}
-					},
-					error: function() {
-						//$('#alert_message span').text('An error occured ... Try again!');
-						//$('#alert_message').addClass('alert-error').show();
-					}
+					data: { data: result }
 				});
+				$('#myModal').modal('hide');
 			});
 			
 		});

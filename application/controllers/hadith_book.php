@@ -231,7 +231,18 @@ class Hadith_book extends CI_Controller{
 					
 				endif;
 
-				return;				 
+				return;
+			elseif( $data['task'] == 'report-error' ):
+				$this->load->model('hadith_model');
+				
+				$data['user_id'] = $user_id;
+				$data['timestamp'] = date('Y-m-d H:i:s');
+				
+				unset($data['task']);
+				
+				$this->hadith_model->insert_error_report( $data );
+
+				return;
 			endif;
 				
 		endif;
@@ -293,6 +304,7 @@ class Hadith_book extends CI_Controller{
 			
 				$this->load->model('tag_model');
 				for( $i=0;$i<count($list['ahadith']);$i++ ):
+					//get ahadith tag, if user is not signed in, then get approved tags of hadith,otherwise get by user and hadith ID.
 					$list['ahadith'][$i]->hadith_tags = $this->tag_model->get_hadith_tag_by_hadith_id_and_user_id( $list['ahadith'][$i]->hadith_id, $user_id );
 					$list['ahadith'][$i]->chapter_title_en = $this->chapter_model->get_chapter_by_id( $list['ahadith'][$i]->chapter_id )->chapter_title_en;
 					$list['ahadith'][$i]->chapter_title_ar = $this->chapter_model->get_chapter_by_id( $list['ahadith'][$i]->chapter_id )->chapter_title_ar;

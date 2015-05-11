@@ -58,7 +58,7 @@
       <tr>
       
         <td><input type="submit" id="mysubmit" name="mysubmit" value="Update" class="btn btn-success"/></td> 
-        <td><a href="<?php echo ('http://localhost/ahadith/editor/hadith/delete/'.$hadith_id); ?>"><input type="button"  value="Delete" class="btn btn-danger"/></a></td>
+        <td><a href="<?php echo (base_url().'editor/hadith/delete/'.$hadith_id); ?>"><input type="button"  value="Delete" class="btn btn-danger"/></a></td>
       </tr>
       <?php echo form_close();?>
     </tbody>

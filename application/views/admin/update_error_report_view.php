@@ -21,7 +21,7 @@
     
       <tr>
         <td><input type="submit" id="mysubmit" name="mysubmit" value="Update" class="btn btn-success">
-        <a href="<?php echo ('http://localhost/ahadith/admin/report/delete/'.$report[0]->error_id); ?>"><input type="button" value="Delete" class="btn btn-danger"></a></td>
+        <a href="<?php echo (base_url().'admin/report/delete/'.$report[0]->error_id); ?>"><input type="button" value="Delete" class="btn btn-danger"></a></td>
       </tr>
       <?php echo form_close();?>
     </tbody>

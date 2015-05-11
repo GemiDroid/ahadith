@@ -46,7 +46,7 @@
                             <td><?php echo $user->user_since; ?></td>
                             <td><?php echo $user->last_activity; ?></td>
                             
-                            <td><a href='<?php echo ('http://localhost/ahadith/admin/user/'.$user->user_id); ?>' >Edit</a></td>
+                            <td><a href='<?php echo (base_url().'admin/user/'.$user->user_id); ?>' >Edit</a></td>
                      
                         </tr>
                                     

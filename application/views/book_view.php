@@ -1,12 +1,16 @@
+<!--<style type="text/css">
+#block_add_book {
+  display: none;
+}
 
-            
-            <div class="col-md-9">
+</style>-->
+<div class="col-md-9">
 
 
 <div id="contents">
     <h3 style="margin-bottom: 0px;">Book View</h3>
     
-    <fieldset id="block_add_book">
+    <div id="block_add_book">
         <legend>Add/Edit Book:</legend>
         
         <?php $attributes = array('class' => 'form-horizontal'); ?>
@@ -93,9 +97,9 @@
             </div>
         </div>
         <?php echo form_close(); ?>
-    </fieldset>
+    </div>
     <div>&nbsp;</div>
-    <fieldset id="block_display_books">
+    <div id="block_books">
         <legend>Books</legend>
         
         <?php if( !empty( $books ) ): ?>
@@ -126,7 +130,7 @@
                                     <td style="text-align: center;"><?php echo $book->book_title_en; ?></td>
                                     <td style="text-align: center;"><?php echo $book->book_title_ur; ?></td>
                                     <td style="text-align: center;"><?php echo $book->hadith_book_id; ?></td>
-                                    <td style="text-align: center;"><?php echo anchor(base_url() . "book/view/".    $book->book_id, "View"); ?></td>
+                                    <td style="text-align: center;"><?php echo anchor(base_url() . "book/view/". $book->book_id, "View"); ?></td>
                                 </tr>
                             <?php endforeach; ?>
                             
@@ -141,9 +145,25 @@
         <?php endif; ?>
         
         
-    </fieldset>
+    </div>
 </div>
 
+<!--<div style="float: left;">
+     
+    <a href=""><input type="submit" id="btn_add_new_book" name="btn_add_new_book" value="Add New Book" class="btn btn-primary" onclick="load_edit();"/></a>
 
+ </div>-->
             </div>
         </div>
+  
+  
+   
+<!--<script type="text/javascript">
+    
+
+function load_edit() {
+           
+                    document.getElementById("block_books").style.display = 'none';
+                    document.getElementById("block_add_book").style.display = 'block';
+};
+</script>-->

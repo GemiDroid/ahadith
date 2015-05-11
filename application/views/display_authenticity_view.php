@@ -1,18 +1,6 @@
 
             <div class="col-md-9">
-              
-               <div style="float: left;">
-                <?php $attributes = array('class' => 'form-horizontal'); ?>
-                <?php echo form_open( 'admin/authenticity/add' , $attributes ); ?>
-          
-          <input type="submit" id="btn_add_new_authenticity" name="btn_add_new_authenticity" value="Add New Authenticity" class="btn btn-primary"/>
-          
-          <?php echo form_close(); ?>
-          
-              </div>
-               
-               
-                      
+         
             <div style="float:right;">
                 <?php $attributes = array('class' => 'form-horizontal'); ?>
                 <?php echo form_open( 'admin/authenticity/search/' , $attributes ); ?>
@@ -52,11 +40,23 @@
           <td><?php echo $authenticity->authenticity_title_en; ?></td>
           <td><?php echo $authenticity->authenticity_title_ur; ?></td>
           <td><?php echo $authenticity->authenticity_order; ?></td>
-          <td><a href='<?php echo ('http://localhost/ahadith/admin/authenticity/update/'.$authenticity->authenticity_id); ?>' >Edit</a></td>
+          <td><a href='<?php echo (base_url().'admin/authenticity/update/'.$authenticity->authenticity_id); ?>' >Edit</a></td>
         </tr>
       <?php endforeach; ?>
     </tbody>
   </table>
 
+  
+    <div style="float: left;">
+                <?php $attributes = array('class' => 'form-horizontal'); ?>
+                <?php echo form_open( 'admin/authenticity/add' , $attributes ); ?>
+          
+          <input type="submit" id="btn_add_new_authenticity" name="btn_add_new_authenticity" value="Add New Authenticity" class="btn btn-primary"/>
+          
+          <?php echo form_close(); ?>
+          
+              </div>
+               
+  
 </div>
  </div>

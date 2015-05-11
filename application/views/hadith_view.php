@@ -63,10 +63,10 @@
           <td><?php echo $hadith->hadith_marked_ar; ?></td>
           <td><?php echo $hadith->hadith_marked_en; ?></td>
           <td><?php echo $hadith->hadith_marked_ur; ?></td>
-          <td><?php echo  $hadith->hadith_raw_ar; ?></td>
+          <td><?php echo $hadith->hadith_raw_ar; ?></td>
           <td><?php echo $hadith->authenticity_id; ?></td>
           
-          <td><a href='<?php echo ('http://localhost/ahadith/admin/hadith/update/'.$hadith->hadith_id); ?>' >Edit</a></td>
+          <td><a href='<?php echo (base_url().'admin/hadith/update/'.$hadith->hadith_id); ?>' >Edit</a></td>
         </tr>
       <?php endforeach; ?>
     </tbody>

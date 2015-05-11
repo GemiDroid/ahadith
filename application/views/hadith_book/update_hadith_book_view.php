@@ -27,8 +27,8 @@
     
       <tr>
         <td><input type="submit" id="mysubmit" name="mysubmit" value="Update" class="btn btn-success">
-        <a href="<?php echo ('http://localhost/ahadith/hadith-book'); ?>"><input type="submit" id="mysubmit" name="mysubmit" value="Cancel" class="btn btn-primary">
-        <a href="<?php echo ('http://localhost/ahadith/admin/hadith-book/delete/'.$hadith_books->hadith_book_id); ?>"><input type="button" value="Delete" class="btn btn-danger"></a></td>
+        <a href="<?php echo (base_url().'hadith-book'); ?>"><input type="submit" id="mysubmit" name="mysubmit" value="Cancel" class="btn btn-primary">
+        <a href="<?php echo (base_url().'admin/hadith-book/delete/'.$hadith_books->hadith_book_id); ?>"><input type="button" value="Delete" class="btn btn-danger"></a></td>
       </tr>
       <?php echo form_close();?>
     </tbody>

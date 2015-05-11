@@ -1,11 +1,6 @@
 <div class="col-md-9">
               
-       <div style="float: left;">
-
-          <a href="<?php echo ('http://localhost/ahadith/admin/user-role/add'); ?>"><input type="submit" id="btn_add_new_user_role" name="btn_add_new_user_role" value="Add New User Role" class="btn btn-primary"/></a>
-          
-              </div>
-          <div>&nbsp;</div>
+     
           
   <h3>Displaying All User Roles</h3>
   <table class="table table-bordered">
@@ -24,7 +19,7 @@
           <td><?php echo $role->user_id; ?></td>
           <td><?php echo $role->role_title; ?></td>
           
-           <td><a href='<?php echo ('http://localhost/ahadith/admin/user-role/update/'.$role->user_id); ?>' >Edit</a></td>
+           <td><a href='<?php echo (base_url().'admin/user-role/update/'.$role->user_id); ?>' >Edit</a></td>
         </tr>
       <?php endforeach; ?>
 
@@ -32,5 +27,13 @@
 
     </tbody>
   </table>
+  
+  
+    <div style="float: left;">
+
+          <a href="<?php echo (base_url().'admin/user-role/add'); ?>"><input type="submit" id="btn_add_new_user_role" name="btn_add_new_user_role" value="Add New User Role" class="btn btn-primary"/></a>
+          
+              </div>
+         
     </div>
  </div>

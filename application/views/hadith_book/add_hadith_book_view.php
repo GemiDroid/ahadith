@@ -16,7 +16,7 @@
 	<input type="text" name="hadith_book_title_ur" />
 	<br><br>
 	<input type="submit" id="mysubmit"  name="mysubmit" class="btn btn-success"/>
-	<a href="<?php echo ('http://localhost/ahadith/hadith-book'); ?>"><input type="submit" id="mysubmit" name="mysubmit" value="Cancel" class="btn btn-primary">
+	<a href="<?php echo (base_url().'hadith-book'); ?>"><input type="submit" id="mysubmit" name="mysubmit" value="Cancel" class="btn btn-primary">
 	<?php echo form_close();?>
 </div>
 </div>

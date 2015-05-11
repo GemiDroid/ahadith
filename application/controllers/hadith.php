@@ -51,12 +51,13 @@ class Hadith extends CI_Controller {
    */
   
   public function display(){
+    $this->load->helper('form');
     $this->load->model('hadith_model');
     
     $list['ahadith'] = $this->hadith_model->get_all_hadith();
     $list['main_content'] = 'hadith_view';
     
-    $this->load->view('includes/template',$list);
+    $this->load->view('admin/includes/template',$list);
 
   }
 
@@ -72,7 +73,7 @@ class Hadith extends CI_Controller {
     $list['hadith'] =  $this->hadith_model->get_hadith_by_id($hadith_id);
     $list['main_content'] = 'read_hadith_view';
 
-    $this->load->view('includes/template',$list);
+    $this->load->view('admin/includes/template',$list);
 
   }
   
@@ -87,7 +88,7 @@ class Hadith extends CI_Controller {
     $this->load->model('hadith_model');
     $list['authenticity'] = $this->hadith_model->get_all_authenticity();
     $list['main_content'] = 'add_hadith_view';
-    $this->load->view('includes/template',$list);
+    $this->load->view('admin/includes/template',$list);
     
     if( !empty($this->input->post('mysubmit'))):
       $data['hadith_plain_ar'] = $this->input->post('txt_plain_ar');
@@ -101,8 +102,8 @@ class Hadith extends CI_Controller {
 
       $this->load->model('hadith_model');
       $this->hadith_model->insert_hadith($data);
-
-      echo "Successfully inserted Hadith";
+      redirect('admin/hadith');
+     // echo "Successfully inserted Hadith";
     endif;
 
   }
@@ -121,7 +122,7 @@ class Hadith extends CI_Controller {
     $list['hadith'] =  $this->hadith_model->get_hadith_by_id($hadith_id);
     
     $list['main_content']= 'update_hadith_view';
-    $this->load->view('includes/template',$list);
+    $this->load->view('admin/includes/template',$list);
 
     if( !empty($this->input->post('mysubmit'))):
       $hadith['hadith_plain_ar'] = $this->input->post('txt_plain_ar');
@@ -136,7 +137,8 @@ class Hadith extends CI_Controller {
       $this->load->model('hadith_model');
       $this->hadith_model->update_hadith($hadith_id,$hadith);
 
-      echo "Successfully updated Hadith";
+      redirect('admin/hadith');
+      //echo "Successfully updated Hadith";
     endif;
   }
 
@@ -153,8 +155,8 @@ class Hadith extends CI_Controller {
 
     $this->load->model('hadith_model');
     $this->hadith_model->delete_hadith( $hadith_id );
-
-    echo "Deleted Hadith";
+redirect('admin/hadith');
+   // echo "Deleted Hadith";
   }
 
 }

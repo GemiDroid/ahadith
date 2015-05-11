@@ -32,7 +32,7 @@ class Editor extends CI_Controller {
       
       $this->authenticity( $param[0], $param[1] );
       
-    elseif( $method == 'hadith_book' ):
+    elseif( $method == 'hadith-book' ):
       
       //set default for parameter action
       if( !isset( $param[0] ) ):
@@ -129,8 +129,8 @@ class Editor extends CI_Controller {
     require_once('hadith_book.php');
     $hadith_book = new hadith_book();
     
-    if($action=='create'):
-      $hadith_book->create();
+    if($action=='add'):
+      $hadith_book->add();
     elseif($action=='delete'):
       $hadith_book->delete($id);
     else:

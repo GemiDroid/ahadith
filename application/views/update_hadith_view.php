@@ -1,6 +1,8 @@
-<!DOCTYPE html>
 
-<body>
+            
+            <div>&nbsp;</div>
+            <div>&nbsp;</div>
+            <div class="col-md-9">
 
   <?php
   if(!empty($hadith)):
@@ -9,7 +11,7 @@
   <table>
 
     <tbody>
-      <?php echo form_open('hadith/update/'.$hadith_id);?>
+      <?php echo form_open('admin/hadith/update/'.$hadith_id);?>
       <tr>
         <td><?php echo form_label('Plain Arabic','txt_plain_ar');?></td>
         <td><?php echo form_textarea('txt_plain_ar',(!empty($hadith) ? $hadith->hadith_plain_ar : '')); ?></td>
@@ -52,9 +54,11 @@
 	  <?php endif; ?>
         </td>
       </tr>
+
       <tr>
-        <td><?php echo form_submit('mysubmit','Submit Hadith');?></td>
-        <td><a href="<?php echo ('http://localhost/ahadith/editor/hadith/delete/'.$hadith_id); ?>">Delete Hadith</a></td>
+      
+        <td><input type="submit" id="mysubmit" name="mysubmit" value="Update" class="btn btn-success"/></td> 
+        <td><a href="<?php echo ('http://localhost/ahadith/editor/hadith/delete/'.$hadith_id); ?>"><input type="button"  value="Delete" class="btn btn-danger"/></a></td>
       </tr>
       <?php echo form_close();?>
     </tbody>
@@ -64,5 +68,5 @@
      echo 'Hadith doesnot exist';
      endif;
  ?>
-</body>
-</html>
+            </div>
+            </div>

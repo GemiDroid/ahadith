@@ -1,5 +1,10 @@
+
+            
+            <div class="col-md-9">
+
+
 <div id="contents">
-    <h2 style="margin-bottom: 0px;">Book View</h2>
+    <h3 style="margin-bottom: 0px;">Book View</h3>
     
     <fieldset id="block_add_book">
         <legend>Add/Edit Book:</legend>
@@ -72,24 +77,24 @@
                 </div>
             </div>
         </div>
-            
+            <div>&nbsp;</div>
         <div class="control-group">
             <div class="controls">
                 
-                <input type="submit" id="btn_save" name="btn_save" value="Save Record" class="btn btn-primary" tabindex="5" />
-                <!--<input type="button" id="btn_cancel" name="btn_cancel" value="Cancel" class="btn" tabindex="6" />-->
-                <?php echo anchor(base_url() . "book/view/", "Cancel"); ?>
+                <input type="submit" id="btn_save" name="btn_save" value="Save Record" class="btn btn-success" tabindex="5" />
+
+                <a href="<?php echo base_url().'admin' ?>"><input type="button"  value="Cancel" class="btn btn-primary" tabindex="5" /></a>
                 &nbsp;&nbsp;
                 <?php
                     //display the delete button only if in the edit mode. for edit mode, the book_id will be available
                     if( $book_id ): ?>
-                        <input type="submit" id="btn_delete" name="btn_delete" value="Delete Record" class="btn" tabindex="7" />
+                        <a href="<?php echo base_url().'admin/book/view' ?>"><input type="submit" id="btn_delete" name="btn_delete" value="Delete Record" class="btn btn-danger" tabindex="7" /></a>
                 <?php endif; ?>
             </div>
         </div>
         <?php echo form_close(); ?>
     </fieldset>
-    
+    <div>&nbsp;</div>
     <fieldset id="block_display_books">
         <legend>Books</legend>
         
@@ -99,7 +104,7 @@
                     
                     <table id="tbl_book" class="table table-bordered table-hover table-condensed">
                         
-                        <thead>
+                        <thead style="background-color: #AABB78;">
                             <tr>
                                 <th style="text-align: center;"><span id="col_book_id">Book ID</span></th>
                                 <th style="text-align: center;"><span id="col_book_number">Book Number</span></th>
@@ -138,3 +143,7 @@
         
     </fieldset>
 </div>
+
+
+            </div>
+        </div>

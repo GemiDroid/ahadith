@@ -128,7 +128,9 @@ $route['book/view/(:any)'] = "book/view/$1";
 
 
 $route['search'] = "search";
-
+$route['admin'] = "admin";
+$route['admin/(:any)'] = "admin/$1";
+$route['admin/editor/(:any)'] = "admin/editor/$1";
 
 
 $route['(:any)/book/(:any)/chapter/(\d+)/hadith'] = "hadith_book/view/$1/$2/$3/1";

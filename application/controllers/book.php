@@ -72,7 +72,7 @@ class Book extends CI_Controller{
     if( $this->form_validation->run() == FALSE ):
         //$this->load->view('includes/template', $list);
 		$list['main_content'] = 'book_view';
-        $this->load->view('includes/template', $list);
+        $this->load->view('admin/includes/template', $list);
         
     //when all validation are cleared, proceed to save
     else:

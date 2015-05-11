@@ -48,10 +48,11 @@ class Authenticity extends CI_Controller {
   * @return none
   */
   public function display(){
+    $this->load->helper('form');
     $this->load->model('authenticity_model');
     $list['ahadith'] = $this->authenticity_model->get_authenticity();
     $list['main_content'] = 'display_authenticity_view'; 
-    $this->load->view('includes/template',$list);
+    $this->load->view('admin/includes/template',$list);
 
   }
   
@@ -78,7 +79,7 @@ class Authenticity extends CI_Controller {
   public function add(){
     $this->load->helper('form');
     $list['main_content'] = 'add_authenticity_view';
-    $this->load->view('includes/template',$list);
+    $this->load->view('admin/includes/template',$list);
     
     if( !empty($this->input->post('mysubmit'))):
       $data['authenticity_title_ar'] = $this->input->post('txt_title_ar');
@@ -89,7 +90,8 @@ class Authenticity extends CI_Controller {
       $this->load->model('authenticity_model');
       $this->authenticity_model->insert_authenticity($data);
 
-      echo "Successfully inserted";
+      redirect('admin/authenticity');
+      //echo "Successfully inserted";
     endif;
 
   }
@@ -107,7 +109,7 @@ class Authenticity extends CI_Controller {
     $list['authenticity'] =  $this->authenticity_model->get_authenticity_by_id($authenticity_id);
     $this->load->helper('form');
     $list['main_content'] = 'update_authenticity_view';
-    $this->load->view('includes/template',$list);
+    $this->load->view('admin/includes/template',$list);
     
     if( !empty($this->input->post('mysubmit'))):
       $authenticity['authenticity_title_ar'] = $this->input->post('txt_title_ar');
@@ -118,7 +120,8 @@ class Authenticity extends CI_Controller {
       $this->load->model('authenticity_model');
       $this->authenticity_model->update_authenticity($authenticity_id,$authenticity);
       
-      echo "Successfully updated";
+      redirect('admin/authenticity');
+      //echo "Successfully updated";
     endif;
 
   }
@@ -135,9 +138,9 @@ class Authenticity extends CI_Controller {
     $this->load->helper('url');
     $this->load->model('authenticity_model');
     $this->authenticity_model->delete_authenticity( $authenticity_id );
-    redirect('/authenticity/display/');
+    redirect('admin/authenticity');
 
-    echo "Deleted";
+    //echo "Deleted";
   }
 
 }

@@ -23,6 +23,33 @@ class Tag_model extends CI_Model{
 
   }
   
+  function get_tags(){
+      $this->load->database('default');
+    $query = $this->db->get('tag');
+    $data = '';
+
+    foreach ($query->result() as $row):
+
+      $data[] = $row;
+    endforeach;
+
+    return $data;
+  }
+  
+  function get_tag_by_id($id){
+      $this->load->database('default');
+      $this->db->where('tag_id',$id);
+    $query = $this->db->get('tag');
+    $data = '';
+
+    foreach ($query->result() as $row):
+
+      $data[] = $row;
+    endforeach;
+
+    return $data;
+  }
+  
   
   /*
     * Get hadith tags by hadith id
@@ -202,5 +229,18 @@ class Tag_model extends CI_Model{
       
       return $temp;
       
+  }
+  
+  function delete_tag($tag_id){
+      $this->load->database('default');
+      $this->db->where('tag_id',$tag_id);
+      $this->db->delete('tag');
+  }
+  
+  
+   function update_tag($data,$tag_id){
+      $this->load->database('default');
+      $this->db->where('tag_id',$tag_id);
+      $this->db->update('tag',$data);
   }
 }

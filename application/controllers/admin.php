@@ -576,7 +576,7 @@ class Admin extends CI_Controller {
 	$user_id = $this->session->userdata('user_id');
 	$role = $this->session->userdata('role_title');
 	if( isset($user_id) && !empty($user_id) && !empty($role) ):
-	 redirect('book/view');
+	    redirect('book/view');
     
    
 	else:

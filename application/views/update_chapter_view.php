@@ -1,10 +1,8 @@
-<!DOCTYPE html>
 
-<body>
+            
+            <div class="col-md-9">
 
-
-
-  <h2>Updating Chapter!</h2>
+  <h3>Updating Chapter!</h3>
 
   <?php
   if(!empty($chapter)){
@@ -13,7 +11,7 @@
   <table>
 
     <tbody>
-      <?php echo form_open('chapter/update/'.$chapter_id);?>
+      <?php echo form_open('admin/chapter/update/'.$chapter_id);?>
       <tr>
         <td><?php echo form_label('Arabic Title','txt_title_ar');?></td>
         <td><?php echo form_input('txt_title_ar',(!empty($chapter) ? $chapter->chapter_title_ar : '')); ?></td>
@@ -67,8 +65,8 @@
         </td>
       </tr>
       <tr>
-        <td><?php echo form_submit('mysubmit','Submit Authenticity');?></td>
-        <!--td><a href="<?php echo ('http://local.ws/ahadith/index.php/chapter/delete/'.$chapter_id); ?>">Delete</a></td>-->
+        <td><input type="submit" id="mysubmit" name="mysubmit" value="Update" class="btn btn-success">
+        <a href="<?php echo ('http://localhost/ahadith/chapter/delete/'.$chapter->chapter_id); ?>"><input type="button" value="Delete" class="btn btn-danger"></a></td>
       </tr>
       <?php echo form_close();?>
     </tbody>
@@ -79,5 +77,5 @@ else
   echo 'Does not exist';
 
   ?>
-</body>
-</html>
+            </div>
+ </div>

@@ -1,10 +1,8 @@
-<!DOCTYPE html>
 
-<body>
+            
+            <div class="col-md-9">
 
-
-
-  <h2>Updating Authenticity!</h2>
+  <h3>Updating Authenticity!</h3>
 
   <?php
   if(!empty($authenticity)){
@@ -13,7 +11,7 @@
   <table>
 
     <tbody>
-      <?php echo form_open('authenticity/update/'.$authenticity_id);?>
+      <?php echo form_open('admin/authenticity/update/'.$authenticity_id);?>
       <tr>
         <td><?php echo form_label('Arabic Title','txt_title_ar');?></td>
         <td><?php echo form_input('txt_title_ar',(!empty($authenticity) ? $authenticity->authenticity_title_ar : '')); ?></td>
@@ -31,8 +29,8 @@
         <td><?php echo form_input('txt_order',(!empty($authenticity) ? $authenticity->authenticity_order : ''));?></td>
       </tr>
       <tr>
-        <td><?php echo form_submit('mysubmit','Submit Authenticity');?></td>
-        <!--td><a href="<?php echo ('http://local.ws/ahadith/index.php/authenticity/delete/'.$authenticity_id); ?>">Delete</a></td>-->
+        <td><input type="submit" id="mysubmit" name="mysubmit" value="Update" class="btn btn-success">
+        <a href="<?php echo ('http://localhost/ahadith/authencticity/'.$authenticity->authenticity_id); ?>"><input type="button" value="Delete" class="btn btn-danger"></a></td>
       </tr>
       <?php echo form_close();?>
     </tbody>
@@ -43,5 +41,6 @@ else
   echo 'Does not exist';
 
   ?>
-</body>
-</html>
+
+  </div>
+ </div>

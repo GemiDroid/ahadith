@@ -25,8 +25,11 @@ class Hadith_book extends CI_Controller{
       
       $this->view( $param[0] ,$param[1] ,$param[2],$param[3]);
 	     
-    elseif( $method == 'create' ):
-		 $this->create();
+    elseif( $method == 'add' ):
+		 $this->add();
+		 
+	 elseif( $method == 'display' ):
+		 $this->display();
     
     elseif( $method == 'store' ):
 		 $this->store();
@@ -40,7 +43,10 @@ class Hadith_book extends CI_Controller{
 		$this->edit($param[0]);
 		
 	elseif( $method == 'update' ):
-		$this->update();
+	if( !isset( $param[0] ) ):
+			$param[0] = '';
+		endif;
+		$this->update($param[0]);
 		
 	elseif( $method == 'delete' ):
 		//set default for parameter hadith_book_id
@@ -345,9 +351,14 @@ class Hadith_book extends CI_Controller{
 	 *
 	 */
 	
-	public function create(){
+	public function add(){
 
 		$this->load->helper('form');
+		
+		$list['main_content'] = 'hadith_book/add_hadith_book_view'; 
+		$this->load->view('admin/includes/template',$list);
+		
+		if( !empty($this->input->post('mysubmit'))):
 		
 		$data['hadith_book_id'] = $this->input->post('hadith_book_id');
 		$data['hadith_book_title_ar'] = $this->input->post('hadith_book_title_ar');
@@ -357,9 +368,20 @@ class Hadith_book extends CI_Controller{
 		$this->load->model('hadith_book_model');
 		$this->hadith_book_model->insert_hadith_book($data);
 		
-		$list['main_content'] = 'hadith_book/create'; 
-		$this->load->view('includes/template',$list);
+		 redirect('admin/hadith-book');
+			//echo "Successfully inserted Chapter";
+		endif;
 
+	}
+	
+	  public function display(){
+		
+		$this->load->helper('form');
+		$this->load->model('hadith_book_model');
+		$list['hadith_books'] = $this->hadith_book_model->get_hadith_books();
+		$list['main_content'] = 'hadith_book/hadith_book_view';
+		
+		$this->load->view('admin/includes/template',$list);
 	}
 
 	/*Method to store hadith_book
@@ -408,16 +430,33 @@ class Hadith_book extends CI_Controller{
 	 *
 	 */
 	
-	public function update(){
-		$hadith_book_id = $this->input->post('hadith_book_id');
-		$hadith_book_title_ar = $this->input->post('hadith_book_title_ar');
-		$hadith_book_title_en = $this->input->post('hadith_book_title_en');
-		$hadith_book_title_ur = $this->input->post('hadith_book_title_ur');
+	public function update($hadith_book_id){
 		
-		$this->load->model('hadith_book_model');
-		$this->hadith_book_model->update_hadith_book($hadith_book_id, $hadith_book_title_ar, $hadith_book_title_en, $hadith_book_title_ur);
+   
+    $this->load->helper('form');
+    $this->load->model('hadith_book_model');
+    $list['hadith_book_id'] = $hadith_book_id;
+   $list['hadith_books'] = $this->hadith_book_model->get_hadith_book_by_id($hadith_book_id);
+   
+    $list['main_content'] = 'hadith_book/update_hadith_book_view';
+    
+    $this->load->view('admin/includes/template',$list);
+    
+    if( !empty($this->input->post('mysubmit'))):
+		
+		$data['hadith_book_title_ar'] = $this->input->post('hadith_book_title_ar');
+		$data['hadith_book_title_en'] = $this->input->post('hadith_book_title_en');
+		$data['hadith_book_title_ur'] = $this->input->post('hadith_book_title_ur');
 
-		redirect('/hadith_book/', 'location');
+      $this->load->model('hadith_book_model');
+      $this->hadith_book_model->update_hadith_book($hadith_book_id,$data);
+
+      redirect('admin/hadith-book');
+      //echo "Successfully updated Chapter";
+
+    endif;
+		
+		
 	}
 
 	/* Method to delete hadith_book
@@ -428,9 +467,12 @@ class Hadith_book extends CI_Controller{
 	 */
 	
 	public function delete($hadith_book_id){
-
+		
+		 $this->load->helper('url');
 		$this->load->model('hadith_book_model');
 		$this->hadith_book_model->delete_hadith_book_by_id($hadith_book_id);
+		
+		redirect('admin/hadith-book');
 	}
 	
 }

@@ -51,11 +51,13 @@ class Chapter extends CI_COntroller {
    */
   
   public function display(){
+    
+    $this->load->helper('form');
     $this->load->model('chapter_model');
     $list['ahadith'] = $this->chapter_model->get_all_chapters();
     $list['main_content'] = 'chapter_view';
     
-    $this->load->view('includes/template',$list);
+    $this->load->view('admin/includes/template',$list);
   }
 
   /*Method to read chapter
@@ -70,7 +72,7 @@ class Chapter extends CI_COntroller {
       $list['chapter'] =  $this->chapter_model->get_chapter_by_id($chapter_id);
       $list['main_content'] = 'read_chapter_view';
       
-      $this->load->view('includes/template',$list);
+      $this->load->view('admin/includes/template',$list);
   }
 
   /*Method to add chapter
@@ -86,7 +88,7 @@ class Chapter extends CI_COntroller {
     $list['main_content'] = 'add_chapter_view';
     
     $this->load->helper('form');
-    $this->load->view('includes/template',$list);
+    $this->load->view('admin/includes/template',$list);
     
     if( !empty($this->input->post('mysubmit'))):
       $data['chapter_title_ar'] = $this->input->post('txt_title_ar');
@@ -100,8 +102,9 @@ class Chapter extends CI_COntroller {
 
       $this->load->model('chapter_model');
       $this->chapter_model->insert_chapter($data);
-
-      echo "Successfully inserted Chapter";
+  
+      redirect('admin/chapter');
+      //echo "Successfully inserted Chapter";
     endif;
   }
 
@@ -125,7 +128,7 @@ class Chapter extends CI_COntroller {
     $list['chapter'] =  $this->chapter_model->get_chapter_by_id($chapter_id);
     $list['main_content'] = 'update_chapter_view';
     
-    $this->load->view('includes/template',$list);
+    $this->load->view('admin/includes/template',$list);
     
     if( !empty($this->input->post('mysubmit'))):
       $data['chapter_title_ar'] = $this->input->post('txt_title_ar');
@@ -140,7 +143,8 @@ class Chapter extends CI_COntroller {
       $this->load->model('chapter_model');
       $this->chapter_model->update_chapter($chapter_id,$data);
 
-      echo "Successfully updated Chapter";
+      redirect('admin/chapter');
+      //echo "Successfully updated Chapter";
 
     endif;
   }
@@ -157,8 +161,11 @@ class Chapter extends CI_COntroller {
     $this->load->helper('url');
     $this->load->model('chapter_model');
     $this->chapter_model->delete_chapter( $chapter_id );
-
-    echo "Deleted Chapter";
+  
+    redirect('admin/chapter');
+   // echo "Deleted Chapter";
   }
+  
+  
 
 }

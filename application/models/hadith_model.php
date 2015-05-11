@@ -37,7 +37,7 @@ class Hadith_model extends CI_Model{
     function insert_hadith($hadith){
       $this->load->database('default');
       $this->db->insert('hadith',$hadith);
-      echo $this->db->last_query();
+      //echo $this->db->last_query();
 
     }
 

@@ -14,6 +14,20 @@
 				$this->forgot_username();
 			elseif( $method == 'home' ):
 				$this->home();
+			elseif( $method == 'display' ):
+				$this->display();
+			elseif( $method == 'update' ):
+				if( !isset( $param[0] ) ):
+					$param[0] = '';
+				endif;
+				$this->update($param[0]);
+			elseif( $method == 'delete' ):
+				if( !isset( $param[0] ) ):
+					$param[0] = '';
+				endif;
+				$this->delete($param[0]);
+			elseif( $method == 'add' ):
+				$this->add();
 			elseif( $method == 'register' ):
 				$this->register();
 			elseif( $method == 'change-password' ):
@@ -66,16 +80,30 @@
 			  //in case of a validated authentication
 			  $user_id = $this->input->post('txt_user_id');
 			  $user_password = $this->input->post('txt_user_pwd');
+			  
+			  
+			  
 	
 			  $this->load->model('user_model');
 	
 			  //pass user_id  and user_password , also check for active user.
 			  $valid_user = $this->user_model->validate_user( $user_id, $user_password );
+			  $role = $this->user_model->get_user_role($user_id);
+			  
 			  
 			  if( $valid_user || $valid_user === NULL):
 				$user_data["user_id"] = $this->input->post('txt_user_id');
 				$this->session->set_userdata('user_id' , $user_data["user_id"]);
+			
+			
+				if($role || $role == NULL):
+					$this->session->set_userdata('role_title' , $role);
+				endif;
+			  
+				
 				redirect('user/home');
+				
+				
 			  endif;
 			
 			  //if user doesn't exist.
@@ -219,14 +247,14 @@
 			
 		$this->load->model('user_model');
 		$list['user_id'] = $user_id = $this->session->userdata('user_id');
-
+		
 		//$list['ahadith'] = $this->user_model->get_all_hadith();
 		$this->load->model('hadith_book_model');
 		$this->load->model('book_model');
 		$this->load->model('chapter_model');
-		
+		//$list = array();
 		$list['ahadith'] = $this->hadith_book_model->get_all_view_hadith_in_book();
-		
+		//$list['ahadith'] = $this->user_model->get_user_role($user_id);
 		//var_dump($list['ahadith'][0]);
 		
 		if( !empty( $list['ahadith'][0]->hadith_book_id ) ):
@@ -238,6 +266,7 @@
 			for( $i=0;$i<count($list['ahadith']);$i++ ):
 				$list['ahadith'][$i]->hadith_tags = $this->tag_model->get_hadith_tag_by_hadith_id_and_user_id( $list['ahadith'][$i]->hadith_id, $user_id );
 				$list['ahadith'][$i]->chapter_title_en = $this->chapter_model->get_chapter_by_id( $list['ahadith'][$i]->chapter_id )->chapter_title_en;
+				//$list['ahadith'][$i]->role_name = $this->user_model->get_user_role( $list['user_id'])->role_title;
 			endfor;
 			
 		endif;
@@ -247,9 +276,14 @@
 		$list['hadith_book'] = $this->hadith_book_model->get_hadith_book_by_id( $list['ahadith'][0]->hadith_book_id );
 		$list['ahadith_books'] = $this->hadith_book_model->get_books_by_hadith_book_id( $list['ahadith'][0]->hadith_book_id );
 		$this->load->model('tag_model');
+		$this->load->model('user_model');
 		
 		//get tags by user_id
 		$list['tags'] = $this->tag_model->get_all_tags( $user_id );
+		
+		$this->load->model('user_model');
+		//get role by user_id
+		$list['role'] = $this->user_model->get_user_role($user_id);
 		
 		$this->load->helper('form');
 		
@@ -260,17 +294,10 @@
 		$config['per_page'] = 10;
 		$this->pagination->initialize( $config );
 		$list['pages'] = $this->pagination->create_links();
-	
+		
+
 		$list['main_content'] = 'hadith_book/index';
-		//$user_id = $this->session->userdata('user_id');
-		//var_dump($user_id);
-		//if( !empty( $user_id ) ):
-			$this->load->view('includes/template',$list);
-			//redirect('hadith_book/view'.$list['ahadith'][0]);
-		//else:
-			//$this->signin();
-		//	redirect('user/signin');
-		//endif;
+		$this->load->view('includes/template',$list);
 		
 
 		if( isset( $user_id ) && !empty($user_id) ):
@@ -449,4 +476,95 @@
 
 		endif;
 	}
+	
+	
+	
+	
+	
+	  public function display(){
+    
+    $this->load->helper('form');
+    $this->load->model('user_model');
+    $list['user_roles'] = $this->user_model->get_all_user_role();
+    $list['main_content'] = 'admin/user_role_view';
+    
+    $this->load->view('admin/includes/template',$list);
+  }
+
+  /*Method to add role
+   *
+   *@return none
+   */
+  
+  public function add(){
+  
+  
+	$this->load->helper('form');
+	$this->load->model('user_model');
+	$this->load->model('role_model');
+	$list['users'] = $this->user_model->get_all_users();
+	$list['roles'] = $this->role_model->get_all_roles();
+    $list['main_content'] = 'admin/add_user_role_view';
+    
+    $this->load->helper('form');
+    $this->load->view('admin/includes/template',$list);
+    
+    if( !empty($this->input->post('mysubmit'))):
+      $data['user_id'] = $this->input->post('ddl_user_list');
+      $data['role_title'] = $this->input->post('ddl_role_list');
+    
+  
+      $this->load->model('user_model');
+      $this->user_model->insert_user_role($data);
+  
+      redirect('admin/user-role');
+  
+    endif;
+  }
+
+  /*Method to update role
+   *
+   *@param string $role_title ID of role
+   *
+   *@return none
+   *
+   */
+  
+  public function update($user_id){
+    
+    $this->load->helper('form');
+    $this->load->model('user_model');
+     $list['user_id'] = $user_id;
+    $list['user_role'] =  $this->user_model->get_all_role();
+    $list['main_content'] = 'admin/update_user_role_view';
+    $this->load->view('admin/includes/template',$list);
+    
+    if( !empty($this->input->post('mysubmit'))):
+	
+      $data['role_title'] = $this->input->post('ddl_role_list');
+
+      $this->load->model('user_model');
+      $this->user_model->update_user_role($user_id,$data);
+
+      redirect('admin/user-role');
+    
+
+    endif;
+  }
+
+  /*Method to delete role
+   *
+   *@param string $role_title ID of role
+   *
+   *@return none
+   */
+  
+  public function delete( $user_id){
+
+    $this->load->helper('url');
+    $this->load->model('user_model');
+    $this->user_model->delete_user_role( $user_id );
+  
+    redirect('admin/user-role');
+  }
 }

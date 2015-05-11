@@ -1,7 +1,6 @@
-<!DOCTYPE html>
 
-<body>
-  <h2>Adding Chapter</h2>
+            <div class="col-md-9">
+  <h3>Adding Chapter</h3>
   <table>
 
     <tbody>
@@ -66,7 +65,8 @@
       </tr>
 
       <tr>
-        <td><?php echo form_submit('mysubmit','Submit Chapter');?></td>
+      
+       <td><input type="submit" id="mysubmit" name="mysubmit" value="Add" class="btn btn-success"/></td> 
       </tr>
       <?php echo form_close();?>
 
@@ -75,5 +75,5 @@
     </tbody>
   </table>
 
-</body>
-</html>
+            </div>
+ </div>

@@ -68,9 +68,7 @@ class Chapter_model extends CI_Model{
     function insert_chapter($chapter){
       $this->load->database('default');
       $this->db->insert('chapter',$chapter);
-      echo $this->db->last_query();
-
-
+      //echo $this->db->last_query();
     }
 
     function update_chapter($chapter_id,$data){
@@ -87,5 +85,8 @@ class Chapter_model extends CI_Model{
       $this->db->delete('chapter');
 
     }
+    
+    
+   
 
 }

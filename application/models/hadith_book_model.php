@@ -268,16 +268,10 @@ class Hadith_book_model extends CI_Model{
 
 	}
 
-	function update_hadith_book($hadith_book_id, $hadith_book_title_ar, $hadith_book_title_en, $hadith_book_title_ur){
-
-		$data = array(
-			'hadith_book_title_ar' => $hadith_book_title_ar,
-			'hadith_book_title_en' => $hadith_book_title_en,
-			'hadith_book_title_ur' => $hadith_book_title_ur
-			);
-
+	function update_hadith_book($hadith_book_id,$data){
+		$this->load->database('default');
 		$this->db->where('hadith_book_id', $hadith_book_id);
 		$this->db->update('hadith_book', $data);
-		return $query;
+		
 	}	
 }

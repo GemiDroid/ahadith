@@ -157,17 +157,17 @@
                     $this->db->where('user_id',$this->session->userdata('user_id'));
                     //$this->db->where('password',($this->input->post('txt_old_password')));
                     if($this->db->update('user', $data)) :
-                        return "Password Changed Successfully";
+                        return "Updated Successfully";
                     else:
-                        return "Something Went Wrong, Password Not Changed";
+                        return "Something Went Wrong";
                     endif;
                 else:
-                    return "Something Went Wrong, Password Not Changed";
+                    return "Something Went Wrong";
                 endif;
 
 
          else:
-            return "Wrong Old Password";
+            return "Wrong";
          endif;
 
       }
@@ -344,6 +344,220 @@
         $this->db->where('user_id', $user_id);
         
         $this->db->delete('user_favorite');
+    }
+    
+    function get_all_users(){
+        $this->load->database('default');  
+        $q = $this->db->get('user');
+          
+        $data = FALSE;
+          
+        foreach ($q->result() as $row):
+            $data[] = $row;
+        endforeach;
+          
+        $q->free_result();
+        return $data;
+    }
+    
+      function get_user($user_id){
+        $this->load->database('default');
+        $this->db->where('user_id',$user_id);
+        $q = $this->db->get('user');
+          
+        $data = FALSE;
+          
+        foreach ($q->result() as $row):
+            $data[] = $row;
+        endforeach;
+          
+        $q->free_result();
+        return $data;
+    
+    
+    }
+    
+    
+    function block_user($data,$user_id){
+        $this->load->database('default');
+        $this->db->where('user_id',$user_id);
+       $this->db->update('user',$data);
+        
+    }
+    
+    
+    function get_user_role($user_id){
+        $this->load->database('default');
+        $this->db->where('user_id',$user_id);
+    
+       $this->db->where('role_title','administrator' ); 
+       $q = $this->db->get('user_role');
+
+       if($q->num_rows() == 1):
+           $q->free_result();
+           return TRUE;
+       endif;
+
+       $q->free_result();
+       
+       return FALSE;
+
+    }
+    
+    
+     function get_report_by_id($error_id){
+        $this->load->database('default');
+        $this->db->where('error_id',$error_id);
+ 
+       $q = $this->db->get('error_report');
+        $data = FALSE;
+          
+        foreach ($q->result() as $row):
+            $data[] = $row;
+        endforeach;
+          
+        $q->free_result();
+        return $data;
+       
+
+    }
+    
+     function get_all_role(){
+        $this->load->database('default');
+        $q = $this->db->get('role');
+          
+        $data = FALSE;
+          
+        foreach ($q->result() as $row):
+            $data[] = $row;
+        endforeach;
+          
+        $q->free_result();
+        return $data;
+    }
+    
+      function get_all_user_role(){
+        $this->load->database('default');
+        $q = $this->db->get('user_role');
+          
+        $data = FALSE;
+          
+        foreach ($q->result() as $row):
+            $data[] = $row;
+        endforeach;
+          
+        $q->free_result();
+        return $data;
+    }
+    
+    
+    function insert_role($data1){
+        $this->load->database('default');
+        
+        $this->db->insert('user_role',$data1);
+        
+    }
+    
+      function get_all_reports(){
+        $this->load->database('default');
+        $q = $this->db->get('error_report');
+          
+        $data = FALSE;
+          
+        foreach ($q->result() as $row):
+            $data[] = $row;
+        endforeach;
+          
+        $q->free_result();
+        return $data;
+    }
+    
+     function update_error_report($error_id,$data){
+        $this->load->database('default');
+        $this->db->where('error_id',$error_id);
+        
+        $this->db->update('error_report',$data);
+    }
+    
+      function delete_error_report($error_id){
+        $this->load->database('default');
+        $this->db->where('error_id',$error_id);
+        
+        $this->db->delete('error_report');
+    }
+    
+    
+    
+     function update_user_role($user_id,$data){
+        $this->load->database('default');
+        $this->db->where('user_id',$user_id);
+        
+        $this->db->update('user_role',$data);
+    }
+    
+      function delete_user_role($user_id){
+        $this->load->database('default');
+        $this->db->where('user_id',$user_id);
+        
+        $this->db->delete('user_role');
+    }
+    
+    function insert_user_role($data){
+        $this->load->database('default');
+        $this->db->insert('user_role',$data);
+    }
+    
+    
+    function get_user_role_by_id($user_id){
+        $this->load->database('default');
+        $this->db->where('user_id',$user_id);
+    
+   
+       $q = $this->db->get('user_role');
+ $data = FALSE;
+          
+        foreach ($q->result() as $row):
+            $data[] = $row;
+        endforeach;
+          
+        $q->free_result();
+        return $data;
+     
+
+    }
+    
+    
+    function get_user_role_by_userid($role_title,$user_id){
+         $this->load->database('default');
+        $this->db->where('user_id',$user_id);
+    
+       $this->db->where('role_title',$role_title ); 
+       $q = $this->db->get('user_role');
+
+       if($q->num_rows() == 1):
+           $q->free_result();
+           return TRUE;
+       endif;
+
+       $q->free_result();
+       
+       return FALSE;
+        
+    }
+    
+    function get_user_activities(){
+        $this->load->database('default');
+   
+       $q = $this->db->get('user_activity_log');
+        $data = FALSE;
+          
+        foreach ($q->result() as $row):
+            $data[] = $row;
+        endforeach;
+          
+        $q->free_result();
+        return $data;
+     
     }
     
   }

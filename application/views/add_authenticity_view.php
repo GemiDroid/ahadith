@@ -1,12 +1,12 @@
-<!DOCTYPE html>
 
-<body>
-  <h2>Adding Authenticity</h2>
+            
+            <div class="col-md-9">
+  <h3>Adding Authenticity</h3>
   <table>
 
     <tbody>
 
-    <?php echo form_open('authenticity/add');?>
+    <?php echo form_open('admin/authenticity/add');?>
 
       <tr>
         <td><?php echo form_label('Arabic Title','txt_title_ar');?></td>
@@ -25,7 +25,7 @@
         <td><?php echo form_input('txt_order');?></td>
       </tr>
       <tr>
-        <td><?php echo form_submit('mysubmit','Submit Authenticity');?></td>
+       <td><input type="submit" id="mysubmit" name="mysubmit" value="Add" class="btn btn-success"/></td> 
       </tr>
       <?php echo form_close();?>
 
@@ -34,5 +34,5 @@
     </tbody>
   </table>
 
-</body>
-</html>
+</div>
+ </div>

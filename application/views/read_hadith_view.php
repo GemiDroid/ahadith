@@ -1,6 +1,26 @@
-<!DOCTYPE html>
-
-<body>
+  <div class="row">
+            
+            <div class="col-md-2">
+                <h3>Dashboard</h3>
+                <table class="table table-bordered">
+                    <tbody>
+                       
+                        <tr><td><a href="<?php echo base_url().'admin/tags' ?>">Tags</a></td></tr>
+                        <tr><td><a href="<?php echo base_url().'admin/users' ?>">Users</a></td></tr>
+                        <tr><td><a href="">User Activities</a></td></tr>
+                        <tr><td><a href="<?php echo base_url().'admin/ahadith' ?>">Hadith</a></td></tr>
+                        <tr><td><a href="<?php echo base_url().'hadith_book' ?>">Hadith Book</a></td></tr>
+                        <tr><td><a href="<?php echo base_url().'chapter' ?>">Chapter</a></td></tr>
+                        <tr><td><a href="<?php echo base_url().'authenticity' ?>">Authenticity</a></td></tr>
+                        <tr><td><a href="<?php echo base_url().'book' ?>">Book</a></td></tr>
+                        
+                    </tbody>
+                </table>
+            </div>
+            
+            <div>&nbsp;</div>
+            <div>&nbsp;</div>
+            <div class="col-md-10">
   <h3>Reading a hadith</h3>
   <table border="1">
     <thead>
@@ -13,7 +33,8 @@
         <th>English Mark</th>
         <th>Urdu Mark</th>
         <th>Raw</th>
-        <th>Reliability</th>
+        <th>Authenticity</th>
+        <th>Action</th>
       </tr>
     </thead>
     <tbody>
@@ -28,10 +49,11 @@
           <td><?php echo $hadith->hadith_marked_ur; ?></td>
           <td><?php echo  $hadith->hadith_raw_ar; ?></td>
           <td><?php echo $hadith->authenticity_id; ?></td>
+          
+          <td><a href="<?php echo base_url().'admin/hadith/update/'.$hadith->hadith_id; ?>">Edit</a></td>
         </tr>
 
     </tbody>
   </table>
-
-</body>
-</html>
+            </div>
+  </div>

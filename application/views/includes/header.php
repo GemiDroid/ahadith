@@ -56,15 +56,22 @@
 
                                 <!--if user is login-->
                                 <?php $user_id = $this->session->userdata('user_id'); ?>
+                                <?php $role_title = $this->session->userdata('role_title'); ?>
+                              
                                 
                                 <li class="dropdown">
                                     <?php if( !empty($user_id) ): ?>
-                                    
+                                   
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
                                         Welcome <?php echo $user_id; ?> <span class="caret"></span></a>
                                     <ul class="dropdown-menu" role="menu">
                                         <li><a href="<?php echo base_url()."user/edit-profile"; ?>">Edit Profile</a></li>
                                         <li><a href="<?php echo base_url()."user/change-password"; ?>">Change Password</a></li>
+             
+                                        <?php if(!empty($role_title)): ?>
+                                            <li><a href="<?php echo base_url()."admin"; ?>">Admin Panel</a></li> 
+                                       <?php endif; ?>
+                                       
                                         <li><a href="<?php echo base_url()."user/signout"; ?>">Signout</a></li>
                                     </ul>
                               <!--  </li>-->

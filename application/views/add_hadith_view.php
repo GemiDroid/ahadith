@@ -1,12 +1,11 @@
-<!DOCTYPE html>
 
-<body>
+            <div class="col-md-9">
   <h3>Adding All Ahadith</h3>
   <table>
 
     <tbody>
 
-    <?php echo form_open('editor/hadith/add');?>
+    <?php echo form_open('admin/hadith/add');?>
 
       <tr>
         <td><?php echo form_label('Plain Arabic','txt_plain_ar');?></td>
@@ -62,5 +61,5 @@
     </tbody>
   </table>
 
-</body>
-</html>
+            </div>
+  </div>

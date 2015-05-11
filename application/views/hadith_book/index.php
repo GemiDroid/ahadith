@@ -1,4 +1,6 @@
 <div class="container">
+	
+	
 		<header class="row">
             <h2 class="col-sm-3 col-lg-2 hidden-xs"><?php echo $hadith_book->hadith_book_title_en; ?></h2>
             <h2 class="col-sm-9 col-lg-10 hidden-xs">

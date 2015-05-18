@@ -7,26 +7,18 @@
 	<title>Sayings of the Messenger (s.a.w) - www.Ahadith.net</title>
 	
 	<link href='http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic' rel='stylesheet' type='text/css' />
-        <link href='http://fonts.googleapis.com/css?family=Merienda+One|Ceviche+One|MedievalSharp' rel='stylesheet' type='text/css' />
-
+    <link href='http://fonts.googleapis.com/css?family=Merienda+One|Ceviche+One|MedievalSharp' rel='stylesheet' type='text/css' />
 	
 	<script type="text/javascript" src="<?php echo base_url(); ?>assets/js/jquery-1.9.1.js"></script>
-	<script type="text/javascript" src="<?php echo base_url(); ?>assets/js/bootstrap.js"></script>
+    <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/bootstrap.js"></script>
 	
-        <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>assets/css/fonts.css" />
+	<link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>assets/css/fonts.css" />
 	<link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>assets/css/bootstrap_custom.css" />
 	<link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>assets/css/extra_style.css" />
-   
-       <!-- <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-        <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>-->
-	
-
-	
-
 
 </head>
-    <body>
+
+<body>
 
 <header>
     <?php $user_id = $this->session->userdata('user_id'); ?>

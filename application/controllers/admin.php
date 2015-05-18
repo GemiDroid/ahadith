@@ -16,9 +16,7 @@ class Admin extends CI_Controller {
        elseif( $method == 'editor' ):
         if( !isset( $param[0] ) ):
 		$param[0] = '';
-	  endif;
-	
-      
+	  endif;      
       
       $this->editor($param[0]);
       
@@ -697,20 +695,12 @@ class Admin extends CI_Controller {
 	//if the user is already signed-in then redirect him/her to the home()
 	$user_id = $this->session->userdata('user_id');
 	$role = $this->session->userdata('role_title');
-	if( isset($user_id) && !empty($user_id) && !empty($role) ):
 	
 	$list['user_activities'] = $this->user_model->get_user_activities();
-	
 	$list['main_content'] = '/admin/user_activities_view';
 	
 	
 	$this->load->view('admin/includes/template',$list);
-	
-	
-	else:
-	    redirect('user/signin');
-	
-	endif;
     
   }
 }

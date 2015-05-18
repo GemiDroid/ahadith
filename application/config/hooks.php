@@ -10,6 +10,11 @@
 |
 */
 
+$hook['post_system'][] = array(
+                                'function' => 'log_queries',
+                                'filename' => 'query_log_helper.php',
+                                'filepath' => 'helpers'
+                            );
 
 
 /* End of file hooks.php */

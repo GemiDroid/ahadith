@@ -109,7 +109,7 @@
          $q->free_result();
          return $data;
       }
-
+      
        /*
       * Method to add user
       *
@@ -288,6 +288,26 @@
         
         return $data;
     }
+    
+    /*
+    * Log the queries that were executed by the user
+    *
+    * @param string $user_id
+    * @param string $query json string of the array
+    * @return none
+    */
+   function log_activity( $user_id, $query ) {
+       
+       $this->load->database('default');
+       
+       $data = array(
+           'user_id' => $user_id,
+           'log_time' => date( 'Y-m-d H:i:s' , time() ),
+           'log_query' => $query
+       );
+       
+       $this->db->insert('user_activity_log', $data);
+   }
     
     /*
       * Method to add user favorite

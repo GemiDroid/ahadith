@@ -254,7 +254,13 @@
 				<hr />
 				
 				<article>
-					<div style="padding-top: 3px; padding-bottom: 3px;"><a id="93">Hadith No: 93</a><span style="padding-left: 30px;"><a name="b93" class="bookmark_link">Bookmark &nbsp;|&nbsp;&nbsp;<span class="glyphicon glyphicon-star-empty" aria-hidden="true" style="position: relative; top: 3px;"></span></a></span>
+					<div style="padding-top: 3px; padding-bottom: 3px;">
+						<a id="93">Hadith No: 93</a>
+						<span style="padding-left: 30px;">
+							<a name="b93" class="bookmark_link">Bookmark &nbsp;|&nbsp;&nbsp;
+								<span class="glyphicon glyphicon-star-empty" aria-hidden="true" style="position: relative; top: 3px;"></span>
+							</a>
+						</span>
 						<span class="label label-default pull-right" style="margin-left: 5px;">Default</span>
 						<span class="label label-danger pull-right" style="margin-left: 5px;">Default2</span>
 						<span class="glyphicon glyphicon-plus pull-right" aria-hidden="true" style="position: relative; top: 3px; margin-left: 5px;"></span>
@@ -332,8 +338,8 @@
 			setTimeout(adjust_heights, 1000);
 			
 			$('nav a:first-child').on('click', function() {
-				//$('#myModal').modal('show');
-				//return false;
+				$('#myModal').modal('show');
+				return false;
 			});
 			
 			$('#myModal').on('shown.bs.modal', function () {

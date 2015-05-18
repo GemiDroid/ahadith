@@ -12,8 +12,9 @@
                 background-color: none;
             }
          </style>   
-            <div class="col-md-9">
-                <h3>View All Users</h3>
+            <div class="col-md-9" style="margin-top: 50px;">
+                <h4>View All Users</h4>
+                <hr>
                 <table class="table table-bordered">
                     <tbody>
                         <thead style="background-color: #AABB78;">
@@ -21,7 +22,7 @@
                         <th>Password</th>
                         <th>Email</th>
                         <th>Full Name</th>
-                        <th>Date of Birth</th>
+                        <th>DOB</th>
                         <th>Gender</th>
                         <th>Country Code</th>
                         <th>Active</th>

@@ -1,18 +1,19 @@
 
             
-<div class="col-md-9">
+<div class="col-md-9" style="margin-top: 50px;">
     
-    <h3>View All Tags</h3>
+    <h4>View All Tags</h4>
+    <hr>
     <table class="table table-bordered">
         <tbody>
             <thead style="background-color: #AABB78;">
-                <th>Tag ID</th>
-                <th>Tag Title Arabic</th>
-                <th>Tag Title English</th>
-                <th>Tag Title Urdu</th>
-                <th>Tag Detail Arabic</th>
-                <th>Tag Detail English</th>
-                <th>Tag Detail Urdu</th>
+                <th>ID</th>
+                <th>Arabic Title</th>
+                <th>English Title</th>
+                <th>Urdu Title</th>
+                <th>Arabic Detail</th>
+                <th>English Detail</th>
+                <th>Urdu Detail</th>
                 <th>Suggested By</th>
                 <th>Action</th>
             

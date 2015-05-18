@@ -4,14 +4,15 @@
 }
 
 </style>-->
-<div class="col-md-9">
+<div class="col-md-9" style="margin-top:50px;">
 
 
 <div id="contents">
-    <h3 style="margin-bottom: 0px;">Book View</h3>
+    <h4>Book View</h4>
+    <hr>
     
     <div id="block_add_book">
-        <legend>Add/Edit Book:</legend>
+        <legend style="font-size: large">Add/Edit Book:</legend>
         
         <?php $attributes = array('class' => 'form-horizontal'); ?>
         <?php echo form_open( 'book/view/' . $book_id, $attributes ); ?>
@@ -100,7 +101,7 @@
     </div>
     <div>&nbsp;</div>
     <div id="block_books">
-        <legend>Books</legend>
+        <legend style="font-size: larger;">Books</legend>
         
         <?php if( !empty( $books ) ): ?>
             <div class="row-fluid">

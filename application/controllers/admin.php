@@ -181,6 +181,9 @@ class Admin extends CI_Controller {
 	$role = $this->session->userdata('role_title');
 	if( isset($user_id) && !empty($user_id) && !empty($role) ):
 	
+	
+	$list['users'] = $this->user_model->get_all_users();
+	$list['blocks'] = $this->user_model->get_block_users();
         $list['main_content'] = '/admin/admin_view';
 	$this->load->view('admin/includes/template',$list);
 	
@@ -222,6 +225,7 @@ class Admin extends CI_Controller {
 	
         $this->load->helper('form');
 	$this->load->library('form_validation');
+	
         $this->load->model('tag_model');
         $list['tag'] = $this->tag_model->get_tag_by_id($id);
 	 $list['main_content'] = '/admin/edit_tag_view';
@@ -335,6 +339,7 @@ class Admin extends CI_Controller {
     public function approve_tag($tag_id){
 	
 	$this->load->model('user_model');
+	$this->load->model('tag_model');
 	//if the user is already signed-in then redirect him/her to the home()
 	$user_id = $this->session->userdata('user_id');
 	$role = $this->session->userdata('role_title');
@@ -342,15 +347,17 @@ class Admin extends CI_Controller {
 	
 	$this->load->helper('form');
 	$this->load->library('form_validation');
+
 	$this->form_validation->set_rules('txt_tag_title_en', 'Tag Title English', 'required');
 	
+	$list['tag'] = $this->tag_model->get_tag_by_id($tag_id);
 	$list['main_content'] = '/admin/edit_tag_view';
 	if ($this->form_validation->run() == FALSE):
 	
-	$this->load->view('admin/includes/template',$list);
+	    $this->load->view('admin/includes/template',$list);
 		  //$this->load->view('admin/edit_tag_view');
 	else:
-	    if( !empty($this->input->post('btn_approve_tag'))):
+	    //if( !empty($this->input->post('btn_approve_tag'))):
 		$data['tag_title_ar'] = $this->input->post('txt_tag_title_ar');
 		$data['tag_title_en'] = $this->input->post('txt_tag_title_en');
 		$data['tag_title_ur'] = $this->input->post('txt_tag_title_ur');
@@ -361,7 +368,7 @@ class Admin extends CI_Controller {
 		$this->load->model('tag_model');
 		$this->tag_model->update_tag($data,$tag_id);
 		redirect('/admin/tags/');
-	    endif;
+	    //endif;
 	endif;
 	
 	
@@ -509,6 +516,10 @@ class Admin extends CI_Controller {
     
       $authenticity->update($id);
       
+      elseif($action=='delete'):
+    
+	$authenticity->delete($id);
+      
        elseif($action=='search'):
 	if(!empty('btn_search')):
 		$authenticity_id = $this->input->post('ddl_authenticity_list');
@@ -542,24 +553,24 @@ class Admin extends CI_Controller {
 	if( isset($user_id) && !empty($user_id) && !empty($role) ):
  
 
-    $this->load->helper('form');
-    
-    require_once('role.php');
-    $role = new role();
-    if($action=='update'):
-    
-      $role->update($id);
-          
-    elseif($action=='add'):
-	$role->add();
-	
-    elseif($action=='delete'):
-	$role->delete($id);
-	
-    else:
-    $role->display();
-    
-    endif;
+		$this->load->helper('form');
+		
+		require_once('role.php');
+		$role = new role();
+		if($action=='update'):
+		
+		  $role->update($id);
+		      
+		elseif($action=='add'):
+		    $role->add();
+		    
+		elseif($action=='delete'):
+		    $role->delete($id);
+		    
+		else:
+		$role->display();
+		
+		endif;
    
 
    
@@ -589,37 +600,47 @@ class Admin extends CI_Controller {
   
    public function add(){
   
-	$this->load->model('user_model');
-  //if the user is already signed-in then redirect him/her to the home()
-	$user_id = $this->session->userdata('user_id');
-	$role = $this->session->userdata('role_title');
-	if( isset($user_id) && !empty($user_id) && !empty($role) ):
-  
-    $list['main_content'] = 'admin/add_tag_view';
+    $this->load->model('user_model');
+//if the user is already signed-in then redirect him/her to the home()
+    $user_id = $this->session->userdata('user_id');
+    $role = $this->session->userdata('role_title');
+    if( isset($user_id) && !empty($user_id) && !empty($role) ):
+
+	$this->load->helper('form');
+	$this->load->library('form_validation');
     
-    $this->load->helper('form');
-    $this->load->view('admin/includes/template',$list);
-    
-    if( !empty($this->input->post('mysubmit'))):
-      $data['tag_title_ar'] = $this->input->post('txt_title_ar');
-      $data['tag_title_en'] = $this->input->post('txt_title_en');
-      $data['tag_title_ur'] = $this->input->post('txt_title_ur');
-      $data['tag_detail_ar'] = $this->input->post('txt_detail_ar');
-      $data['tag_detail_en'] = $this->input->post('txt_detail_en');
-      $data['tag_detail_ur'] = $this->input->post('txt_detail_ur');
-    
-      $this->load->model('tag_model');
-      $this->tag_model->add_tag($data);
-  
-      redirect('admin/tags');
-      //echo "Successfully inserted Chapter";
-    endif;
-    
-    
-	else:
-	    redirect('user/signin');
+	$this->form_validation->set_rules('txt_title_ar', 'English Title', 'required');
+	$this->form_validation->set_rules('txt_title_en', 'Arabic Title', 'required');
+	$this->form_validation->set_rules('txt_title_ur', 'Urdu Title', 'required');
+	$this->form_validation->set_rules('txt_detail_ar', 'English Detail', 'required');
+	$this->form_validation->set_rules('txt_detail_en', 'English Detail', 'required');
+	$this->form_validation->set_rules('txt_detail_ur', 'English Detail', 'required');
 	
+	$list['main_content'] = 'admin/add_tag_view';
+	if ($this->form_validation->run() == FALSE):
+	    $this->load->view('admin/includes/template',$list);
+	
+	else:
+	//(!empty($this->input->post('mysubmit'))):
+	  $data['tag_title_ar'] = $this->input->post('txt_title_ar');
+	  $data['tag_title_en'] = $this->input->post('txt_title_en');
+	  $data['tag_title_ur'] = $this->input->post('txt_title_ur');
+	  $data['tag_detail_ar'] = $this->input->post('txt_detail_ar');
+	  $data['tag_detail_en'] = $this->input->post('txt_detail_en');
+	  $data['tag_detail_ur'] = $this->input->post('txt_detail_ur');
+	
+	  $this->load->model('tag_model');
+	  $this->tag_model->add_tag($data);
+      
+	  redirect('admin/tags');
+	  //echo "Successfully inserted Chapter";
 	endif;
+	
+    
+    else:
+	redirect('user/signin');
+    
+    endif;
    
   }
 

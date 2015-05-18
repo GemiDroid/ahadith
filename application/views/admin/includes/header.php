@@ -20,48 +20,35 @@
        <!-- <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
         <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>-->
-	
-
-	
-
-
 </head>
     <body>
 
 <header>
-    <?php $user_id = $this->session->userdata('user_id'); ?>
-     <?php if( !empty($user_id) ): ?>
-                                    
-            <a href="<?php echo base_url()."user/signout"; ?>" style="float: right; font-size: medium;">Signout <?php echo $user_id; ?> </a>
-   
-   <?php endif; ?>
-
     
 </header>
-
-
-
-
         <div class="row">
-            
-            <div class="col-md-2" style="margin-left: 20px;">
-                <h3>Dashboard</h3>
-                <table class="table table-bordered">
-                    <tbody>
-                       
-			<tr><td><a href="<?php echo base_url().'bukhari' ?>">Home</a></td></tr
-                        <tr><td><a href="<?php echo base_url().'admin/tags' ?>">Tags</a></td></tr>
-                        <tr><td><a href="<?php echo base_url().'admin/users' ?>">Users</a></td></tr>
-                        <tr><td><a href="<?php echo base_url().'admin/user-activities' ?>">User Activities</a></td></tr>
-                        <tr><td><a href="<?php echo base_url().'admin/report' ?>">Reports</a></td></tr>
-			<tr><td><a href="<?php echo base_url().'admin/role' ?>">Roles</a></td></tr>
-                        <tr><td><a href="<?php echo base_url().'admin/user-role' ?>">User Roles</a></td></tr>
-                        <tr><td><a href="<?php echo base_url().'admin/hadith' ?>">Hadith</a></td></tr>
-                        <tr><td><a href="<?php echo base_url().'admin/hadith-book' ?>">Hadith Book</a></td></tr>
-                        <tr><td><a href="<?php echo base_url().'admin/chapter' ?>">Chapter</a></td></tr>
-                        <tr><td><a href="<?php echo base_url().'admin/authenticity' ?>">Authenticity</a></td></tr>
-                        <tr><td><a href="<?php echo base_url().'admin/book' ?>">Book</a></td></tr>
-                        
-                    </tbody>
-                </table>
+          <div class="col-md-2" style="margin-left: 20px;" id="admin-header" >
+                <h3 style="margin-left: 20px;" ><a href="<?php echo base_url().'admin' ?>">DashBoard</a></h3>
+		<p id="corner"><a href="<?php echo base_url().'bukhari' ?>">Home</a></p>
+		<p id="corner" onclick="document.getElementById('corner').style.color = 'red'"><a href="<?php echo base_url().'admin/tags' ?>">Tags</a></p>
+		<p id="corner"><a href="<?php echo base_url().'admin/users' ?>">Users</a></p>
+		<p id="corner"><a href="<?php echo base_url().'admin/user-activities' ?>">User Activities</a></p>
+		<p id="corner"><a href="<?php echo base_url().'admin/report' ?>">Reports</a></p>
+		<p id="corner"><a href="<?php echo base_url().'admin/role' ?>">Roles</a></p>
+		<p id="corner"><a href="<?php echo base_url().'admin/user-role' ?>">User Roles</a></p>
+		<p id="corner"><a href="<?php echo base_url().'admin/hadith' ?>">Hadith</a></p>
+		<p id="corner"><a href="<?php echo base_url().'admin/hadith-book' ?>">Hadith Book</a></p>
+		<p id="corner"><a href="<?php echo base_url().'admin/chapter' ?>">Chapter</a></p>
+		<p id="corner"><a href="<?php echo base_url().'admin/authenticity' ?>">Authenticity</a></p>
+		<p id="corner"><a href="<?php echo base_url().'admin/book' ?>">Book</a></p>
+		<p id="corner"><a href="<?php echo base_url().'user/signout' ?>">Logout</a></p>
             </div>
+	  
+	  
+	  <script type="text/javascript">
+		
+		function change(){
+		
+			document.getElementById("p").style.color = "blue";
+		}
+	  </script>

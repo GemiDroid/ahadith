@@ -1,22 +1,30 @@
 
              
             
-            <div class="col-md-9">
+            <div class="col-md-9" style="margin-top: 50px;">
                 
-                <?php echo validation_errors(); ?>
-  
-          <?php $attributes = array('class' => 'form-horizontal'); ?>
-          <?php echo form_open( '/admin/approve_tag/'.$tag[0]->tag_id , $attributes ); ?>
-                <h3>Edit/Delete Tags </h3>
-                <?php if(!empty($tag)): ?>
+     <?php if(!empty($tag)): ?>
+          
+          <?php echo form_open('/admin/approve_tag/'.$tag[0]->tag_id ); ?>
+          
+        
+                <h4>Edit/Delete Tags </h4>
+                <hr>
+                                
               <div class="control-group">
                     <div class="col-md-3"><label class="control-label" for="txt_tag_title_ar">Tag Title Arabic:</label></div>
                     <input type="text" name="txt_tag_title_ar" id="txt_tag_title_ar" value="<?php echo set_value('txt_tag_title_ar', (!empty($tag) ? $tag[0]->tag_title_ar : '')); ?>" size="50"/>
+                    
               </div>
               <div>&nbsp;</div>
               <div class="control-group">
+                <div class="controls">
                     <div class="col-md-3"><label class="control-label" for="txt_tag_title_en">Tag Title English:</label></div>
                     <input type="text" name="txt_tag_title_en" id="txt_tag_title_en" value="<?php echo set_value('txt_tag_title_en', (!empty($tag) ? $tag[0]->tag_title_en : '')); ?>" size="50"/>
+                    <div class="help-inline">
+                      <?php echo form_error('txt_tag_title_en', '<span class="text-error">', '</span>'); ?>
+                    </div>
+                </div>
               </div>
               <div>&nbsp;</div>
                <div class="control-group">

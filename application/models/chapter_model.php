@@ -20,7 +20,7 @@ class Chapter_model extends CI_Model{
 	}
 	
 
-    function get_chapter_by_id($chapter_id, $book_id='', $hadith_book_id=''){
+    function get_chapter_by_id($chapter_id='', $book_id='', $hadith_book_id=''){
       $this->load->database('default');
       $this->db->where('chapter_id',$chapter_id);
 	  

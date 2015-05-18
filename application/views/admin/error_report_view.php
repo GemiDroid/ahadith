@@ -1,7 +1,7 @@
-<div class="col-md-9">
+<div class="col-md-9" style="margin-top: 50px;">
               
-  <h3>Displaying All Reports</h3>
-  
+  <h4>Displaying All Reports</h4>
+  <hr>
   <?php if(!empty($reports)): ?>
   <table class="table table-bordered">
     <thead style="background-color: #AABB78;">

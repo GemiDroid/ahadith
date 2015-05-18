@@ -1,8 +1,9 @@
 
-<div class="col-md-9">
+<div class="col-md-9" style="margin-top: 50px;">
   
 
-  <h3>Add New User Role</h3>
+  <h4>Add New User Role</h4>
+  <hr>
   
 
     <?php $attributes = array('class' => 'form-horizontal'); ?>
@@ -29,6 +30,7 @@
  <div>&nbsp;</div>
 <div class="control-group">
 <input type="submit" id="mysubmit" name="mysubmit" value="Add" class="btn btn-success"/>
+<a href="<?php echo base_url().'admin/user-role' ?>"><input type="button" value="Cancel" class="btn btn-primary"></a>
 </div>
 <?php echo form_close(); ?>
 

@@ -1,13 +1,14 @@
 
              
             
-            <div class="col-md-9">
+            <div class="col-md-9" style="margin-top: 50px;">
                 
                 <?php echo validation_errors(); ?>
   
           <?php $attributes = array('class' => 'form-horizontal'); ?>
           <?php echo form_open( '/admin/user-role/update/'.$user_id , $attributes ); ?>
-                <h3> Update User Roles </h3>
+                <h4> Update User Roles </h4>
+                <hr>
               
                 <?php if(!empty($user_role)): ?>
 

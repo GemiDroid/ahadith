@@ -1,5 +1,5 @@
 
-            <div class="col-md-9">
+            <div class="col-md-9" style="margin-top: 50px;">
          
             <div style="float:right;">
                 <?php $attributes = array('class' => 'form-horizontal'); ?>
@@ -20,7 +20,8 @@
           </div>
           <div>&nbsp;</div> 
               
-  <h3>Authenticity</h3>
+  <h4>Authenticity</h4>
+  <hr>
   <table class="table table-bordered">
     <thead style="background-color: #AABB78;">
       <tr>

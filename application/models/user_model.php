@@ -560,4 +560,19 @@
      
     }
     
+    
+    function get_block_users(){
+          $this->load->database('default');
+        $this->db->where('is_active','0');
+       $q = $this->db->get('user');
+        $data = FALSE;
+          
+        foreach ($q->result() as $row):
+            $data[] = $row;
+        endforeach;
+          
+        $q->free_result();
+        return $data;
+    }
+    
   }

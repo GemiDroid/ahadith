@@ -66,11 +66,22 @@ class Report extends CI_COntroller {
     $this->load->helper('form');
     $this->load->model('user_model');
      $list['error_id'] = $error_id;
+     
+     
+     $this->load->helper('form');
+    $this->load->library('form_validation');
+
+    $this->form_validation->set_rules('txt_error_text', 'Error Text', 'required');
+    $this->form_validation->set_rules('txt_user_id', 'User ID', 'required');
+    $this->form_validation->set_rules('txt_hadith_id', 'Hadith ID', 'required');
+     
     $list['report'] =  $this->user_model->get_report_by_id($error_id);
     $list['main_content'] = 'admin/update_error_report_view';
-    $this->load->view('admin/includes/template',$list);
+    if ($this->form_validation->run() == FALSE):
+      $this->load->view('admin/includes/template',$list);
     
-    if( !empty($this->input->post('mysubmit'))):
+    else:
+    //if( !empty($this->input->post('mysubmit'))):
       $data['error_text'] = $this->input->post('txt_error_text');
       $data['user_id'] = $this->input->post('txt_user_id');
       $data['hadith_id'] = $this->input->post('txt_hadith_id');

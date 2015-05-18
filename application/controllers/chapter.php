@@ -88,9 +88,20 @@ class Chapter extends CI_COntroller {
     $list['main_content'] = 'add_chapter_view';
     
     $this->load->helper('form');
+    
+    $this->load->library('form_validation');
+    $this->form_validation->set_rules('txt_title_ar', 'Arabic Title', 'required');
+    $this->form_validation->set_rules('txt_title_en', 'English Title', 'required');
+    $this->form_validation->set_rules('txt_title_ur', 'Urdu Title', 'required');
+    $this->form_validation->set_rules('txt_detail_ar', 'Arabic Detail', 'required');
+    $this->form_validation->set_rules('txt_detail_en', 'English Detail', 'required');
+    $this->form_validation->set_rules('txt_detail_ur', 'Urdu Detail', 'required');
+    
+    if ($this->form_validation->run() == FALSE):
     $this->load->view('admin/includes/template',$list);
     
-    if( !empty($this->input->post('mysubmit'))):
+    else:
+    //if( !empty($this->input->post('mysubmit'))):
       $data['chapter_title_ar'] = $this->input->post('txt_title_ar');
       $data['chapter_title_en'] = $this->input->post('txt_title_en');
       $data['chapter_title_ur'] = $this->input->post('txt_title_ur');
@@ -121,6 +132,14 @@ class Chapter extends CI_COntroller {
     $this->load->model('book_model');
     $this->load->model('chapter_model');
     $this->load->helper('form');
+     $this->load->library('form_validation');
+    $this->form_validation->set_rules('txt_title_ar', 'Arabic Title', 'required');
+     $this->form_validation->set_rules('txt_title_en', 'English Title', 'required');
+    $this->form_validation->set_rules('txt_title_ur', 'Urdu Title', 'required');
+    $this->form_validation->set_rules('txt_detail_ar', 'Arabic Detail', 'required');
+    $this->form_validation->set_rules('txt_detail_en', 'English Detail', 'required');
+    $this->form_validation->set_rules('txt_detail_ur', 'Urdu Detail', 'required');
+    
     
     $list['books'] = $this->book_model->get_all_books();
     $list['hadith_books'] = $this->book_model->get_all_hadith_books();
@@ -128,9 +147,13 @@ class Chapter extends CI_COntroller {
     $list['chapter'] =  $this->chapter_model->get_chapter_by_id($chapter_id);
     $list['main_content'] = 'update_chapter_view';
     
+    
+     if ($this->form_validation->run() == FALSE):
     $this->load->view('admin/includes/template',$list);
     
-    if( !empty($this->input->post('mysubmit'))):
+    
+    else:
+    //if( !empty($this->input->post('mysubmit'))):
       $data['chapter_title_ar'] = $this->input->post('txt_title_ar');
       $data['chapter_title_en'] = $this->input->post('txt_title_en');
       $data['chapter_title_ur'] = $this->input->post('txt_title_ur');

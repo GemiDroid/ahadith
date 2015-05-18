@@ -1,40 +1,56 @@
 
-            
-            <div class="col-md-9">
+<div class="col-md-9" style="margin-top: 50px;">
 
-  <h3>Updating Authenticity!</h3>
+  <h4>Updating Authenticity!</h4>
+  <hr>
 
   <?php
   if(!empty($authenticity)){
 
   ?>
-  <table>
-
-    <tbody>
+ 
       <?php echo form_open('admin/authenticity/update/'.$authenticity_id);?>
-      <tr>
-        <td><?php echo form_label('Arabic Title','txt_title_ar');?></td>
-        <td><?php echo form_input('txt_title_ar',(!empty($authenticity) ? $authenticity->authenticity_title_ar : '')); ?></td>
-      </tr>
-      <tr>
-        <td><?php echo form_label('English Title','txt_title_en');?></td>
-        <td><?php echo form_input('txt_title_en',(!empty($authenticity) ? $authenticity->authenticity_title_en : '')); ?></td>
-      </tr>
-      <tr>
-        <td><?php echo form_label('Urdu Title','txt_title_ur');?></td>
-        <td><?php echo form_input('txt_title_ur',(!empty($authenticity) ? $authenticity->authenticity_title_ur : ''));?></td>
-      </tr>
-      <tr>
-        <td><?php echo form_label('Order','txt_order');?></td>
-        <td><?php echo form_input('txt_order',(!empty($authenticity) ? $authenticity->authenticity_order : ''));?></td>
-      </tr>
-      <tr>
-        <td><input type="submit" id="mysubmit" name="mysubmit" value="Update" class="btn btn-success">
-        <a href="<?php echo (base_url().'authencticity/'.$authenticity->authenticity_id); ?>"><input type="button" value="Delete" class="btn btn-danger"></a></td>
-      </tr>
+      
+      
+       <div class="control-group">
+            <div class="col-md-2"><label class="control-label" for="txt_title_ar">Arabic Title:</label></div>
+            <input type="text" name="txt_title_ar" id="txt_title_ar" value="<?php echo set_value('txt_title_ar', (!empty($authenticity) ? $authenticity->authenticity_title_ar : '')); ?>" size="50"/>
+            <div class="help-inline">
+              <?php echo form_error('txt_title_ar', '<span class="text-error">', '</span>'); ?>
+            </div>
+       </div>
+      <div>&nbsp;</div>
+      <div class="control-group">
+            <div class="col-md-2"><label class="control-label" for="txt_title_en">English Title:</label></div>
+            <input type="text" name="txt_title_en" id="txt_title_en" value="<?php echo set_value('txt_title_en', (!empty($authenticity) ? $authenticity->authenticity_title_en : '')); ?>" size="50"/>
+          <div class="help-inline">
+            <?php echo form_error('txt_title_en', '<span class="text-error">', '</span>'); ?>
+          </div>
+      </div>
+      <div>&nbsp;</div>
+      <div class="control-group">
+            <div class="col-md-2"><label class="control-label" for="txt_title_ur">Urdu Title:</label></div>
+            <input type="text" name="txt_title_ur" id="txt_title_ur" value="<?php echo set_value('txt_title_ur', (!empty($authenticity) ? $authenticity->authenticity_title_ur : '')); ?>" size="50"/>
+          <div class="help-inline">
+            <?php echo form_error('txt_title_ur', '<span class="text-error">', '</span>'); ?>
+          </div>
+      </div>
+      <div>&nbsp;</div>
+   
+   <div class="control-group">
+            <div class="col-md-2"><label class="control-label" for="txt_order">Urdu Title:</label></div>
+            <input type="text" name="txt_order" id="txt_order" value="<?php echo set_value('txt_order', (!empty($authenticity) ? $authenticity->authenticity_order : '')); ?>" size="50"/>
+          <div class="help-inline">
+            <?php echo form_error('txt_order', '<span class="text-error">', '</span>'); ?>
+          </div>   
+   </div>
+      <div>&nbsp;</div>
+      
+    <input type="submit" id="mysubmit" name="mysubmit" value="Update" class="btn btn-success">
+         <a href="<?php echo (base_url().'authenticity'); ?>"><input type="button" value="Cancel" class="btn btn-primary">
+        <a href="<?php echo (base_url().'admin/authenticity/delete/'.$authenticity->authenticity_id); ?>"><input type="button" value="Delete" class="btn btn-danger"></a>
       <?php echo form_close();?>
-    </tbody>
-  </table>
+
 <?php
 }
 else

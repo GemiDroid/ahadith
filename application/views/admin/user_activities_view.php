@@ -1,8 +1,8 @@
-<div class="col-md-9">
+<div class="col-md-9" style="margin-top: 50px;">
               
           
-  <h3>Displaying All User Activities</h3>
-  
+  <h4>Displaying All User Activities</h4>
+  <hr>
   <?php if(!empty($user_activities)): ?>
   <table class="table table-bordered">
     <thead style="background-color: #AABB78;">

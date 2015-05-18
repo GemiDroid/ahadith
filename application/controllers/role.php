@@ -57,13 +57,21 @@ class Role extends CI_COntroller {
    */
   
   public function add(){
-  
-    $list['main_content'] = 'admin/add_role_view';
     
     $this->load->helper('form');
-    $this->load->view('admin/includes/template',$list);
     
-    if( !empty($this->input->post('mysubmit'))):
+    $this->load->library('form_validation');
+    
+    $this->form_validation->set_rules('txt_role_title','Role Title','required');
+    $this->form_validation->set_rules('txt_description','Role Description','required');
+    $this->form_validation->set_rules('txt_role_order','Role Order','required');
+    
+    $list['main_content'] = 'admin/add_role_view';
+    if ($this->form_validation->run() == FALSE):
+      $this->load->view('admin/includes/template',$list);
+    
+    else:
+    //if( !empty($this->input->post('mysubmit'))):
       $data['role_title'] = $this->input->post('txt_role_title');
       $data['description'] = $this->input->post('txt_description');
       $data['role_order'] = $this->input->post('txt_role_order');
@@ -72,9 +80,11 @@ class Role extends CI_COntroller {
       $this->role_model->insert_role($data);
   
       redirect('admin/role');
+      
   
     endif;
-  }
+    
+    }
 
   /*Method to update role
    *
@@ -88,12 +98,19 @@ class Role extends CI_COntroller {
     
     $this->load->helper('form');
     $this->load->model('role_model');
+    
+    $this->load->library('form_validation');
+    $this->form_validation->set_rules('txt_description', 'Role Description', 'required');
+    $this->form_validation->set_rules('txt_role_order', 'Role Order', 'required');
+    
      $list['role_title'] = $role_title;
     $list['role'] =  $this->role_model->get_role_by_title($role_title);
     $list['main_content'] = 'admin/update_role_view';
+    if ($this->form_validation->run() == FALSE):
     $this->load->view('admin/includes/template',$list);
     
-    if( !empty($this->input->post('mysubmit'))):
+    else:
+    //if( !empty($this->input->post('mysubmit'))):
       $data['description'] = $this->input->post('txt_description');
       $data['role_order'] = $this->input->post('txt_role_order');
 

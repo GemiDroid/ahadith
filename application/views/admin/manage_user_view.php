@@ -1,6 +1,7 @@
 
-            <div class="col-md-9">
-                <h3>Edit User</h3>
+            <div class="col-md-9" style="margin-top: 50px;">
+                <h4>Manage User</h4>
+               
                 <?php echo validation_errors(); ?>
   
                 <?php $attributes = array('class' => 'form-horizontal'); ?>

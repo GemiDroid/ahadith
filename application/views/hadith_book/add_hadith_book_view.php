@@ -1,22 +1,50 @@
 
-<div class="col-md-9">
+<div class="col-md-9" style="margin-top: 50px;">
 	
-	<h3>Add hadith book</h3>
+	<h4>Add hadith book</h4>
+	<hr>
 	<?php echo form_open('editor/hadith_book/add');?>
-	<div class="col-md-2"><label for="hadith_book_id">Hadith Book ID:</label></div>
+	
+	<div class="control-group">
+	<label for="hadith_book_id">Hadith Book ID:</label>
 	<input type="text" name="hadith_book_id">
-	<br><br>
-	<div class="col-md-2"><label for="hadith_book_title_ar">Arabic Title:</label></div>
+	<div class="help-inline">
+            <?php echo form_error('hadith_book_id', '<span class="text-error">', '</span>'); ?>
+      
+        </div>
+	</div>
+	
+	<div class="control-group">
+	<label for="hadith_book_title_ar">Arabic Title:</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 	<input type="text" name="hadith_book_title_ar" />
-	<br><br>
-	<div class="col-md-2"><label for="hadith_book_title_en">English Title:</label></div>
+	<div class="help-inline">
+            <?php echo form_error('hadith_book_title_ar', '<span class="text-error">', '</span>'); ?>
+      
+        </div>
+	</div>
+	
+	<div class="control-group">
+	<label for="hadith_book_title_en">English Title:</label>&nbsp;&nbsp;&nbsp;&nbsp;
 	<input type="text" name="hadith_book_title_en" />
-	<br><br>
-	<div class="col-md-2"><label for="hadith_book_title_ur">Urdu Title:</label></div>
+	<div class="help-inline">
+            <?php echo form_error('hadith_book_title_en', '<span class="text-error">', '</span>'); ?>
+      
+        </div>
+	</div>
+	
+	<div class="control-group">
+	<label for="hadith_book_title_ur">Urdu Title:</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 	<input type="text" name="hadith_book_title_ur" />
-	<br><br>
+	<div class="help-inline">
+            <?php echo form_error('hadith_book_title_ur', '<span class="text-error">', '</span>'); ?>
+      
+        </div>
+	</div>
+	
+	<div class="control-group">
 	<input type="submit" id="mysubmit"  name="mysubmit" class="btn btn-success"/>
-	<a href="<?php echo (base_url().'hadith-book'); ?>"><input type="submit" id="mysubmit" name="mysubmit" value="Cancel" class="btn btn-primary">
+	<a href="<?php echo (base_url().'admin/hadith-book'); ?>"><input type="button" value="Cancel" class="btn btn-primary">
+	</div>
 	<?php echo form_close();?>
 </div>
 </div>

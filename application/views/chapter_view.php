@@ -1,10 +1,4 @@
-
-            
-            <div class="col-md-9">
-              
-            
-              
-              
+<div class="col-md-9" style="margin-top: 50px;">
             <div style="float:right;">
                 <?php $attributes = array('class' => 'form-horizontal'); ?>
                 <?php echo form_open( 'admin/chapter/search/' , $attributes ); ?>
@@ -27,7 +21,8 @@
           
           <div>&nbsp;</div>
               
-  <h3>Displaying All Chapters</h3>
+  <h4>Displaying All Chapters</h4>
+  <hr>
   <table class="table table-bordered">
     <thead style="background-color: #AABB78;">
       <tr>

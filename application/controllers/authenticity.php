@@ -78,20 +78,36 @@ class Authenticity extends CI_Controller {
 
   public function add(){
     $this->load->helper('form');
+    
+    $this->load->library('form_validation');
+	  
+     
+    $this->form_validation->set_rules('txt_title_ar', 'Arabic Title', 'required');
+    $this->form_validation->set_rules('txt_title_en', 'English Title', 'required');
+    $this->form_validation->set_rules('txt_title_ur', 'Urdu Title', 'required');
+    $this->form_validation->set_rules('txt_order', 'Order', 'required');			      
+				      
     $list['main_content'] = 'add_authenticity_view';
+    if ($this->form_validation->run() == FALSE):
     $this->load->view('admin/includes/template',$list);
     
+    
+    else:
     if( !empty($this->input->post('mysubmit'))):
+    
       $data['authenticity_title_ar'] = $this->input->post('txt_title_ar');
       $data['authenticity_title_en'] = $this->input->post('txt_title_en');
       $data['authenticity_title_ur'] = $this->input->post('txt_title_ur');
       $data['authenticity_order'] = $this->input->post('txt_order');
 
       $this->load->model('authenticity_model');
+      
       $this->authenticity_model->insert_authenticity($data);
 
       redirect('admin/authenticity');
       //echo "Successfully inserted";
+      
+      endif;
     endif;
 
   }
@@ -108,10 +124,21 @@ class Authenticity extends CI_Controller {
     $list['authenticity_id'] = $authenticity_id;
     $list['authenticity'] =  $this->authenticity_model->get_authenticity_by_id($authenticity_id);
     $this->load->helper('form');
+    
+    $this->load->library('form_validation');
+    $this->form_validation->set_rules('txt_title_ar', 'Arabic Title', 'required');
+    $this->form_validation->set_rules('txt_title_en', 'English Title', 'required');
+    $this->form_validation->set_rules('txt_title_ur', 'Urdu Title', 'required');
+    $this->form_validation->set_rules('txt_order', 'Order', 'required');
+    
+    
     $list['main_content'] = 'update_authenticity_view';
+    if ($this->form_validation->run() == FALSE):
     $this->load->view('admin/includes/template',$list);
     
-    if( !empty($this->input->post('mysubmit'))):
+    
+    else:
+    //if( !empty($this->input->post('mysubmit'))):
       $authenticity['authenticity_title_ar'] = $this->input->post('txt_title_ar');
       $authenticity['authenticity_title_en'] = $this->input->post('txt_title_en');
       $authenticity['authenticity_title_ur'] = $this->input->post('txt_title_ur');

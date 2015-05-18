@@ -1,38 +1,52 @@
 
             
-            <div class="col-md-9">
-  <h3>Adding Authenticity</h3>
-  <table>
-
-    <tbody>
+            <div class="col-md-9" style="margin-top: 50px;">
+  <h4>Adding Authenticity</h4>
+  <hr>
 
     <?php echo form_open('admin/authenticity/add');?>
 
-      <tr>
-        <td><?php echo form_label('Arabic Title','txt_title_ar');?></td>
-        <td><?php echo form_input('txt_title_ar'); ?></td>
-      </tr>
-      <tr>
-        <td><?php echo form_label('English Title','txt_title_en');?></td>
-        <td><?php echo form_input('txt_title_en'); ?></td>
-      </tr>
-      <tr>
-        <td><?php echo form_label('Urdu Title','txt_title_ur');?></td>
-        <td><?php echo form_input('txt_title_ur');?></td>
-      </tr>
-      <tr>
-        <td><?php echo form_label('Order','txt_order');?></td>
-        <td><?php echo form_input('txt_order');?></td>
-      </tr>
-      <tr>
-       <td><input type="submit" id="mysubmit" name="mysubmit" value="Add" class="btn btn-success"/></td> 
-      </tr>
+    
+    <div class="control-group">
+    <label for="txt_title_ar">Arabic Title:</label>&nbsp;&nbsp;&nbsp;&nbsp;
+	<input type="text" name="txt_title_ar" />
+     <div class="help-inline">
+            <?php echo form_error('txt_title_ar', '<span class="text-error">', '</span>'); ?>
+      
+        </div>
+    </div>
+    
+    <div class="control-group">
+    <label for="txt_title_en">English Title:</label>&nbsp;&nbsp;
+	<input type="text" name="txt_title_en" />
+      <div class="help-inline">
+            <?php echo form_error('txt_title_en', '<span class="text-error">', '</span>'); ?>
+      
+        </div>
+      
+    </div>
+    
+    <div class="control-group">
+        <label for="txt_title_ur">Urdu Title:</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	<input type="text" name="txt_title_ur" />
+      <div class="help-inline">
+            <?php echo form_error('txt_title_ur', '<span class="text-error">', '</span>'); ?>
+      
+        </div>
+    </div>
+    
+    <div class="control-group">
+        <label for="txt_order">Order:</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	<input type="text" name="txt_order" />
+      <div class="help-inline">
+            <?php echo form_error('txt_order', '<span class="text-error">', '</span>'); ?>
+      
+        </div>
+    </div>
+   
+      <input type="submit" id="mysubmit" name="mysubmit" value="Add" class="btn btn-success"/>
+      <a href="<?php echo (base_url().'authenticity'); ?>"><input type="button" value="Cancel" class="btn btn-primary">
       <?php echo form_close();?>
-
-
-
-    </tbody>
-  </table>
 
 </div>
  </div>

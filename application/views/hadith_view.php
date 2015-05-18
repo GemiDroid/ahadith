@@ -1,5 +1,5 @@
  
-            <div class="col-md-9">
+            <div class="col-md-9" style="margin-top: 50px;">
              
          
          
@@ -34,10 +34,11 @@
         </div>
           
           <div>&nbsp;</div>
-             
+            <div>&nbsp;</div> 
             
               
-  <h3>Displaying All Ahadith</h3>
+  <h4>Displaying All Ahadith</h4>
+  <hr>
   <table border="1">
     <thead style="background-color: #AABB78;">
       <tr>
@@ -45,11 +46,11 @@
         <th>Arabic Plain</th>
         <th>English Plain</th>
         <th>Urdu Plain</th>
-        <th>Arabic Mark</th>
+      <!--  <th>Arabic Mark</th>
         <th>English Mark</th>
         <th>Urdu Mark</th>
         <th>Raw Arabic</th>
-        <th>Authenticity</th>
+        <th>Authenticity</th>-->
         <th>Action</th>
       </tr>
     </thead>
@@ -60,11 +61,11 @@
           <td><?php echo $hadith->hadith_plain_ar; ?></td>
           <td><?php echo $hadith->hadith_plain_en; ?></td>
           <td><?php echo $hadith->hadith_plain_ur; ?></td>
-          <td><?php echo $hadith->hadith_marked_ar; ?></td>
+      <!--    <td><?php echo $hadith->hadith_marked_ar; ?></td>
           <td><?php echo $hadith->hadith_marked_en; ?></td>
           <td><?php echo $hadith->hadith_marked_ur; ?></td>
           <td><?php echo $hadith->hadith_raw_ar; ?></td>
-          <td><?php echo $hadith->authenticity_id; ?></td>
+          <td><?php echo $hadith->authenticity_id; ?></td>-->
           
           <td><a href='<?php echo (base_url().'admin/hadith/update/'.$hadith->hadith_id); ?>' >Edit</a></td>
         </tr>

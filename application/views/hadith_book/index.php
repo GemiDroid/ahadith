@@ -1,6 +1,54 @@
+<style type="text/css">
+	a {
+		color: #000;
+		text-decoration: none;
+	}
+	.clearfix:before, .clearfix:after {
+		content: " ";
+		display: table;
+	}
+	.clearfix:after {
+		clear: both;
+		content: ".";
+		display: block;
+		height: 0;
+		visibility: hidden;
+	}
+	.hs-menu {
+			
+		padding: 1px;
+		position: absolute;
+		-webkit-animation-delay: 2s; /* Safari and Chrome */
+		animation-delay: 2s;
+	}
+	.hs-button {						
+		background-image: url("<?php echo base_url();?>assets/icons/icon-highlight.png");
+		background-repeat: no-repeat;
+		display: block;
+		float: left;
+		height: 43px;
+		width: 43px;
+	}
+	.hs-twitter {
+		background-position: 0 0;
+	}
+	.hs-facebook {
+		background-position: -43px 0;
+	}
+	.hs-googleplus {
+		background-image: url("<?php echo base_url();?>assets/icons/google_plus.png");
+		background-size: 21px 21px;
+		background-repeat: no-repeat;
+		margin-left:5px;
+		margin-top:13px;
+		display: block;
+		float: left;
+		height: 23px;
+		width: 23px;
+	}
+				
+</style>
 <div class="container">
-	
-	
 		<header class="row">
             <h2 class="col-sm-3 col-lg-2 hidden-xs"><?php echo $hadith_book->hadith_book_title_en; ?></h2>
             <h2 class="col-sm-9 col-lg-10 hidden-xs">
@@ -101,6 +149,13 @@
 							<p lang="AR"><?php echo $hadith->hadith_plain_ar; ?></p>
 							<p lang="EN"><?php echo $hadith->hadith_plain_en; ?></p>
 							<p lang="UR"><?php echo $hadith->hadith_plain_ur; ?></p>
+							
+							<div class="hs-menu clearfix">
+								<a class="hs-button hs-twitter" href="" ></a>
+								<a class="hs-button hs-facebook" href=""></a>
+								<a class="hs-googleplus" href=""></a>
+							</div>
+							
 						</article>
 						
 						<hr />
@@ -326,8 +381,7 @@
 		
 	<script type="text/javascript">
 		
-		$(document).ready(function(){
-			
+		$(document).ready(function(){	
 			//if user is login, then apply User Settings
 			<?php
 				if( isset($user_id) && !empty($user_id) ):
@@ -384,6 +438,7 @@
 				endif;
 			?>
 			
+			
 			//remove <hr> from last hadith
 			$(".hadith").last().find('hr').remove();
 			
@@ -413,6 +468,19 @@
 				//$('#myModal').modal('show');
 				//return false;
 			});
+			
+			
+			$( ".hs-twitter" ).click(function() {
+				window.open("http://twitter.com/share?url=" +document.URL+"&text="+$(this).parent().parent().find('p[lang="EN"]').text().substr(0,80)+'...','','location=1,status=1,scrollbars=1,  width=400,height=400');
+			});
+				
+			$( ".hs-facebook" ).click(function() {
+				window.open("http://www.facebook.com/sharer.php?s=100&p[url]="+document.URL+"&p[title]="+document.title+"&p[summary]="+document.getSelection(),'','location=1,status=1,scrollbars=1,  width=400,height=400');
+			});
+			$( ".hs-googleplus" ).click(function() {
+				window.open("https://plus.google.com/share?url="+document.URL,'','location=1,status=1,scrollbars=1,  width=400,height=400');
+			});
+			
 			
 			var hadith_id='';
 			

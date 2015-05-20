@@ -4,12 +4,23 @@
     </header>
     <section class="row">
       
-        <div class="search-box">  
+      
+      
+  <div class="search-box">  
       
 <div id="contents">
 
   <fieldset id="block_add_book">
      
+      
+      <?php if(!empty($error)): ?>
+      <?php echo $error; ?>
+      <?php endif; ?>
+      
+      
+       <?php if(!empty($info)): ?>
+      <?php echo $info; ?>
+      <?php endif; ?>
       
       <?php $attributes = array('class' => 'form-horizontal'); ?>
       <?php echo form_open( 'user/forgot-password/' , $attributes ); ?>

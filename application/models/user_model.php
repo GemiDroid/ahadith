@@ -261,6 +261,22 @@
         return $data;
     }
     
+    
+      function forgot_password( $email ){
+        
+        $this->load->database('default');
+        $this->db->where('email_address',$email);
+  
+        $query = $this->db->get('user');
+  
+        $data ='';
+  
+        if($query->num_rows()>0):
+            $data = $query->row();
+        endif;
+        return $data;
+    }
+    
     /*
       * Get a user favorite by hadith_in_book_id, hadith_book_id and user_id
       *

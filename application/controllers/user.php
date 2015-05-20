@@ -146,7 +146,7 @@
 		function forgot_password(){
 			$this->load->helper('form');
 
-			$user_id = $this->input->post('txt_user_id');
+			$email = $this->input->post('txt_user_email');
 			$btn_send_pwd = $this->input->post('btn_send_pwd');
 
 			$list['error_user'] ='';
@@ -154,25 +154,67 @@
 
 			if( !empty($btn_send_pwd) ):
 
-				if( empty( $user_id ) ):
+				if( empty( $email ) ):
 					$list['error_user'] = "The User ID field is required.";
 					
 				else:
+				
 					$this->load->model('user_model');
-					$user = $this->user_model->validate_user($user_id);
+					$list['email'] = $this->user_model->forgot_password( $email );
 					
-					if( $user === FALSE ):
-						$list['error_user'] = "No User ID has been found.";
+					if($list['email'] == NULL):
+						$list['error']= "The email id you entered not found on our database ";
+						
 					else:
-						$this->user_model->update_user( $user_id,array('password'=>'123456') );
-						$list['success_user'] = "Your new password is 123456.";
+					
+						$this->resetpassword($email);
+						$list['info'] = "Password has been reset and has been sent to email id: ". $email;
+					
 					endif;
+					
+					//$list['success_user'] = "Your new password is 123456.";
+					
 				endif;
 			
 			endif;
 			$list['main_content'] = 'user/user_forgot_password_view';
 			$this->load->view('includes/template',$list);
 		}
+		
+		
+		
+	private function resetpassword($email)
+	{
+		date_default_timezone_set('GMT');
+		$this->load->helper('string');
+		$password= random_string('alnum', 8);
+		$this->db->where('email_address', $email);
+		$this->db->update('user',array('password'=>($password)));
+		$this->load->library('email');
+		
+		$config = array();
+		$config['protocol']='smtp';
+		$config['smtp_host']='ssl://smtp.googlemail.com';
+		$config['smtp_port']='465';
+		$config['smtp_timeout']='30';	
+	
+		$config['smtp_user'] = $from = 'trust.manager@mishkat.pk';
+		$config['smtp_pass'] = 'T1234567m';
+	
+		$config['charset']='utf-8';
+		$config['newline']="\r\n";
+		$config['mailtype']="html";
+	
+		$this->email->initialize($config);
+		
+		
+		$this->email->from($from);
+		$this->email->to($email); 	
+		$this->email->subject('Password reset');
+		$this->email->message('You have requested the new password, Here is you new password:  '. $password .  ', <br/> You can change your password in change password option');
+		
+		$this->email->send();
+	}
 
 		/*
 		 * Send username on its email address
@@ -183,7 +225,7 @@
 		function forgot_username(){
 			$this->load->helper('form');
 
-			$user_email = $this->input->post('txt_user_email');
+			$email = $this->input->post('txt_user_email');
 			$btn_send_username = $this->input->post('btn_send_username');
 
 			$list['error_user'] ='';
@@ -191,51 +233,66 @@
 
 			if( !empty($btn_send_username) ):
 
-				if( empty( $user_email ) ):
+				if( empty( $email ) ):
 					$list['error_user'] = "The User Email field is required.";
 
 				else:
 					$this->load->model('user_model');
-
-					$user = $this->user_model->get_user_by_email($user_email);
-
-					if( $user === FALSE ):
-						$list['error_user'] = "No User Email has been found.";
+					$list['email'] = $this->user_model->forgot_password( $email );
+					
+					if($list['email'] == NULL):
+						$list['error']= "The email id you entered not found on our database ";
+						
 					else:
-						$list['success_user'] = "Username has been sent to your email address.";
-	
-						$this->load->library('email');
-	
-						$config = array();
-						$config['protocol']='smtp';
-						$config['smtp_host']='ssl://smtp.googlemail.com';
-						$config['smtp_port']='465';
-						$config['smtp_timeout']='30';	
-	
-						$config['smtp_user'] = $from = 'trust.manager@mishkat.pk';
-						$config['smtp_pass'] = 'T1234567m';
-	
-						$config['charset']='utf-8';
-						$config['newline']="\r\n";
-						$config['mailtype']="html";
-	
-						$this->email->initialize($config);
-	
-						$this->email->from( $from );
-						$this->email->to( $user_email );
-	
-						$this->email->subject( 'Username Updated: Ahadith.net' );
-						$this->email->message( '[Your new user name is: xyz]' );
-	
-						$output = $this->email->send();
-	
+					
+						$this->resetusername($email);
+						$list['info'] = "Username has been sent to email id: ". $email;
+					
 					endif;
+					
 				endif;
 
 			endif;
 			$list['main_content'] = 'user/user_forgot_username_view';
 			$this->load->view('includes/template',$list);
 		}
+		
+		
+		
+	private function resetusername($email)
+	{
+		date_default_timezone_set('GMT');
+		//$this->load->helper('string');
+		//$password= random_string('alnum', 8);
+		
+		$this->load->model('user_model');
+		$user['username'] = $this->user_model->forgot_password( $email );
+		
+		$username = $user['username']->user_id;
+		$this->load->library('email');
+		
+		$config = array();
+		$config['protocol']='smtp';
+		$config['smtp_host']='ssl://smtp.googlemail.com';
+		$config['smtp_port']='465';
+		$config['smtp_timeout']='30';	
+	
+		$config['smtp_user'] = $from = 'trust.manager@mishkat.pk';
+		$config['smtp_pass'] = 'T1234567m';
+	
+		$config['charset']='utf-8';
+		$config['newline']="\r\n";
+		$config['mailtype']="html";
+	
+		$this->email->initialize($config);
+		
+		
+		$this->email->from($from);
+		$this->email->to($email); 	
+		$this->email->subject('Username Sent');
+		$this->email->message('Here is your Username:'. $username);	
+		$this->email->send();
+	}
 
 		/*
          * User home page
@@ -418,8 +475,8 @@
 		if ($this->form_validation->run() == TRUE):
 		   
 		   //update_password
-		  $string =  $this->user_model->update_password();
-		   echo $string;
+		  $list['string'] =  $this->user_model->update_password();
+		   //echo $string;
 		   
 		endif;
 		

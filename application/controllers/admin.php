@@ -64,8 +64,11 @@ class Admin extends CI_Controller {
         elseif( $method == 'users' ):
                 $this->users();
 		
-		 elseif( $method == 'user-activities' ):
+	elseif( $method == 'user-activities' ):
                 $this->user_activities();
+		
+	elseif( $method == 'subscriptions' ):
+                $this->subscriptions();
     
 	  elseif( $method == 'book' ):
 	    if( !isset( $param[0] ) ):
@@ -133,7 +136,7 @@ class Admin extends CI_Controller {
 	  
 	 $this->authenticity( $param[0],$param[1] );
 	 
-		
+	    
 	elseif( $method == 'user' ):
       
       //set default for parameter user_id
@@ -724,4 +727,70 @@ class Admin extends CI_Controller {
 	$this->load->view('admin/includes/template',$list);
     
   }
+  
+  
+  function subscriptions(){
+    
+	$this->load->helper('form');
+	$this->load->model('user_model');
+	//if the user is already signed-in then redirect him/her to the home()
+	$user_id = $this->session->userdata('user_id');
+	$role = $this->session->userdata('role_title');
+	if( isset($user_id) && !empty($user_id) && !empty($role) ):
+	    
+	    $this->load->model('user_model');
+	    $this->load->model('hadith_model');
+	    
+	    $list['users'] = $this->user_model->get_subscriptions();
+	    $list['ahadith'] = $this->hadith_model->get_all_hadith();
+	    
+	    $list['main_content'] = '/admin/subscriptions_view';
+	    $this->load->view('admin/includes/template',$list);
+        
+	    if(!empty($this->input->post('mysubmit'))):
+		$this->load->model('user_model');
+		$this->load->model('hadith_model');	
+		$user_id = $this->input->post('ddl_user_list');
+		$hadith_id = $this->input->post('ddl_hadith_list');
+		
+		$list['hadith'] = $this->hadith_model->get_hadith_by_id($hadith_id);
+		$list['user'] = $this->user_model->get_user_by_id($user_id);
+		
+		date_default_timezone_set('GMT');
+		$this->load->library('email');
+		
+		$config = array();
+		$config['protocol']='smtp';
+		$config['smtp_host']='ssl://smtp.googlemail.com';
+		$config['smtp_port']='465';
+		$config['smtp_timeout']='30';	
+	
+		$config['smtp_user'] = $from = 'trust.manager@mishkat.pk';
+		$config['smtp_pass'] = 'T1234567m';
+	
+		$config['charset']='utf-8';
+		$config['newline']="\r\n";
+		$config['mailtype']="html";
+	
+		$this->email->initialize($config);
+		
+		$this->email->from($from);
+		$this->email->to($list['user']->email_address); 	
+		$this->email->subject('Daily Hadith Alert');
+		$this->email->message('Hadith No. '. $hadith_id . ' (Arabic):<br/> <br/> '. $list['hadith']->hadith_plain_ar . ' <br/><br/><br/> Hadith No. '. $hadith_id . ' (English): <br/><br/>  '. $list['hadith']->hadith_plain_en . ' <br/><br/><br/> Hadith No. '. $hadith_id . ' (Urdu): <br/><br/>  '. $list['hadith']->hadith_plain_ur);	    
+		$this->email->send();
+    
+		$list = array(
+			'error_message' => 'Alert has been Sent'
+			);
+		$list['main_content'] = "admin/subscriptions_view";
+		$this->load->view('admin/includes/template', $list);
+	    
+	    endif;
+	else:
+	    redirect('user/signin');
+	
+	endif;
+  }
+  
 }

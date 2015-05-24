@@ -284,7 +284,7 @@
                                 </td>
                                 <td>
                                     <select id="ddl_chapters_lang" name="ddl_chapters_lang">
-										<option value="EN" <?php echo set_select('ddl_chapters_lang', 'EN', !empty( $chapter_language ) AND $chapter_language == 'EN'? TRUE:FALSE ); ?> >English</option>
+					<option value="EN" <?php echo set_select('ddl_chapters_lang', 'EN', !empty( $chapter_language ) AND $chapter_language == 'EN'? TRUE:FALSE ); ?> >English</option>
                                         <option value="AR" <?php echo set_select('ddl_chapters_lang', 'AR', !empty( $chapter_language ) AND $chapter_language == 'AR'? TRUE:FALSE); ?> >Arabic</option>
                                         <option value="UR" <?php echo set_select('ddl_chapters_lang', 'UR', !empty( $chapter_language ) AND $chapter_language == 'UR'? TRUE:FALSE); ?>>Urdu</option>
                                     </select>
@@ -326,6 +326,15 @@
                                     <label for="chk_urdu">Urdu</label>
                                 </td>
                                 <td></td>
+				
+				<?php $user_id = $this->session->userdata('user_id'); ?>
+				<?php if( !empty($user_id) ): ?>
+				<tr>
+					<td><label for="chk_subscription">Subscribe For Alerts:</label></td>
+					<td><input type="checkbox" name="chk_subscription" value="1" id="chk_subscription" <?php echo set_checkbox('chk_subscription', '0', empty($email_subscription) OR $email_subscription !='true' ? FALSE:TRUE); ?>></td>
+				</tr>
+				<?php endif; ?>
+				
                             </tr>
                         </tbody>
                     </table>
@@ -603,6 +612,7 @@
 						result['display_arabic_text'] = $('#chk_arabic').is(':checked');
 						result['display_english_text'] = $('#chk_english').is(':checked');
 						result['display_urdu_text'] = $('#chk_urdu').is(':checked');
+						result['email_subscription'] = $('#chk_subscription').is(':checked');
 					
 						$.ajax({
 							type: "POST",

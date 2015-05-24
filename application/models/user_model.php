@@ -110,6 +110,45 @@
          return $data;
       }
       
+      
+      
+       function get_user_subscription_by_id( $email_subscription, $user_id ) {
+         $this->load->database('default');
+
+         $this->db->where('email_subscription', $email_subscription);
+         $this->db->where('user_id', $user_id);
+         $q = $this->db->get('user');
+            
+         $data = FALSE;
+
+         if($q->num_rows() > 0):
+             $data = $q->row();
+         endif;
+
+         $q->free_result();
+         return $data;
+      }
+      
+      
+      function update_user_subscription($user_id,$data){
+        $this->load->database('default');
+    
+        $this->db->where('user_id',$user_id);
+        
+        $this->db->update('user',$data);
+        
+      }
+      
+      
+       function delete_user_subscription($user_id,$data){
+        $this->load->database('default');
+    
+        $this->db->where('user_id',$user_id);
+        
+        $this->db->delete('user',$data);
+        
+      }
+      
        /*
       * Method to add user
       *
@@ -364,6 +403,8 @@
         $this->db->update('user_setting',$data);
     }
     
+    
+    
     /*
        * Method to delete user favorite based on hadith_in_book_id,hadith_book_id or user_id
        *
@@ -609,6 +650,24 @@
           
         $q->free_result();
         return $data;
+    }
+    
+    
+     function get_subscriptions(){
+       
+        $this->load->database('default');
+        $this->db->where('email_subscription','1');
+        $q = $this->db->get('user');
+          
+        $data = FALSE;
+          
+        foreach ($q->result() as $row):
+            $data[] = $row;
+        endforeach;
+          
+        $q->free_result();
+        return $data;
+    
     }
     
   }

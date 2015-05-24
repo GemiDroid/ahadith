@@ -85,6 +85,30 @@ class Hadith_book extends CI_Controller{
 		if( $this->input->is_ajax_request() ):
 			$data = $this->input->post('data');
 			
+			
+			if($data['email_subscription'] == true):
+			
+				$this->load->model('user_model');
+				$user_data = array(
+					'email_subscription' => '1',
+					
+								);
+				$this->user_model->update_user_subscription( $user_id,$user_data);
+				
+			else:
+				if($data['email_subscription'] == false):
+					$this->load->model('user_model');
+					$user_data = array(
+						'email_subscription' => '0',
+						
+									);
+					$this->user_model->delete_user_subscription( $user_id,$user_data);
+				endif;
+				
+			endif;
+			
+			
+			
 			if( $data['task'] == 'hadith-tag' ):
 			
 				$this->load->model('tag_model');
@@ -212,6 +236,7 @@ class Hadith_book extends CI_Controller{
 					else:
 						//update setting value
 						$this->user_model->update_user_setting($key, $user_id,array('setting_value'=>$value));
+						
 					endif;
 					
 				endforeach;
@@ -340,6 +365,11 @@ class Hadith_book extends CI_Controller{
 		$list['display_arabic_text'] = empty($this->session->userdata('display_arabic_text'))? (!empty($this->user_model->get_user_setting_by_id('display_arabic_text',$user_id))? $this->user_model->get_user_setting_by_id('display_arabic_text',$user_id)->setting_value:'') : $this->session->userdata('display_arabic_text');
 		$list['display_english_text'] = empty($this->session->userdata('display_english_text'))? (!empty($this->user_model->get_user_setting_by_id('display_english_text',$user_id))? $this->user_model->get_user_setting_by_id('display_english_text',$user_id)->setting_value:'') : $this->session->userdata('display_english_text');
 		$list['display_urdu_text'] = empty($this->session->userdata('display_urdu_text'))? (!empty($this->user_model->get_user_setting_by_id('display_urdu_text',$user_id))? $this->user_model->get_user_setting_by_id('display_urdu_text',$user_id)->setting_value:'') : $this->session->userdata('display_urdu_text');
+		
+		
+		
+		$list['email_subscription'] = $this->user_model->get_user_subscription_by_id('email_subscription',$user_id);
+		//$list['email_subscription'] = empty($this->session->userdata('email_subscription'))? (!empty($this->user_model->get_user_subscription_by_id('email_subscription',$user_id))? $this->user_model->get_user_subscription_by_id('email_subscription',$user_id)->email_subscription:'') : $this->session->userdata('email_subscription');
 		
 		$this->load->model('tag_model');
 		

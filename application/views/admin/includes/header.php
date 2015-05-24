@@ -33,6 +33,7 @@
 		<p id="corner"><a href="<?php echo base_url().'admin/report' ?>">Reports</a></p>
 		<p id="corner"><a href="<?php echo base_url().'admin/role' ?>">Roles</a></p>
 		<p id="corner"><a href="<?php echo base_url().'admin/user-role' ?>">User Roles</a></p>
+		<p id="corner"><a href="<?php echo base_url().'admin/subscriptions' ?>">Subscriptions</a></p>
 		<p id="corner"><a href="<?php echo base_url().'admin/hadith' ?>">Hadith</a></p>
 		<p id="corner"><a href="<?php echo base_url().'admin/hadith-book' ?>">Hadith Book</a></p>
 		<p id="corner"><a href="<?php echo base_url().'admin/chapter' ?>">Chapter</a></p>

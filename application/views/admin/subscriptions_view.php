@@ -12,9 +12,9 @@
   
     <?php $attributes = array('class' => 'form-horizontal'); ?>
     <?php echo form_open( 'admin/subscriptions' , $attributes ); ?>
-<div class="control-group">
+<div class="control-group form-inline">
    <div class="col-md-2"> <label for="ddl_user_list">User ID: </label></div> 
-  <select name="ddl_user_list">
+  <select class="form-control" style="width: 500px; height: 35px;" name="ddl_user_list">
     <?php if(!empty($users)): ?>
     
     <?php foreach($users as $row):?>
@@ -30,10 +30,10 @@
   
 </div>
  <div>&nbsp;</div>
-<div class="control-group">
+<div class="control-group form-inline">
 <div class="col-md-2"><label for="ddl_hadith_list">Hadith ID: </label></div>
 
-  <select name="ddl_hadith_list">
+  <select class="form-control" style="width: 500px; height: 35px;" name="ddl_hadith_list">
     <?php foreach($ahadith as $row):?>
     <option value="<?php echo $row->hadith_id;?>" <?php echo set_select('ddl_hadith_list',$row->hadith_id, ($row->hadith_id == '')? TRUE:FALSE ); ?> ><?php echo $row->hadith_id;?> </option>
     <?php endforeach; ?>

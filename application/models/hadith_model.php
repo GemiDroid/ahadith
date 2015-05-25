@@ -28,8 +28,13 @@ class Hadith_model extends CI_Model{
         
         $query = $this->db->get('hadith');
         
-        $data ='';
-        $data = $query->row();
+         $data = '';
+    
+        foreach ($query->result() as $row):
+    
+          $data[] = $row;
+        endforeach;
+    
         return $data;
 
     }

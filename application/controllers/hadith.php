@@ -144,6 +144,7 @@ class Hadith extends CI_Controller {
   $this->form_validation->set_rules('txt_marked_en', 'Marked English', 'required');
   $this->form_validation->set_rules('txt_marked_ur', 'Marked Urdu', 'required');
   $this->form_validation->set_rules('txt_raw_ar', 'Raw Arabic', 'required');
+  $this->form_validation->set_rules('authenticity_id', 'Authenticity ID', 'required');
   
     $list['hadith_id'] = $hadith_id;
     $list['hadith'] =  $this->hadith_model->get_hadith_by_id($hadith_id);

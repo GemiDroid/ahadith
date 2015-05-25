@@ -331,11 +331,7 @@ class Admin extends CI_Controller {
 			
 			if($action=='update'):
 				$hadith->update($id);
-			elseif($action=='search'):
-				if(!empty('btn_search')):
-					$hadith_id = $this->input->post('search_hadith_by_id');
-					$hadith->update($hadith_id);
-				endif;	
+				
 			elseif($action=='add'):
 				$hadith->add();
 			else:
@@ -359,12 +355,7 @@ class Admin extends CI_Controller {
 			$chapter = new chapter();
 			
 			if($action=='update'):
-				$chapter->update($id);
-			elseif($action=='search'):
-				if(!empty('btn_search')):
-					$chapter_id = $this->input->post('ddl_chapter_list');
-					$chapter->update($chapter_id);
-				endif;          
+			    $chapter->update($id);
 			elseif($action=='add'):
 				$chapter->add();
 			else:
@@ -374,6 +365,7 @@ class Admin extends CI_Controller {
 			redirect('user/signin');
 		endif;
 	}
+	
   
   
   function hadith_book($action='',$id=''){
@@ -393,11 +385,6 @@ class Admin extends CI_Controller {
 				$hadith_book->add();
 			elseif($action=='update'):
 				$hadith_book->update($id); 
-			elseif($action=='search'):
-				if(!empty('btn_search')):
-					$hadith_book_id = $this->input->post('ddl_hadith_book_list');
-					$hadith_book->update($hadith_book_id); 
-				endif;
 			elseif($action=='delete'):
 				$hadith_book->delete($id);
 			else:
@@ -424,11 +411,6 @@ class Admin extends CI_Controller {
 				$authenticity->update($id);	
 			elseif($action=='delete'):
 				$authenticity->delete($id);	
-			elseif($action=='search'):
-				if(!empty('btn_search')):
-					$authenticity_id = $this->input->post('ddl_authenticity_list');
-					$authenticity->update($authenticity_id);  
-				endif;
 			elseif($action=='add'):
 				$authenticity->add();
 			else:

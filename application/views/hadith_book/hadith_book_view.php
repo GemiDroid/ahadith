@@ -2,28 +2,25 @@
 
 <div class="col-md-9" style="margin-top: 50px;">
   
-            <div style="float:right;">
-                <?php $attributes = array('class' => 'form-horizontal'); ?>
-                <?php echo form_open( 'admin/hadith-book/search/' , $attributes ); ?>
+            <div style="float:right;" class="control-group form-inline">
+                
                 <label for="ddl_hadith_book_list">Search Hadith Book by Title: </label>
        <?php if(!empty($hadith_books)):?>
 
-              <select name="ddl_hadith_book_list">
+              <select class="form-control" style="width: 200px; height: 40px;" name="ddl_hadith_book_list" id="ddl_hadith_book_list">
                 <?php foreach($hadith_books as $row):?>
                 <option value="<?php echo $row->hadith_book_id;?>" <?php echo set_select('ddl_hadith_book_list',$row->hadith_book_id, ($row->hadith_book_id == '')? TRUE:FALSE ); ?> ><?php echo $row->hadith_book_title_en;?> </option>
                 <?php endforeach; ?>
               </select>
               <?php endif;?>
-          <input type="submit" id="btn_search" name="btn_search" value="Search" class="btn btn-success"/>
-          
-          <?php echo form_close(); ?>
+          <button class="search-btn"><li class="glyphicon glyphicon-search"></li></button>
           
           </div>
 <div>&nbsp;</div> 
             
   <h4>Displaying All Hadith Books</h4>
    <hr> 
-  <table class="table table-bordered">
+  <table class="table table-bordered table-hover">
     <thead style="background-color: #AABB78;">
       <tr>
         <th>Hadith Book ID</th>
@@ -43,7 +40,7 @@
           <td><?php echo $hadith_book->hadith_book_title_en; ?></td>
           <td><?php echo $hadith_book->hadith_book_title_ur; ?></td>
           
-          <td><a href='<?php echo (base_url().'admin/hadith-book/update/'.$hadith_book->hadith_book_id); ?>' >Edit</a></td>
+          <td><a href='<?php echo (base_url().'admin/hadith-book/update/'.$hadith_book->hadith_book_id); ?>' ><li class="glyphicon glyphicon-pencil"></li></a></td>
         </tr>
       <?php endforeach; ?>
 
@@ -64,3 +61,14 @@
   </div>
             </div>
  </div>
+ <script type="text/javascript">
+  
+  $(document).ready(function(){
+
+    $('.search-btn').on("click", function() {
+      window.open("<?php echo base_url(); ?>admin/hadith-book/update/"+$('#ddl_hadith_book_list').val(),"_self");
+    });
+
+  });
+
+ </script>

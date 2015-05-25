@@ -12,10 +12,10 @@
               
                 <?php if(!empty($user_role)): ?>
 
-                  <div class="control-group">
+                  <div class="control-group form-inline">
               <div class="col-md-2"><label for="ddl_role_list">Role Title: </label></div>
 
-                <select name="ddl_role_list">
+                <select class="form-control" style="width: 500px; height: 35px;" name="ddl_role_list">
                   <?php foreach($user_role as $row):?>
                   <option value="<?php echo $row->role_title;?>" <?php echo set_select('ddl_role_list',$row->role_title, ($row->role_title == '')? TRUE:FALSE ); ?> ><?php echo $row->role_title;?> </option>
                   <?php endforeach; ?>

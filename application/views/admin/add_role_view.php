@@ -4,31 +4,31 @@
  
     <?php echo form_open('admin/role/add');?>
 
-        <div class="control-group">
+        <div class="control-group form-inline">
         <label for="txt_role_title">Role Title:</label>&nbsp;&nbsp;&nbsp;
-	<input type="text" name="txt_role_title" value="<?php echo set_value('txt_role_title',''); ?>" />
+	<input class="form-control" style="width: 500px; height: 30px;" type="text" name="txt_role_title" value="<?php echo set_value('txt_role_title',''); ?>" />
 	<div class="help-inline">
             <?php echo form_error('txt_role_title', '<span class="text-error">', '</span>'); ?>
         </div>
         </div>
-        
-        <div class="control-group">
+        <br/>
+        <div class="control-group form-inline">
 	<label for="txt_description">Description:</label>
-	<input type="text" name="txt_description" value="<?php echo set_value('txt_description',''); ?>"/>
+	<input class="form-control" style="width: 500px; height: 30px;" type="text" name="txt_description" value="<?php echo set_value('txt_description',''); ?>"/>
 	<div class="help-inline">
             <?php echo form_error('txt_description', '<span class="text-error">', '</span>'); ?>
         </div>
         </div>
-        
-        <div class="control-group">
+        <br/>
+        <div class="control-group form-inline">
 	<label for="txt_role_order">Role Order:</label>&nbsp;
-	<input type="text" name="txt_role_order" value="<?php echo set_value('txt_role_order',''); ?>"/>
+	<input class="form-control" style="width: 500px; height: 30px;" type="text" name="txt_role_order" value="<?php echo set_value('txt_role_order',''); ?>"/>
 	<div class="help-inline">
             <?php echo form_error('txt_role_order', '<span class="text-error">', '</span>'); ?>
       
         </div>
         </div>
-        
+        <br/>
         
        <!-- <div class="help-inline">
             <?php echo validation_errors('<span class="text-error">', '</span>'); ?>

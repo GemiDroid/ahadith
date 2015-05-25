@@ -1,29 +1,28 @@
 <div class="col-md-9" style="margin-top: 50px;">
-            <div style="float:right;">
-                <?php $attributes = array('class' => 'form-horizontal'); ?>
-                <?php echo form_open( 'admin/chapter/search/' , $attributes ); ?>
-                <label for="ddl_chapter_list">Search Chapter by Title: </label>
-       <?php if(!empty($ahadith)):?>
+  
+  <div style="float:right;" class="control-group form-inline">
+    
+      <label for="ddl_chapter_list">Search Chapter by Title: </label>
+      <?php if(!empty($ahadith)):?>
+  
+      <select class="form-control" style="width: 380px; height: 35px;" name="ddl_chapter_list" id="ddl_chapter_list">
+      <?php foreach($ahadith as $row):?>
+        <option value="<?php echo $row->chapter_id;?>" <?php echo set_select('ddl_chapter_list',$row->chapter_id,TRUE); ?> ><?php echo substr($row->chapter_title_en,0,40);?> </option>
+      <?php endforeach; ?>
+      </select>
+      <?php endif;?>
+    
+     <button class="search-btn"><li class="glyphicon glyphicon-search"></li></button>  
+  
+  </div>
 
-              <select name="ddl_chapter_list">
-                <?php foreach($ahadith as $row):?>
-                <option value="<?php echo $row->chapter_id;?>" <?php echo set_select('ddl_chapter_list',$row->chapter_id, ($row->chapter_id == '')? TRUE:FALSE ); ?> ><?php echo substr($row->chapter_title_en,0,40);?> </option>
-                <?php endforeach; ?>
-              </select>
-              <?php endif;?>
-          <input type="submit" id="btn_search" name="btn_search" value="Search" class="btn btn-success"/>
-          
-          <?php echo form_close(); ?>
-          
-          </div>
-        
     
           
-          <div>&nbsp;</div>
+  <div>&nbsp;</div>
               
   <h4>Displaying All Chapters</h4>
   <hr>
-  <table class="table table-bordered">
+  <table class="table table-bordered table-hover">
     <thead style="background-color: #AABB78;">
       <tr>
         <th>ID</th>
@@ -52,7 +51,7 @@
           <td><?php echo $chapter->chapter_detail_ur; ?></td>
           <td><?php echo $chapter->book_id; ?></td>
           <td><?php echo $chapter->hadith_book_id; ?></td>
-          <td><a href='<?php echo (base_url().'admin/chapter/update/'.$chapter->chapter_id); ?>' >Edit</a></td>
+          <td><a href='<?php echo (base_url().'admin/chapter/update/'.$chapter->chapter_id); ?>' ><li class="glyphicon glyphicon-pencil"></li></a></td>
         </tr>
       <?php endforeach; ?>
 
@@ -75,3 +74,15 @@
   
             </div>
  </div>
+ 
+ <script type="text/javascript">
+  
+  $(document).ready(function(){
+
+    $('.search-btn').on("click", function() {
+      window.open("<?php echo base_url(); ?>admin/chapter/update/"+$('#ddl_chapter_list').val(),"_self");
+    });
+
+  });
+
+ </script>

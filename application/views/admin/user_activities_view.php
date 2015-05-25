@@ -4,7 +4,7 @@
   <h4>Displaying All User Activities</h4>
   <hr>
   <?php if(!empty($user_activities)): ?>
-  <table class="table table-bordered" id="tbl_activity_logs">
+  <table class="table table-bordered table-hover" id="tbl_activity_logs">
     <thead style="background-color: #AABB78;">
       <tr>
         <th>Activity ID:</th>

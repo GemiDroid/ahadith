@@ -3,7 +3,7 @@
           
   <h4>Displaying All User Roles</h4>
   <hr>
-  <table class="table table-bordered">
+  <table class="table table-bordered table-hover">
     <thead style="background-color: #AABB78;">
       <tr>
         <th>User Id</th>
@@ -19,7 +19,7 @@
           <td><?php echo $role->user_id; ?></td>
           <td><?php echo $role->role_title; ?></td>
           
-           <td><a href='<?php echo (base_url().'admin/user-role/update/'.$role->user_id); ?>' >Edit</a></td>
+           <td><a href='<?php echo (base_url().'admin/user-role/update/'.$role->user_id); ?>' ><li class="glyphicon glyphicon-pencil"></li></a></td>
         </tr>
       <?php endforeach; ?>
 

@@ -3,7 +3,7 @@
               
   <h4>Displaying All Roles</h4>
   <hr>
-  <table class="table table-bordered">
+  <table class="table table-bordered table-hover">
     <thead style="background-color: #AABB78;">
       <tr>
         <th>Role Title</th>
@@ -20,7 +20,7 @@
           <td><?php echo $role->role_title; ?></td>
           <td><?php echo $role->description; ?></td>
           <td><?php echo $role->role_order; ?></td>
-          <td><a href='<?php echo (base_url().'admin/role/update/'.$role->role_title); ?>' >Edit</a></td>
+          <td><a href='<?php echo (base_url().'admin/role/update/'.$role->role_title); ?>' ><li class="glyphicon glyphicon-pencil"></li></a></td>
         </tr>
       <?php endforeach; ?>
 

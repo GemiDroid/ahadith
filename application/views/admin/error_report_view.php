@@ -3,7 +3,7 @@
   <h4>Displaying All Reports</h4>
   <hr>
   <?php if(!empty($reports)): ?>
-  <table class="table table-bordered">
+  <table class="table table-bordered table-hover">
     <thead style="background-color: #AABB78;">
       <tr>
         <th>Error Id</th>
@@ -24,7 +24,7 @@
           <td><?php echo $report->user_id; ?></td>
           <td><?php echo $report->hadith_id; ?></td>
           <td><?php echo $report->timestamp; ?></td>
-          <td><a href="<?php echo base_url().'admin/report/update/'.$report->error_id; ?>">Edit</a></td>
+          <td><a href="<?php echo base_url().'admin/report/update/'.$report->error_id; ?>"><li class="glyphicon glyphicon-pencil"></li></a></td>
         </tr>
       <?php endforeach; ?>
 

@@ -8,9 +8,10 @@
     
     <div style="margin-left: 50px; ">
     
-    <div class="jumbotron" style="width: 200px; height: 200px; text-align: center; display: inline-block;">
+    <div class="jumbotron" style="width: 150px; height: 150px; text-align: center; display: inline-block;">
         
-       <img src="<?php echo base_url(); ?>assets/images/user.png"/>
+     <!--  <img src="<?php echo base_url(); ?>assets/images/user.png"/>-->
+       <span class="glyphicon glyphicon-user"></span>
        <br><br>
        Total Users:
         <?php  $count=0; ?>
@@ -24,9 +25,11 @@
     </div>
     
     <div style="display: inline-block; width: 80px;"></div>
-     <div class="jumbotron" style="width: 200px; height: 200px; text-align: center; display: inline-block;">
+     <div class="jumbotron" style="width: 150px; height: 150px; text-align: center; display: inline-block;">
         
-       <img src="<?php echo base_url(); ?>assets/images/block_user_pic.png"/>
+       <!--<img src="<?php echo base_url(); ?>assets/images/block_user_pic.png"/>-->
+        <span class="glyphicon glyphicon-user"></span>
+           
        <br><br>
         Block Users:
         <?php  $count=0; ?>

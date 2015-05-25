@@ -4,7 +4,7 @@
     
     <h4>View All Tags</h4>
     <hr>
-    <table class="table table-bordered">
+    <table class="table table-bordered table-hover">
         <tbody>
             <thead style="background-color: #AABB78;">
                 <th>ID</th>
@@ -30,7 +30,7 @@
                 <td><?php echo (!empty($tag->tag_detail_ur) ? $tag->tag_detail_ur : "N/A"); ?></td>
                 <td><?php echo (!empty($tag->suggested_by) ? $tag->suggested_by : "N/A"); ?></td>
                 
-                <td><a href='<?php echo (base_url().'admin/tag/'.$tag->tag_id); ?>' >Edit</a></td>
+                <td><a href='<?php echo (base_url().'admin/tag/'.$tag->tag_id); ?>' ><li class="glyphicon glyphicon-pencil"></li></a></td>
             </tr>
             <?php endforeach; ?>
         </tbody>

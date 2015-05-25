@@ -6,17 +6,17 @@
  
       <?php echo form_open('admin/role/update/'.$role_title);?>
 
-       <div class="control-group">
+       <div class="control-group form-inline">
             <div class="col-md-2"><label class="control-label" for="txt_description">Description:</label></div>
-            <input type="text" name="txt_description" id="txt_description" value="<?php echo set_value('txt_description', (!empty($role) ? $role[0]->description : '')); ?>" size="50"/>
+            <input class="form-control" style="width: 500px; height: 30px;" type="text" name="txt_description" id="txt_description" value="<?php echo set_value('txt_description', (!empty($role) ? $role[0]->description : '')); ?>" size="50"/>
             <div class="help-inline">
               <?php echo form_error('txt_description', '<span class="text-error">', '</span>'); ?>
             </div>
        </div>
       <div>&nbsp;</div>
-       <div class="control-group">
+       <div class="control-group form-inline">
             <div class="col-md-2"><label class="control-label" for="txt_role_order">Role Order:</label></div>
-            <input type="text" name="txt_role_order" id="txt_role_order" value="<?php echo set_value('txt_role_order', (!empty($role) ? $role[0]->role_order : '')); ?>" size="50"/>
+            <input class="form-control" style="width: 500px; height: 30px;" type="text" name="txt_role_order" id="txt_role_order" value="<?php echo set_value('txt_role_order', (!empty($role) ? $role[0]->role_order : '')); ?>" size="50"/>
             <div class="help-inline">
               <?php echo form_error('txt_role_order', '<span class="text-error">', '</span>'); ?>
             </div>

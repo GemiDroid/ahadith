@@ -15,7 +15,7 @@
             <div class="col-md-9" style="margin-top: 50px;">
                 <h4>View All Users</h4>
                 <hr>
-                <table class="table table-bordered">
+                <table class="table table-bordered table-hover">
                     <tbody>
                         <thead style="background-color: #AABB78;">
                         <th>User ID</th>
@@ -47,7 +47,7 @@
                             <td><?php echo $user->user_since; ?></td>
                             <td><?php echo $user->last_activity; ?></td>
                             
-                            <td><a href='<?php echo (base_url().'admin/user/'.$user->user_id); ?>' >Edit</a></td>
+                            <td><a href='<?php echo (base_url().'admin/user/'.$user->user_id); ?>' ><li class="glyphicon glyphicon-pencil"></li></a></td>
                      
                         </tr>
                                     

@@ -17,17 +17,12 @@
           
             
            
-        <div style="float:right;">
-                <?php $attributes = array('class' => 'form-horizontal'); ?>
-                <?php echo form_open( 'admin/hadith/search/' , $attributes ); ?>
-      
-            
+        <div style="float:right;" class="control-group form-inline">
+               
             <label for="search_hadith_by_id">Search Hadith by ID: </label>
-            <input type="text" id="search_hadith_by_id" name="search_hadith_by_id"/>
+            <input class="form-control" style="width: 150px; height: 35px;" type="text" id="search_hadith_by_id" name="search_hadith_by_id"/>
           
-          <input type="submit" id="btn_search" name="btn_search" value="Search" class="btn btn-success"/>
-          
-          <?php echo form_close(); ?>
+         <button class="search-btn"><li class="glyphicon glyphicon-search"></li></button>
           
           </div>
         
@@ -39,7 +34,7 @@
               
   <h4>Displaying All Ahadith</h4>
   <hr>
-  <table border="1">
+  <table class="table table-bordered table-hover">
     <thead style="background-color: #AABB78;">
       <tr>
         <th>ID</th>
@@ -67,7 +62,7 @@
           <td><?php echo $hadith->hadith_raw_ar; ?></td>
           <td><?php echo $hadith->authenticity_id; ?></td>-->
           
-          <td><a href='<?php echo (base_url().'admin/hadith/update/'.$hadith->hadith_id); ?>' >Edit</a></td>
+          <td><a href='<?php echo (base_url().'admin/hadith/update/'.$hadith->hadith_id); ?>' ><li class="glyphicon glyphicon-pencil"></li></a></td>
         </tr>
       <?php endforeach; ?>
     </tbody>
@@ -76,3 +71,16 @@
             </div>
             
   </div>
+
+
+ <script type="text/javascript">
+  
+  $(document).ready(function(){
+
+    $('.search-btn').on("click", function() {
+      window.open("<?php echo base_url(); ?>admin/hadith/update/"+$('#search_hadith_by_id').val(),"_self");
+    });
+
+  });
+
+ </script>

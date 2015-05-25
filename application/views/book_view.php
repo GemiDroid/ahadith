@@ -17,10 +17,10 @@
         <?php $attributes = array('class' => 'form-horizontal'); ?>
         <?php echo form_open( 'book/view/' . $book_id, $attributes ); ?>
             
-        <div class="control-group">
-            <label class="control-label" for="ddl_hadith_book_id">Hadith Book ID:</label>
-            <div class="controls">
-                <select id="ddl_hadith_book_id" name="ddl_hadith_book_id" tabindex="2">
+        <div class="control-group form-inline">
+            <div class="col-md-2"><label class="control-label" for="ddl_hadith_book_id">Hadith Book ID:</label></div>
+            
+                <select class="form-control" style="width: 500px; height: 35px;" id="ddl_hadith_book_id" name="ddl_hadith_book_id" tabindex="2">
                     <?php if(!empty($hadith_books)): ?>
                         <?php foreach($hadith_books as $hadith_book ): ?>
                             <option value="<?php echo $hadith_book->hadith_book_id;  ?>" <?php echo set_select('ddl_hadith_book_id', $hadith_book->hadith_book_title_en , ( !empty($data) && $data->hadith_book_id == $hadith_book->hadith_book_id ? TRUE : FALSE )); ?>><?php echo $hadith_book->hadith_book_id; ?></option>
@@ -30,61 +30,61 @@
                 <div class="help-inline">
                     <?php echo form_error('ddl_hadith_book_id', '<span class="text-error">', '</span>'); ?>
                 </div>
-            </div>
+            
         </div>
-        
-        <div class="control-group">
-            <label class="control-label" for="txt_book_id">Book ID:</label>
-            <div class="controls">
-                <input type="text" name="txt_book_id" id="txt_book_id" value="<?php echo set_value('txt_book_id', ( !empty($data)? $data->book_id :'')); ?>" size="50" />
+        <br/>
+        <div class="control-group form-inline">
+            <div class="col-md-2"><label class="control-label" for="txt_book_id">Book ID:</label></div>
+            
+                <input class="form-control" style="width: 500px; height: 30px;" type="text" name="txt_book_id" id="txt_book_id" value="<?php echo set_value('txt_book_id', ( !empty($data)? $data->book_id :'')); ?>" size="50" />
                 <div class="help-inline">
                     <?php echo form_error('txt_book_id', '<span class="text-error">', '</span>'); ?>
                 </div>
-            </div>
+            
         </div>
-        
-        <div class="control-group">
-            <label class="control-label" for="txt_book_number">Book Number:</label>
-            <div class="controls">
-                <input type="text" name="txt_book_number" id="txt_book_number" value="<?php echo set_value('txt_book_number', ( !empty($data)? $data->book_number :'')); ?>" size="50" />
+        <br/>
+        <div class="control-group form-inline">
+            <div class="col-md-2"><label class="control-label" for="txt_book_number">Book Number:</label></div>
+           
+                <input class="form-control" style="width: 500px; height: 30px;" type="text" name="txt_book_number" id="txt_book_number" value="<?php echo set_value('txt_book_number', ( !empty($data)? $data->book_number :'')); ?>" size="50" />
                 <div class="help-inline">
                     <?php echo form_error('txt_book_number', '<span class="text-error">', '</span>'); ?>
                 </div>
-            </div>
+           
         </div>
-              
-        <div class="control-group">
-            <label class="control-label" for="txt_book_title_ar">Book Title in Arabic:</label>
-            <div class="controls">
-                <input type="text" name="txt_book_title_ar" id="txt_book_title_ar" value="<?php echo set_value('txt_book_title_ar', ( !empty($data)? $data->book_title_ar :'')); ?>" size="50" />
+         <br/>     
+        <div class="control-group form-inline">
+            <div class="col-md-2"><label class="control-label" for="txt_book_title_ar">Arabic Title:</label></div>
+          
+                <input class="form-control" style="width: 500px; height: 30px;" type="text" name="txt_book_title_ar" id="txt_book_title_ar" value="<?php echo set_value('txt_book_title_ar', ( !empty($data)? $data->book_title_ar :'')); ?>" size="50" />
                 <div class="help-inline">
                     <?php echo form_error('txt_book_title_ar', '<span class="text-error">', '</span>'); ?>
                 </div>
-            </div>
+            
         </div>
-        
-        <div class="control-group">
-            <label class="control-label" for="txt_book_title_en">Book Title in English:</label>
-            <div class="controls">
-                <input type="text" name="txt_book_title_en" id="txt_book_title_en" value="<?php echo set_value('txt_book_title_en', ( !empty($data)? $data->book_title_en :'')); ?>" size="50" />
+        <br/>
+        <div class="control-group form-inline">
+            <div class="col-md-2"><label class="control-label" for="txt_book_title_en">English Title:</label></div>
+            
+                <input class="form-control" style="width: 500px; height: 30px;" type="text" name="txt_book_title_en" id="txt_book_title_en" value="<?php echo set_value('txt_book_title_en', ( !empty($data)? $data->book_title_en :'')); ?>" size="50" />
                 <div class="help-inline">
                     <?php echo form_error('txt_book_title_en', '<span class="text-error">', '</span>'); ?>
                 </div>
-            </div>
+         
         </div>
-        
-        <div class="control-group">
-            <label class="control-label" for="txt_book_title_ur">Book Title in Urdu:</label>
-            <div class="controls">
-                <input type="text" name="txt_book_title_ur" id="txt_book_title_ur" value="<?php echo set_value('txt_book_title_ur', ( !empty($data)? $data->book_title_ur :'')); ?>" size="50" />
+        <br/>
+        <div class="control-group form-inline">
+            <div class="col-md-2"><label class="control-label" for="txt_book_title_ur">Urdu Title:</label></div>
+           
+                <input class="form-control" style="width: 500px; height: 30px;" type="text" name="txt_book_title_ur" id="txt_book_title_ur" value="<?php echo set_value('txt_book_title_ur', ( !empty($data)? $data->book_title_ur :'')); ?>" size="50" />
                 <div class="help-inline">
                     <?php echo form_error('txt_book_title_ur', '<span class="text-error">', '</span>'); ?>
                 </div>
-            </div>
+           
         </div>
             <div>&nbsp;</div>
-        <div class="control-group">
-            <div class="controls">
+        <div class="control-group form-inline">
+            
                 
                 <input type="submit" id="btn_save" name="btn_save" value="Save Record" class="btn btn-success" tabindex="5" />
 
@@ -95,7 +95,7 @@
                     if( $book_id ): ?>
                         <a href="<?php echo base_url().'admin/book/view' ?>"><input type="submit" id="btn_delete" name="btn_delete" value="Delete Record" class="btn btn-danger" tabindex="7" /></a>
                 <?php endif; ?>
-            </div>
+            
         </div>
         <?php echo form_close(); ?>
     </div>
@@ -117,7 +117,7 @@
                                 <th style="text-align: center;"><span id="col_book_title_en">Book Title in English</span></th>
                                 <th style="text-align: center;"><span id="col_book_title_ur">Book Title in Urdu</span></th>
                                 <th style="text-align: center;"><span id="col_hadith_book_id">Hadith Book ID</span></th>
-                                <th style="text-align: center;"><span id="col_view">View</span></th>
+                                <th style="text-align: center;"><span id="col_view">Action</span></th>
                             </tr>
                         </thead>
                         
@@ -131,7 +131,7 @@
                                     <td style="text-align: center;"><?php echo $book->book_title_en; ?></td>
                                     <td style="text-align: center;"><?php echo $book->book_title_ur; ?></td>
                                     <td style="text-align: center;"><?php echo $book->hadith_book_id; ?></td>
-                                    <td style="text-align: center;"><?php echo anchor(base_url() . "book/view/". $book->book_id, "View"); ?></td>
+                                    <td style="text-align: center;"><?php echo anchor(base_url() . "book/view/". $book->book_id, "view"); ?></td>
                                 </tr>
                             <?php endforeach; ?>
                             

@@ -327,13 +327,13 @@
                                 </td>
                                 <td></td>
 				
-				<?php $user_id = $this->session->userdata('user_id'); ?>
-				<?php if( !empty($user_id) ): ?>
-				<tr>
-					<td><label for="chk_subscription">Subscribe For Alerts:</label></td>
-					<td><input type="checkbox" name="chk_subscription" value="1" id="chk_subscription" <?php echo set_checkbox('chk_subscription', '0', empty($email_subscription) OR $email_subscription !='true' ? FALSE:TRUE); ?>></td>
-				</tr>
-				<?php endif; ?>
+							<?php $user_id = $this->session->userdata('user_id'); ?>
+							<?php if( !empty($user_id) ): ?>
+								<tr>
+									<td><label for="chk_subscription">Subscribe For Alerts:</label></td>
+									<td><input type="checkbox" name="chk_subscription" value="1" id="chk_subscription" <?php echo set_checkbox('chk_subscription', '1', empty($email_subscription) OR $email_subscription !='true' ? FALSE:TRUE); ?>></td>
+								</tr>
+							<?php endif; ?>
 				
                             </tr>
                         </tbody>

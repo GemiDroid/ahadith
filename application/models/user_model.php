@@ -40,14 +40,14 @@
         return FALSE;
       endif;
     }
-
+    
     /*
       * Get a user by email
       *
       * @param string $user_email
       * @return array
       */
-      function get_user_by_email( $user_email ) {
+    function get_user_by_email( $user_email ) {
          $this->load->database('default');
 
          $this->db->where('email_address', $user_email);
@@ -69,7 +69,7 @@
       * @param string $user_id
       * @return array
       */
-      function get_user_by_id( $user_id ) {
+    function get_user_by_id( $user_id ) {
          $this->load->database('default');
 
          $this->db->where('user_id', $user_id);
@@ -93,7 +93,7 @@
       * 
       * @return array
       */
-      function get_user_setting_by_id( $setting_title, $user_id ) {
+    function get_user_setting_by_id( $setting_title, $user_id ) {
          $this->load->database('default');
 
          $this->db->where('setting_title', $setting_title);
@@ -108,112 +108,40 @@
 
          $q->free_result();
          return $data;
-      }
+    }
       
-      
-      
-       function get_user_subscription_by_id( $email_subscription, $user_id ) {
-         $this->load->database('default');
-
-         $this->db->where('email_subscription', $email_subscription);
-         $this->db->where('user_id', $user_id);
-         $q = $this->db->get('user');
-            
-         $data = FALSE;
-
-         if($q->num_rows() > 0):
-             $data = $q->row();
-         endif;
-
-         $q->free_result();
-         return $data;
-      }
-      
-      
-      function update_user_subscription($user_id,$data){
-        $this->load->database('default');
-    
-        $this->db->where('user_id',$user_id);
         
-        $this->db->update('user',$data);
-        
-      }
-      
-      
-       function delete_user_subscription($user_id,$data){
-        $this->load->database('default');
-    
-        $this->db->where('user_id',$user_id);
-        
-        $this->db->delete('user',$data);
-        
-      }
-      
-       /*
+    /*
       * Method to add user
       *
       * @param array $data
       * @return array
-      */
+    */
       
-      function insert_user($user){
+    function insert_user($user){
         $this->load->database('default');
         $this->db->insert('user',$user);
 
-      }
+    }
 
       /*
        * Method to update user based on user_id
        *
-       * @param integer $user_id
        * @param array $data
        * @return array
        */
-
-
-
-
-      //function update_user( $user_id,$data ){
-      //    $this->load->database('default');
-      //
-      //    $this->db->where('user_id', $user_id);
-      //    $this->db->update('user', $data);
-      //}
-      
-      
-      function update_user($data){
+  
+    function update_user( $data){
+        $this->load->database('default');
         
         $this->db->where('user_id',$this->session->userdata('user_id'));
-        //$this->db->where('password',($this->input->post('txt_old_password')));
-        $query=$this->db->get('user');   
-
-        if ($query->num_rows() > 0):
-                $row = $query->row();
-                if($row->user_id==$this->session->userdata('user_id')):
-                    //$data = array(
-                    //  'password' => ($this->input->post('txt_new_password'))
-                    // );
-                    $this->db->where('user_id',$this->session->userdata('user_id'));
-                    //$this->db->where('password',($this->input->post('txt_old_password')));
-                    if($this->db->update('user', $data)) :
-                        return "Updated Successfully";
-                    else:
-                        return "Something Went Wrong";
-                    endif;
-                else:
-                    return "Something Went Wrong";
-                endif;
-
-
-         else:
-            return "Wrong";
-         endif;
-
-      }
+        
+        $this->db->update('user', $data);
+    }
       
       
-      function update_password(){
-       //  $this->db->select('user_id');
+    function update_password(){
+    
         $this->db->where('user_id',$this->session->userdata('user_id'));
         $this->db->where('password',($this->input->post('txt_old_password')));
         $query=$this->db->get('user');   
@@ -239,12 +167,8 @@
          else:
             return "Wrong Old Password";
          endif;
-
-
-    
-
          
-      }
+    }
       
       
     function get_hadith_in_book($hadith_id){
@@ -261,23 +185,7 @@
         return $data;
     }
     
-    
-    function get_all_hadith(){
-       
-        $this->load->database('default');  
-        $q = $this->db->get('hadith');
-          
-        $data = FALSE;
-          
-        foreach ($q->result() as $row):
-            $data[] = $row;
-        endforeach;
-          
-        $q->free_result();
-        return $data;
-    
-    }
-    
+
     /*
       * Get a user favorite by id
       *
@@ -351,7 +259,7 @@
     * @param string $query json string of the array
     * @return none
     */
-   function log_activity( $user_id, $query ) {
+    function log_activity( $user_id, $query ) {
        
        $this->load->database('default');
        
@@ -362,7 +270,7 @@
        );
        
        $this->db->insert('user_activity_log', $data);
-   }
+    }
     
     /*
       * Method to add user favorite
@@ -436,25 +344,7 @@
         $q->free_result();
         return $data;
     }
-    
-      function get_user($user_id){
-        $this->load->database('default');
-        $this->db->where('user_id',$user_id);
-        $q = $this->db->get('user');
-          
-        $data = FALSE;
-          
-        foreach ($q->result() as $row):
-            $data[] = $row;
-        endforeach;
-          
-        $q->free_result();
-        return $data;
-    
-    
-    }
-    
-    
+
     function block_user($data,$user_id){
         $this->load->database('default');
         $this->db->where('user_id',$user_id);
@@ -482,7 +372,7 @@
     }
     
     
-     function get_report_by_id($error_id){
+    function get_report_by_id($error_id){
         $this->load->database('default');
         $this->db->where('error_id',$error_id);
  
@@ -513,7 +403,7 @@
         return $data;
     }
     
-      function get_all_user_role(){
+    function get_all_user_role(){
         $this->load->database('default');
         $q = $this->db->get('user_role');
           
@@ -535,7 +425,7 @@
         
     }
     
-      function get_all_reports(){
+    function get_all_reports(){
         $this->load->database('default');
         $q = $this->db->get('error_report');
           
@@ -549,14 +439,14 @@
         return $data;
     }
     
-     function update_error_report($error_id,$data){
+    function update_error_report($error_id,$data){
         $this->load->database('default');
         $this->db->where('error_id',$error_id);
         
         $this->db->update('error_report',$data);
     }
     
-      function delete_error_report($error_id){
+    function delete_error_report($error_id){
         $this->load->database('default');
         $this->db->where('error_id',$error_id);
         
@@ -572,7 +462,7 @@
         $this->db->update('user_role',$data);
     }
     
-      function delete_user_role($user_id){
+    function delete_user_role($user_id){
         $this->load->database('default');
         $this->db->where('user_id',$user_id);
         
@@ -590,16 +480,15 @@
         $this->db->where('user_id',$user_id);
     
    
-       $q = $this->db->get('user_role');
- $data = FALSE;
+        $q = $this->db->get('user_role');
+        $data = FALSE;
           
         foreach ($q->result() as $row):
             $data[] = $row;
         endforeach;
           
         $q->free_result();
-        return $data;
-     
+        return $data; 
 
     }
     
@@ -650,24 +539,6 @@
           
         $q->free_result();
         return $data;
-    }
-    
-    
-     function get_subscriptions(){
-       
-        $this->load->database('default');
-        $this->db->where('email_subscription','1');
-        $q = $this->db->get('user');
-          
-        $data = FALSE;
-          
-        foreach ($q->result() as $row):
-            $data[] = $row;
-        endforeach;
-          
-        $q->free_result();
-        return $data;
-    
     }
     
   }

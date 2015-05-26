@@ -56,7 +56,7 @@ class Role extends CI_COntroller {
    *@return none
    */
   
-  public function add(){
+  function add(){
     
     $this->load->helper('form');
     
@@ -64,8 +64,12 @@ class Role extends CI_COntroller {
     
     $this->form_validation->set_rules('txt_role_title','Role Title','required');
     $this->form_validation->set_rules('txt_description','Role Description','required');
-    $this->form_validation->set_rules('txt_role_order','Role Order','required');
+    $this->form_validation->set_rules('ddl_dependent_roles[]','Dependent Roles','');
     
+	$this->load->model('role_model');
+	$role_title = '';
+	$list['roles'] = $this->role_model->get_potential_roles($role_title);
+	
     $list['main_content'] = 'admin/add_role_view';
     if ($this->form_validation->run() == FALSE):
       $this->load->view('admin/includes/template',$list);
@@ -74,10 +78,25 @@ class Role extends CI_COntroller {
     //if( !empty($this->input->post('mysubmit'))):
       $data['role_title'] = $this->input->post('txt_role_title');
       $data['description'] = $this->input->post('txt_description');
-      $data['role_order'] = $this->input->post('txt_role_order');
+
+	  //role_order should be the last one
+      $data['role_order'] = $this->role_model->generate_role_order();
+	  
+	  $this->role_model->insert_role($data);
+	  
+	  //user selected options of dependent array
+      $arr = $this->input->post('ddl_dependent_roles');
   
-      $this->load->model('role_model');
-      $this->role_model->insert_role($data);
+	  //add the dependent roles also
+	  for( $i = 0; $i < count($arr) ; $i++ ):
+	  
+		  $role_dependecy = array(
+								  'role_title' => $this->input->post('txt_role_title'),
+								  'dependent_role' => $arr[$i]
+							  );
+		  
+		  $this->role_model->add_role_dependency($role_dependecy);
+	  endfor;
   
       redirect('admin/role');
       
@@ -88,23 +107,33 @@ class Role extends CI_COntroller {
 
   /*Method to update role
    *
-   *@param string $role_title ID of role
+   *@param string $role_title of role
    *
    *@return none
    *
    */
   
-  public function update($role_title){
+  function update($role_title){
     
-    $this->load->helper('form');
     $this->load->model('role_model');
+    //if role-title is empty or invalid
+	if( $this->role_model->get_role_by_title($role_title) === FALSE ):
+      $list['error_msg'] = "No record found for the provided Role details. Use the menu if you have access.";
+      $list['main_content'] = "message_view";
+      $this->load->view('admin/includes/template', $list);
+      return;
+	endif;
+	
+    $this->load->helper('form');
+	$this->load->library('form_validation');
+    $this->form_validation->set_rules('txt_role_title','Role Title','required');
+    $this->form_validation->set_rules('txt_description','Role Description','required');
+    $this->form_validation->set_rules('ddl_dependent_roles[]','Dependent Roles','');
     
-    $this->load->library('form_validation');
-    $this->form_validation->set_rules('txt_description', 'Role Description', 'required');
-    $this->form_validation->set_rules('txt_role_order', 'Role Order', 'required');
-    
-     $list['role_title'] = $role_title;
-    $list['role'] =  $this->role_model->get_role_by_title($role_title);
+    $list['roles'] = $this->role_model->get_potential_roles($role_title);
+	$list['dependency'] = $dependent_role_titles = $this->role_model->get_role_dependencies_by_title( $role_title, 'dependent_role' );
+	$list['role_title'] = $role_title;
+    $list['data'] =  $this->role_model->get_role_by_title($role_title);
     $list['main_content'] = 'admin/update_role_view';
     if ($this->form_validation->run() == FALSE):
     $this->load->view('admin/includes/template',$list);
@@ -117,6 +146,56 @@ class Role extends CI_COntroller {
       $this->load->model('role_model');
       $this->role_model->update_role($role_title,$data);
 
+	  //user selected options of dependent array
+      $arr = $this->input->post('ddl_dependent_roles');
+	  
+	  //if there is no record in DB, and user selects option then add them all
+	  if( empty($dependent_role_titles) AND (count($arr) > 0) ):
+		  for( $i = 0; $i < count($arr) ; $i++ ):
+			  
+			  $role_dependecy = array(
+									  'role_title' => $this->input->post('txt_role_title'),
+									  'dependent_role' => $arr[$i]
+								  );
+			  
+			  $this->role_model->add_role_dependency($role_dependecy);
+		  endfor;
+		  
+	  //if user does not select any option, delete them all
+	  elseif( $arr === FALSE ):
+		  
+		  $role_dependecy = array(
+								  'role_title' => $this->input->post('txt_role_title')
+							  );
+		  
+		  $this->role_model->delete_role_dependency($role_dependecy);
+		  
+	  //if both arrays are not empty find the difference
+	  else:
+		  $diff_arr = array_merge(array_diff($arr, $dependent_role_titles), array_diff($dependent_role_titles, $arr));
+		  
+		  //diff_arr returns difference
+		  for( $i = 0; $i < count($diff_arr); $i++ ):
+			  
+			  $role_dependecy = array(
+									  'role_title' => $this->input->post('txt_role_title'),
+									  'dependent_role' => $diff_arr[$i]
+								  );
+			  
+			  //if diff arr item is only found in DB, delete it
+			  if(in_array($diff_arr[$i], $dependent_role_titles)):
+				  
+				  $this->role_model->delete_role_dependency($role_dependecy);
+				  
+			  //if diff arr item is only found in user array, add it
+			  elseif(in_array($diff_arr[$i], $arr)):
+				  
+				  $this->role_model->add_role_dependency($role_dependecy);
+				  
+			  endif;
+		  endfor;
+	  endif;
+	  
       redirect('admin/role');
     
 
@@ -125,14 +204,22 @@ class Role extends CI_COntroller {
 
   /*Method to delete role
    *
-   *@param string $role_title ID of role
+   *@param string $role_title of role
    *
    *@return none
    */
   
-  public function delete( $role_title){
+  function delete( $role_title){
+  
+	$this->load->model('role_model');
+    //if role-title is empty or invalid
+	if( $this->role_model->get_role_by_title($role_title) === FALSE ):
+      $list['error_msg'] = "No record found for the provided Role details. Use the menu if you have access.";
+      $list['main_content'] = "message_view";
+      $this->load->view('admin/includes/template', $list);
+      return;
+	endif;
 
-    $this->load->helper('url');
     $this->load->model('role_model');
     $this->role_model->delete_role( $role_title );
   

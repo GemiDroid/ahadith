@@ -250,7 +250,7 @@ th {
   }
   .table-bordered th,
   .table-bordered td {
-    border: 1px solid #ddd !important;
+    border: 1px solid #4C846D !important;
   }
 }
 @font-face {
@@ -2253,6 +2253,13 @@ th {
   vertical-align: top;
   border-top: 1px solid #dddddd;
 }
+
+.table thead th {
+    background-color: #469877;
+    /*color: #333333;*/
+    vertical-align: bottom;
+}
+
 .table > thead > tr > th {
   vertical-align: bottom;
   border-bottom: 2px solid #dddddd;
@@ -2280,7 +2287,7 @@ th {
   padding: 5px;
 }
 .table-bordered {
-  border: 1px solid #dddddd;
+  border: 1px solid #477F68;
 }
 .table-bordered > thead > tr > th,
 .table-bordered > tbody > tr > th,
@@ -2288,7 +2295,7 @@ th {
 .table-bordered > thead > tr > td,
 .table-bordered > tbody > tr > td,
 .table-bordered > tfoot > tr > td {
-  border: 1px solid #dddddd;
+  border: 1px solid #477F68;
 }
 .table-bordered > thead > tr > th,
 .table-bordered > thead > tr > td {
@@ -5428,7 +5435,8 @@ a.list-group-item-danger.active:focus {
 .panel > .panel-body + .table-responsive,
 .panel > .table + .panel-body,
 .panel > .table-responsive + .panel-body {
-  border-top: 1px solid #dddddd;
+  /*border-top: 1px solid #dddddd;*/
+  border-top: 1px solid #4C846D;
 }
 .panel > .table > tbody:first-child > tr:first-child th,
 .panel > .table > tbody:first-child > tr:first-child td {

@@ -6,7 +6,7 @@
       <label for="ddl_authenticity_list">Search Authenticity by Title: </label>
 <?php if(!empty($ahadith)):?>
 
-    <select class="form-control" style="width: 380px; height: 35px;" name="ddl_authenticity_list" id="ddl_authenticity_list">
+    <select class="form-control" name="ddl_authenticity_list" id="ddl_authenticity_list">
       <?php foreach($ahadith as $row):?>
       <option value="<?php echo $row->authenticity_id;?>" <?php echo set_select('ddl_authenticity_list',$row->authenticity_id, ($row->authenticity_id == '')? TRUE:FALSE ); ?> ><?php echo substr($row->authenticity_title_en,0,30);?> </option>
       <?php endforeach; ?>
@@ -18,9 +18,10 @@
 
 </div>
 <div>&nbsp;</div> 
-              
-  <h4>Authenticity</h4>
-  <hr>
+  
+  <fieldset>
+  <legend>Authenticity</legend>
+  
   <table class="table table-hover table-bordered">
     <thead style="background-color: #AABB78;">
       <tr>
@@ -45,21 +46,10 @@
       <?php endforeach; ?>
     </tbody>
   </table>
+       
+  <?php echo anchor(base_url().'admin/authenticity/add', 'Add New Authenticity', 'class="btn btn-primary"'); ?>
+  </fieldset>
 
-  
-    <div style="float: left;">
-                <?php $attributes = array('class' => 'form-horizontal'); ?>
-                <?php echo form_open( 'admin/authenticity/add' , $attributes ); ?>
-          
-          <input type="submit" id="btn_add_new_authenticity" name="btn_add_new_authenticity" value="Add New Authenticity" class="btn btn-primary"/>
-          
-          <?php echo form_close(); ?>
-          
-              </div>
-               
-  
-</div>
- </div>
 
  <script type="text/javascript">
   
@@ -72,3 +62,5 @@
   });
 
  </script>
+ </div>
+ </div>

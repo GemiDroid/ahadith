@@ -51,7 +51,7 @@ class Authenticity extends CI_Controller {
     $this->load->helper('form');
     $this->load->model('authenticity_model');
     $list['ahadith'] = $this->authenticity_model->get_authenticity();
-    $list['main_content'] = 'display_authenticity_view'; 
+    $list['main_content'] = 'admin/display_authenticity_view'; 
     $this->load->view('admin/includes/template',$list);
 
   }
@@ -82,32 +82,27 @@ class Authenticity extends CI_Controller {
     $this->load->library('form_validation');
 	  
      
-    $this->form_validation->set_rules('txt_title_ar', 'Arabic Title', 'required');
-    $this->form_validation->set_rules('txt_title_en', 'English Title', 'required');
-    $this->form_validation->set_rules('txt_title_ur', 'Urdu Title', 'required');
-    $this->form_validation->set_rules('txt_order', 'Order', 'required');			      
+    $this->form_validation->set_rules('txt_title_ar', 'Arabic Title', 'required|max_length[20]');
+    $this->form_validation->set_rules('txt_title_en', 'English Title', 'required|max_length[20]');
+    $this->form_validation->set_rules('txt_title_ur', 'Urdu Title', 'required|max_length[20]');
+    $this->form_validation->set_rules('txt_order', 'Order', 'required|integer|max_length[4]');			      
 				      
-    $list['main_content'] = 'add_authenticity_view';
+    $list['main_content'] = 'admin/add_authenticity_view';
+    
     if ($this->form_validation->run() == FALSE):
-    $this->load->view('admin/includes/template',$list);
-    
-    
+      $this->load->view('admin/includes/template',$list);
     else:
-    if( !empty($this->input->post('mysubmit'))):
-    
-      $data['authenticity_title_ar'] = $this->input->post('txt_title_ar');
-      $data['authenticity_title_en'] = $this->input->post('txt_title_en');
-      $data['authenticity_title_ur'] = $this->input->post('txt_title_ur');
-      $data['authenticity_order'] = $this->input->post('txt_order');
+        $data['authenticity_title_ar'] = $this->input->post('txt_title_ar');
+        $data['authenticity_title_en'] = $this->input->post('txt_title_en');
+        $data['authenticity_title_ur'] = $this->input->post('txt_title_ur');
+        $data['authenticity_order'] = $this->input->post('txt_order');
+  
+        $this->load->model('authenticity_model');
+        
+        $this->authenticity_model->insert_authenticity($data);
+  
+        redirect('admin/authenticity');
 
-      $this->load->model('authenticity_model');
-      
-      $this->authenticity_model->insert_authenticity($data);
-
-      redirect('admin/authenticity');
-      //echo "Successfully inserted";
-      
-      endif;
     endif;
 
   }
@@ -121,18 +116,26 @@ class Authenticity extends CI_Controller {
 
   public function update($authenticity_id){
     $this->load->model('authenticity_model');
+    
+    if( $this->authenticity_model->get_authenticity_by_id($authenticity_id) == FALSE ):
+      $list['error_msg'] = "No record found for the provided Authenticity ID. Use the menu if you have access.";
+      $list['main_content'] = "message_view";
+      $this->load->view('admin/includes/template', $list);
+      return;
+    endif;
+    
     $list['authenticity_id'] = $authenticity_id;
     $list['authenticity'] =  $this->authenticity_model->get_authenticity_by_id($authenticity_id);
     $this->load->helper('form');
     
     $this->load->library('form_validation');
-    $this->form_validation->set_rules('txt_title_ar', 'Arabic Title', 'required');
-    $this->form_validation->set_rules('txt_title_en', 'English Title', 'required');
-    $this->form_validation->set_rules('txt_title_ur', 'Urdu Title', 'required');
-    $this->form_validation->set_rules('txt_order', 'Order', 'required');
+    $this->form_validation->set_rules('txt_title_ar', 'Arabic Title', 'required|max_length[20]');
+    $this->form_validation->set_rules('txt_title_en', 'English Title', 'required|max_length[20]');
+    $this->form_validation->set_rules('txt_title_ur', 'Urdu Title', 'required|max_length[20]');
+    $this->form_validation->set_rules('txt_order', 'Order', 'required|integer|max_length[4]');			      
     
     
-    $list['main_content'] = 'update_authenticity_view';
+    $list['main_content'] = 'admin/update_authenticity_view';
     if ($this->form_validation->run() == FALSE):
     $this->load->view('admin/includes/template',$list);
     
@@ -162,8 +165,15 @@ class Authenticity extends CI_Controller {
 
   public function delete( $authenticity_id ){
 
-    $this->load->helper('url');
     $this->load->model('authenticity_model');
+    
+    if( $this->authenticity_model->get_authenticity_by_id($authenticity_id) == FALSE ):
+      $list['error_msg'] = "No record found for the provided Authenticity ID. Use the menu if you have access.";
+      $list['main_content'] = "message_view";
+      $this->load->view('admin/includes/template', $list);
+      return;
+    endif;
+    
     $this->authenticity_model->delete_authenticity( $authenticity_id );
     redirect('admin/authenticity');
 

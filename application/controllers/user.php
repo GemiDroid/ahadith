@@ -534,49 +534,23 @@
 		endif;
 	}
 	
-	
-	
-	
-	
-	  public function display(){
+	function display(){
     
-    $this->load->helper('form');
-    $this->load->model('user_model');
-    $list['user_roles'] = $this->user_model->get_all_user_role();
-    $list['main_content'] = 'admin/user_role_view';
-    
-    $this->load->view('admin/includes/template',$list);
-  }
-
-  /*Method to add role
-   *
-   *@return none
-   */
-  
-  public function add(){
-  
-  
-	$this->load->helper('form');
-	$this->load->model('user_model');
-	$this->load->model('role_model');
-	$list['users'] = $this->user_model->get_all_users();
-	$list['roles'] = $this->role_model->get_all_roles();
-    $list['main_content'] = 'admin/add_user_role_view';
-    
-    $this->load->helper('form');
-    $this->load->view('admin/includes/template',$list);
-    
-    if( !empty($this->input->post('mysubmit'))):
-      $data['user_id'] = $this->input->post('ddl_user_list');
-      $data['role_title'] = $this->input->post('ddl_role_list');
-    
-  
-      $this->load->model('user_model');
-      $this->user_model->insert_user_role($data);
-  
-      redirect('admin/user-role');
-  
-    endif;
+		$this->load->helper('form');
+		$this->load->model('user_model');
+		
+		$users  = $this->user_model->get_all_users();
+		
+		if( !empty($users) ):
+			foreach( $users as $user ):
+				$user->roles = $this->user_model->get_user_roles_by_user_id( $user->user_id );
+			endforeach;
+		endif;
+		
+		$list['user_roles'] = $users;
+		$list['main_content'] = 'admin/user_role_view';
+		
+		$this->load->view('admin/includes/template',$list);
   }
 
   /*Method to update role
@@ -588,40 +562,71 @@
    */
   
   public function update($user_id){
-    
+	
+	$this->load->model('user_model');
+	    
+	//error if user_id is empty or invalid
+	if( $this->user_model->get_user_by_id($user_id) === FALSE ):
+		$list['error_msg'] = "No record found for the provided User ID. Use the menu if you have access.";
+		$list['main_content'] = "message_view";
+		$this->load->view('admin/includes/template', $list);
+		return;
+	endif;
+	
     $this->load->helper('form');
-    $this->load->model('user_model');
-     $list['user_id'] = $user_id;
-    $list['user_role'] =  $this->user_model->get_all_role();
+
+    $list['user_id'] = $user_id;
+    $list['roles'] = $roles =  $this->user_model->get_all_role();
+	
+	//get all roles in array
+	$arr_roles='';
+	if( !empty( $roles ) ):
+		foreach( $roles as $role ):
+			$arr_roles[]= $role->role_title;	
+		endforeach;
+	endif;
+	
+	$user_roles = $this->user_model->get_user_roles_by_user_id( $user_id );
+	
+	//get all user roles in array
+	$arr_user_roles='';
+	
+	if( !empty( $user_roles ) ):
+		foreach( $user_roles as $user_role ):
+			$arr_user_roles[]= $user_role->role_title;	
+		endforeach;
+	endif;
+	
+	$list['user_roles'] = $arr_user_roles;
+	
     $list['main_content'] = 'admin/update_user_role_view';
     $this->load->view('admin/includes/template',$list);
     
-    if( !empty($this->input->post('mysubmit'))):
+	//if save changes is clicked
+    if( !empty($this->input->post())):
+		//get user selected roles
+		$arr = $this->input->post('ddl_roles');
+		//loop through all roles
+		for( $i = 0; $i < count($arr_roles); $i++ ):
+		
+			$role_title = $arr_roles[$i];
+			
+			$data = array(
+						   'user_id' => $user_id,
+						   'role_title' => $role_title
+						);
+			//if user didnt select role, delete it (also its dependent roles)
+			if( !in_array($role_title, $arr)):
+				$this->user_model->unassign_role($data);
+			//otherwise add it, (also its dependent roles)
+			else:				
+				$this->user_model->assign_role($data);
+			endif;
+		endfor;
 	
-      $data['role_title'] = $this->input->post('ddl_role_list');
-
-      $this->load->model('user_model');
-      $this->user_model->update_user_role($user_id,$data);
-
-      redirect('admin/user-role');
-    
-
+		redirect('admin/user-role');
+		
     endif;
   }
 
-  /*Method to delete role
-   *
-   *@param string $role_title ID of role
-   *
-   *@return none
-   */
-  
-  public function delete( $user_id){
-
-    $this->load->helper('url');
-    $this->load->model('user_model');
-    $this->user_model->delete_user_role( $user_id );
-  
-    redirect('admin/user-role');
-  }
 }

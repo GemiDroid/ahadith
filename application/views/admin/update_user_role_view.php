@@ -1,37 +1,33 @@
+<div class="col-md-9" style="margin-top: 50px;">
+    
+    <fieldset id="block_add_role">
+        <legend>Assign Roles to <?php echo $user_id; ?>:</legend>
+		  
+        <?php $attributes = array('class' => 'form-horizontal col-md-7'); ?>
+        <?php echo form_open('admin/user-role/update/'.$user_id , $attributes); ?>
+	            
+    
 
-             
-            
-            <div class="col-md-9" style="margin-top: 50px;">
+            <div class="control-group">
+                <label class="control-label" for="ddl_roles">Assign roles:</label>
                 
-                <?php echo validation_errors(); ?>
-  
-          <?php $attributes = array('class' => 'form-horizontal'); ?>
-          <?php echo form_open( '/admin/user-role/update/'.$user_id , $attributes ); ?>
-                <h4> Update User Roles </h4>
-                <hr>
-              
-                <?php if(!empty($user_role)): ?>
-
-                  <div class="control-group form-inline">
-              <div class="col-md-2"><label for="ddl_role_list">Role Title: </label></div>
-
-                <select class="form-control" style="width: 500px; height: 35px;" name="ddl_role_list">
-                  <?php foreach($user_role as $row):?>
-                  <option value="<?php echo $row->role_title;?>" <?php echo set_select('ddl_role_list',$row->role_title, ($row->role_title == '')? TRUE:FALSE ); ?> ><?php echo $row->role_title;?> </option>
-                  <?php endforeach; ?>
+                <select class="form-control" multiple name="ddl_roles[]" id="ddl_roles">
+                    <?php foreach ($roles as $row): ?>
+                        <option value="<?php echo $row->role_title; ?>" <?php echo set_select('ddl_roles[]',$row->role_title,( !empty($user_roles) && in_array($row->role_title, $user_roles) ? TRUE: FALSE)); ?>><?php echo $row->role_title; ?></option>
+                    <?php endforeach; ?>
                 </select>
-               </div>
+                
+                <div class="help-inline">
+                    <?php echo form_error('ddl_roles', '<span class="text-error">', '</span>'); ?>
+                </div>
+            </div>
               
-              <div>&nbsp;</div>
-              <div class="control-group">
-                <input type="submit" id="mysubmit" name="mysubmit" value="Update" class="btn btn-success" />
-                    <a href="<?php echo base_url().'admin/user-role' ?>"><input type="button" value="Cancel" class="btn btn-primary"></a>
-                    <a href="<?php echo base_url().'admin/user-role/delete/'.$user_id; ?>" ><input type="button" value="Delete" class="btn btn-danger"></a>
-              </div>
-                <?php endif; ?>
-       
+            <br/>
             
+			<button type="submit" id="btn_save" name="btn_save" class="btn btn-primary" >Save Changes</button>
+			<?php echo anchor(base_url().'admin/user-role', 'Cancel', 'class="btn btn-default"'); ?>					
             
-            <?php echo form_close();?>
-        </div>
+        <?php echo form_close();?>
+    </fieldset>
+</div>
  </div>

@@ -354,21 +354,40 @@
     
     
     function get_user_role($user_id){
-        $this->load->database('default');
-        $this->db->where('user_id',$user_id);
+       $this->load->database('default');
+       $this->db->where('user_id',$user_id);
     
        $this->db->where('role_title','administrator' ); 
        $q = $this->db->get('user_role');
 
-       if($q->num_rows() == 1):
-           $q->free_result();
-           return TRUE;
-       endif;
-
-       $q->free_result();
+       $data = FALSE;
        
-       return FALSE;
+       if($q->num_rows() == 1):
+        $data = TRUE; 
+       endif;
+          
+       $q->free_result();
+       return $data;
+    }
+    
+    function get_user_roles_by_user_id($user_id){
+       $this->load->database('default');
+       $this->db->where('user_id',$user_id);
 
+       $q = $this->db->get('user_role');
+
+       $data = FALSE;
+       
+       if($q->num_rows()>0):
+       
+        foreach ($q->result() as $row):
+            $data[] = $row;
+        endforeach;
+        
+       endif;
+          
+       $q->free_result();
+       return $data;
     }
     
     
@@ -394,11 +413,14 @@
         $q = $this->db->get('role');
           
         $data = FALSE;
+        
+        if($q->num_rows()>0):
           
-        foreach ($q->result() as $row):
-            $data[] = $row;
-        endforeach;
-          
+            foreach ($q->result() as $row):
+                $data[] = $row;
+            endforeach;
+        endif;
+        
         $q->free_result();
         return $data;
     }
@@ -475,6 +497,69 @@
     }
     
     
+    /*
+     * recursive function for getting dependent roles
+     *
+     * @param string $user_id
+     * @param string $role_title
+     * @param string $action. Can be insert or delete
+     * @return boolean
+    */
+    function get_dependent_roles($user_id, $role_title, $action) {
+       $data = array('user_id' => $user_id, 'role_title' => $role_title );
+       
+       $arr = '';
+       
+       if( $action == 'insert' ):
+           $this->db->insert('user_role', $data);
+           $arr = $this->role_model->get_role_dependencies_by_title($role_title, 'dependent_role' );
+           
+       elseif( $action == 'delete' ):
+           $this->db->where($data);
+           $this->db->delete('user_role');
+           //the order of unselecting/unassigning is opposite
+           $arr = $this->role_model->get_role_dependencies_by_dependent($role_title, 'role_title' );
+           
+       endif;
+       
+       //if role dependencies exist, recursively call this method
+       if(!empty($arr)):
+           for($i = 0; $i < count($arr); $i++):
+               $this->get_dependent_roles($user_id, $arr[$i], $action);
+           endfor;
+       endif;
+       
+       return FALSE;
+    }
+        
+    
+    /*
+     * Assign new role to the user
+     *
+     * @param array $data
+     * @return mixed
+    */
+    function assign_role( $data ) {
+        $this->load->model('role_model');
+        $this->load->database('default');
+        
+        $this->get_dependent_roles($data['user_id'], $data['role_title'], 'insert');
+    }
+    
+    /*
+     * Unassign role from the user
+     *
+     * @param array $data
+     * @return mixed
+    */
+    function unassign_role( $data ) {
+       $this->load->model('role_model');
+       $this->load->database('default');
+       
+       $this->get_dependent_roles($data['user_id'], $data['role_title'], 'delete');
+    }
+    
+    
     function get_user_role_by_id($user_id){
         $this->load->database('default');
         $this->db->where('user_id',$user_id);
@@ -494,20 +579,23 @@
     
     
     function get_user_role_by_userid($role_title,$user_id){
-         $this->load->database('default');
-        $this->db->where('user_id',$user_id);
+        $this->load->database('default');
     
-       $this->db->where('role_title',$role_title ); 
-       $q = $this->db->get('user_role');
+        $this->db->where('role_title',$role_title );
+        $this->db->where('user_id',$user_id);
+        
+        $q = $this->db->get('user_role');
 
-       if($q->num_rows() == 1):
-           $q->free_result();
-           return TRUE;
-       endif;
-
-       $q->free_result();
-       
-       return FALSE;
+        echo $this->db->last_query(); 
+        
+        $data = FALSE;
+            
+        if( $q->num_rows() > 0 ):
+            $data = $q->row();
+        endif;
+        
+        $q->free_result();
+        return $data;
         
     }
     

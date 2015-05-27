@@ -516,10 +516,10 @@ class Admin extends CI_Controller {
 			$user = new user();
 		    if($action=='update'):
 				$user->update($id);
-			elseif($action=='add'):
-				$user->add();
-			elseif($action=='delete'):
-				$user->delete($id);
+			//elseif($action=='add'):
+			//	$user->add();
+			//elseif($action=='delete'):
+			//	$user->delete($id);
 			else:
 				$user->display();
 			endif;

@@ -91,7 +91,33 @@ class Role_model extends CI_Model{
      $q->free_result();
      return $data;
   }
-        
+  
+  /*
+   * Get all the role dependencies by dependent_role
+   *
+   * @return mixed
+  */
+  function get_role_dependencies_by_dependent( $dependent_role, $column = '' ) {
+       $this->load->database('default');
+       
+       $this->db->where('dependent_role', $dependent_role);
+       $q = $this->db->get('role_dependency');
+       
+       $data = FALSE;
+       
+       if($q->num_rows() > 0):
+           foreach ( $q->result() as $row ):
+               if( $column != '' ):
+                   $data[] = $row->$column;
+               else:
+                   $data[] = $row;
+               endif;
+           endforeach;
+       endif;
+       
+       $q->free_result();
+       return $data;
+  }  
   
   function insert_role( $data ) {
     $this->load->database('default');

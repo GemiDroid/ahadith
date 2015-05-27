@@ -32,9 +32,9 @@ class Book extends CI_Controller{
     
     $data = '';
 	$mode = 'add';
-    
+  
     //display an error message if the provided book_id doesn't exists
-    if( !empty($book_id)):
+    if( $book_id != ''):
       if( $this->book_model->get_book_by_id( $book_id ) === FALSE ):
       
         echo "The Book ID provided doesn't exist. Use the menu if you have access.";
@@ -55,14 +55,14 @@ class Book extends CI_Controller{
     $this->load->library('form_validation');
 				
 	//set validation rules
-	$this->form_validation->set_rules('txt_book_id', 'Book ID', 'trim|required');
+	$this->form_validation->set_rules('txt_book_id', 'Book ID', 'trim|required|unique_book_id['.$book_id.']');
     $this->form_validation->set_rules('txt_book_number', 'Book Number', 'trim|required');
 	$this->form_validation->set_rules('txt_book_title_ar', 'Book Title in Arabic', 'trim|required');
     $this->form_validation->set_rules('txt_book_title_en', 'Book Title in English', 'trim|required');
     $this->form_validation->set_rules('txt_book_title_ur', 'Book Title in Urdu', 'trim|required');
     $this->form_validation->set_rules('ddl_hadith_book_id', 'Hadith Book ID', 'trim|required');
     			
-	$list['main_content'] = 'book_view';
+	$list['main_content'] = 'admin/book_view';
 				
 	//get all the class lists records
 	$list['books'] = $this->book_model->get_all_books();
@@ -70,19 +70,16 @@ class Book extends CI_Controller{
     
     //until all validations are cleared
     if( $this->form_validation->run() == FALSE ):
-        //$this->load->view('includes/template', $list);
-		$list['main_content'] = 'book_view';
         $this->load->view('admin/includes/template', $list);
         
     //when all validation are cleared, proceed to save
     else:
-        //check if the Delete button was clicked
+	
         $delete = $this->input->post('btn_delete');
-        if( isset ($delete) && !empty($delete) ):
-        
+		
+        if( isset ($delete) AND !empty($delete)):
           $message = $this->book_model->delete_book( $book_id );
-          //$this->session->set_flashdata('message', $message);
-		  redirect('book/view/');
+		  redirect('admin/book/');
           
         //when the Save button was clicked
 		else:
@@ -97,16 +94,13 @@ class Book extends CI_Controller{
        
           //check if the mode is add
           if($mode == 'add'):
-              
             $message = $this->book_model->add_book( $data );
-              
           //for edit mode
           elseif($mode == 'edit'):
             $message = $this->book_model->update_book( $book_id, $data );
           endif;
-          
-          //$this->session->set_flashdata('message', $message);
-		  redirect('book/view/');
+        
+		  redirect('admin/book/');
           
         endif;
     endif;

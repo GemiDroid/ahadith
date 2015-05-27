@@ -45,5 +45,29 @@
       endif;
       
       return TRUE;
-    }    
+    }
+    
+    /*
+    * Method to make sure BOOK ID is unique
+    *
+    * @param string $book_id
+    * * @param string $edit_book_id
+    * @return bool
+    */
+   public function unique_book_id( $book_id, $edit_book_id ) {
+       $CI =& get_instance();
+       
+       //in edit mode, if same book id is saved again
+       if( $book_id != $edit_book_id ):
+        
+          $is_unique = $CI->book_model->get_book_by_id( $book_id );
+         
+         if( !empty($is_unique)):
+             $this->set_message('unique_book_id', 'Book ID is already assigned.');
+             return FALSE;
+         endif;
+        endif;
+       return TRUE;
+    
+   }
   }

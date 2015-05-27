@@ -446,14 +446,25 @@ class Admin extends CI_Controller {
 		endif;
 	}
   
-	function book(){
+	function book( $action='',$id='' ){
     
 		$this->load->model('user_model');
 		//if the user is already signed-in then redirect him/her to the home()
 		$user_id = $this->session->userdata('user_id');
-		$role = $this->session->userdata('role_title');
-		if( isset($user_id) && !empty($user_id) && !empty($role) ):
-			redirect('book/view');   
+
+		if( isset($user_id) && !empty($user_id) ):
+			//redirect('book/view');
+			require_once('book.php');
+			$book =  new book();
+			if( $action == 'update' ):
+				$book->view($id);
+			else:
+				$book->view();	
+			endif;
+			
+			//if($action=='update'):
+			//$role->update($id);
+			
 		else:
 			redirect('user/signin');
 		endif;

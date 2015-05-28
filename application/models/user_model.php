@@ -585,8 +585,6 @@
         $this->db->where('user_id',$user_id);
         
         $q = $this->db->get('user_role');
-
-        echo $this->db->last_query(); 
         
         $data = FALSE;
             

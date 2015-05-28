@@ -36,16 +36,22 @@ class Tag_model extends CI_Model{
     return $data;
   }
   
+  /*
+    * Get tag by tag id
+    *
+    * @param integer $tag_id
+    * @return mixed array
+  */
+  
   function get_tag_by_id($id){
-      $this->load->database('default');
-      $this->db->where('tag_id',$id);
-    $query = $this->db->get('tag');
+    $this->load->database('default');
+    $this->db->where('tag_id',$id);
+    $q = $this->db->get('tag');
     $data = '';
 
-    foreach ($query->result() as $row):
-
-      $data[] = $row;
-    endforeach;
+    if($q->num_rows() > 0):
+      $data = $q->row();
+    endif;
 
     return $data;
   }

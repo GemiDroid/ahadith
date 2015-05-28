@@ -5,7 +5,7 @@
                 <?php echo validation_errors(); ?>
   
                 <?php $attributes = array('class' => 'form-horizontal'); ?>
-                <?php echo form_open( 'admin/user/'.$user[0]->user_id , $attributes ); ?>
+                <?php echo form_open( 'admin/user/'.$user->user_id , $attributes ); ?>
       
               
                   <?php if( isset($error_message) ): ?>

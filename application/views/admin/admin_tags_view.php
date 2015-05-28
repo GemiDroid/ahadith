@@ -1,46 +1,51 @@
-
-            
 <div class="col-md-9" style="margin-top: 50px;">
     
-    <h4>View All Tags</h4>
-    <hr>
-    <table class="table table-bordered table-hover">
-        <tbody>
-            <thead style="background-color: #AABB78;">
-                <th>ID</th>
-                <th>Arabic Title</th>
-                <th>English Title</th>
-                <th>Urdu Title</th>
-                <th>Arabic Detail</th>
-                <th>English Detail</th>
-                <th>Urdu Detail</th>
-                <th>Suggested By</th>
-                <th>Action</th>
-            
-            </thead>
-            
-             <?php foreach($tags as $tag): ?>
+    <fieldset>
+    
+    <legend>Displaying All Tags</legend>
+
+    <div class="row-fluid">
+    <div>
+    
+    <table class="table table-bordered table-hover table-condensed">
+        
+        <thead>
             <tr>
-                <td><?php echo $tag->tag_id; ?></td>
-                <td><?php echo (!empty($tag->tag_title_ar) ? $tag->tag_title_ar : "N/A"); ?></td>
-                <td><?php echo (!empty($tag->tag_title_en) ? $tag->tag_title_en : "N/A"); ?></td>
-                <td><?php echo (!empty($tag->tag_title_ur) ? $tag->tag_title_ur : "N/A");; ?></td>
-                <td><?php echo (!empty($tag->tag_detail_ar) ? $tag->tag_detail_ar : "N/A"); ?></td>
-                <td><?php echo (!empty($tag->tag_detail_en) ? $tag->tag_detail_en : "N/A"); ?></td>
-                <td><?php echo (!empty($tag->tag_detail_ur) ? $tag->tag_detail_ur : "N/A"); ?></td>
-                <td><?php echo (!empty($tag->suggested_by) ? $tag->suggested_by : "N/A"); ?></td>
+                <th style="text-align: center;">ID</th>
+                <th style="text-align: center;">Arabic Title</th>
+                <th style="text-align: center;">English Title</th>
+                <th style="text-align: center;">Urdu Title</th>
+                <th style="text-align: center;">Arabic Detail</th>
+                <th style="text-align: center;">English Detail</th>
+                <th style="text-align: center;">Urdu Detail</th>
+                <th style="text-align: center;">Suggested By</th>
+                <th style="text-align: center;">Action</th>
+            </tr>
+        </thead>
+            <?php if(!empty($tags)): ?>
+            <tbody>
+            <?php foreach($tags as $tag): ?>
+            <tr>
+                <td style="text-align: center;"><?php echo $tag->tag_id; ?></td>
+                <td style="text-align: center;"><?php echo (!empty($tag->tag_title_ar) ? $tag->tag_title_ar : "N/A"); ?></td>
+                <td style="text-align: center;"><?php echo (!empty($tag->tag_title_en) ? $tag->tag_title_en : "N/A"); ?></td>
+                <td style="text-align: center;"><?php echo (!empty($tag->tag_title_ur) ? $tag->tag_title_ur : "N/A");; ?></td>
+                <td style="text-align: center;"><?php echo (!empty($tag->tag_detail_ar) ? $tag->tag_detail_ar : "N/A"); ?></td>
+                <td style="text-align: center;"><?php echo (!empty($tag->tag_detail_en) ? $tag->tag_detail_en : "N/A"); ?></td>
+                <td style="text-align: center;"><?php echo (!empty($tag->tag_detail_ur) ? $tag->tag_detail_ur : "N/A"); ?></td>
+                <td style="text-align: center;"><?php echo (!empty($tag->suggested_by) ? $tag->suggested_by : "N/A"); ?></td>
                 
-                <td><a href='<?php echo (base_url().'admin/tag/'.$tag->tag_id); ?>' ><li class="glyphicon glyphicon-pencil"></li></a></td>
+                <td style="text-align: center;"><a href='<?php echo (base_url().'admin/tag/update/'.$tag->tag_id); ?>' ><li class="glyphicon glyphicon-pencil"></li></a></td>
             </tr>
             <?php endforeach; ?>
+            <?php endif; ?>
         </tbody>
     </table>
-                
-     <div style="float: left;">
-     
-        <a href="<?php echo (base_url().'admin/add'); ?>"><input type="submit" id="btn_add_new_tag" name="btn_add_new_tag" value="Add New Tag" class="btn btn-primary"/></a>
     </div>
     </div>
+    <a href="<?php echo (base_url().'admin/tag/add'); ?>" class="btn btn-primary"/>Add New Tag</a>
+
+    </fieldset>
 
 </div>
- 
+ </div>

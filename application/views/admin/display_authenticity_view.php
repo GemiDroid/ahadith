@@ -23,7 +23,7 @@
   <legend>Authenticity</legend>
   
   <table class="table table-hover table-bordered">
-    <thead style="background-color: #AABB78;">
+    <thead>
       <tr>
         <th>Authenticity ID</th>
         <th>Title Arabic</th>

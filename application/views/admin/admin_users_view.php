@@ -13,11 +13,12 @@
             }
          </style>   
             <div class="col-md-9" style="margin-top: 50px;">
-                <h4>View All Users</h4>
-                <hr>
+               <fieldset>
+                <legend>Displaying All Users</legend>
                 <table class="table table-bordered table-hover">
-                    <tbody>
+                    
                         <thead style="background-color: #AABB78;">
+                           <tr>
                         <th>User ID</th>
                         <th>Password</th>
                         <th>Email</th>
@@ -30,8 +31,8 @@
                         <th>Last Activity</th>
                         <th>Action</th>
                         </thead>
- 
-                            
+                        </tr>
+                        <tbody>        
                          <?php foreach($users as $user): ?>           
                     
                         <tr class='<?php if($user->admin_role == TRUE): echo "blue"; elseif($user->is_active=='1'): echo "white"; else: echo "red"; endif; ?>'>
@@ -56,7 +57,7 @@
                             <?php endforeach; ?>
                     </tbody>
                 </table>
-                
+                </fieldset>
             </div>
             
         </div>

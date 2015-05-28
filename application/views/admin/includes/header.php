@@ -27,7 +27,7 @@
           <div class="col-md-2" style="margin-left: 20px;" id="admin-header" >
                 <h3 style="margin-left: 20px;" ><a href="<?php echo base_url().'admin' ?>">DashBoard</a></h3>
 		<p id="corner"><a href="<?php echo base_url().'bukhari' ?>">Home</a></p>
-		<p id="corner" onclick="document.getElementById('corner').style.color = 'red'"><a href="<?php echo base_url().'admin/tags' ?>">Tags</a></p>
+		<p id="corner" onclick="document.getElementById('corner').style.color = 'red'"><a href="<?php echo base_url().'admin/tag' ?>">Tags</a></p>
 		<p id="corner"><a href="<?php echo base_url().'admin/users' ?>">Users</a></p>
 		<p id="corner"><a href="<?php echo base_url().'admin/user-activities' ?>">User Activities</a></p>
 		<p id="corner"><a href="<?php echo base_url().'admin/report' ?>">Reports</a></p>

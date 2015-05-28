@@ -82,10 +82,10 @@ class Authenticity extends CI_Controller {
     $this->load->library('form_validation');
 	  
      
-    $this->form_validation->set_rules('txt_title_ar', 'Arabic Title', 'required|max_length[20]');
-    $this->form_validation->set_rules('txt_title_en', 'English Title', 'required|max_length[20]');
-    $this->form_validation->set_rules('txt_title_ur', 'Urdu Title', 'required|max_length[20]');
-    $this->form_validation->set_rules('txt_order', 'Order', 'required|integer|max_length[4]');			      
+    $this->form_validation->set_rules('txt_title_ar', 'Arabic Title', 'trim|max_length[20]');
+    $this->form_validation->set_rules('txt_title_en', 'English Title', 'trim|required|max_length[20]');
+    $this->form_validation->set_rules('txt_title_ur', 'Urdu Title', 'trim|max_length[20]');
+    $this->form_validation->set_rules('txt_order', 'Order', 'trim|integer|max_length[4]');			      
 				      
     $list['main_content'] = 'admin/add_authenticity_view';
     
@@ -129,10 +129,10 @@ class Authenticity extends CI_Controller {
     $this->load->helper('form');
     
     $this->load->library('form_validation');
-    $this->form_validation->set_rules('txt_title_ar', 'Arabic Title', 'required|max_length[20]');
-    $this->form_validation->set_rules('txt_title_en', 'English Title', 'required|max_length[20]');
-    $this->form_validation->set_rules('txt_title_ur', 'Urdu Title', 'required|max_length[20]');
-    $this->form_validation->set_rules('txt_order', 'Order', 'required|integer|max_length[4]');			      
+    $this->form_validation->set_rules('txt_title_ar', 'Arabic Title', 'trim|max_length[20]');
+    $this->form_validation->set_rules('txt_title_en', 'English Title', 'trim|required|max_length[20]');
+    $this->form_validation->set_rules('txt_title_ur', 'Urdu Title', 'trim|max_length[20]');
+    $this->form_validation->set_rules('txt_order', 'Order', 'trim|integer|max_length[4]');			      
     
     
     $list['main_content'] = 'admin/update_authenticity_view';

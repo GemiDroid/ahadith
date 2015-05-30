@@ -56,7 +56,14 @@
 	
       <br/>
 	  <div class="control-group">
-		<button type="submit" id="btn_save" name="btn_save" class="btn btn-primary">Save Record</button>
+		<button type="submit" id="btn_save" name="btn_save" class="btn btn-primary">
+            <?php if($tag->approved_by == null OR empty($tag->approved_by) ): ?>
+                  <?php echo "Approve Tag"; ?>
+            <?php else: ?>
+                  <?php echo "Save Record"; ?>
+            <?php endif; ?>
+            
+        </button>
         <a href="<?php echo base_url().'admin/tag/delete/'.$tag_id ?>" class="btn btn-danger">Delete Record</a>
 		<a href="<?php echo base_url().'admin/tag' ?>" class="btn btn-default">Cancel</a>
 	  </div>

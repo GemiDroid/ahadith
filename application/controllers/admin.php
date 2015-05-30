@@ -16,13 +16,6 @@ class Admin extends CI_Controller {
 			endif;
             $this->tag($param[0],$param[1]);
 			
-		//elseif( $method == 'editor' ):
-		//	if( !isset( $param[0] ) ):
-		//	$param[0] = '';
-		//	endif;      
-		//    
-		//	$this->editor($param[0]);
-		//    
 		elseif( $method == 'report' ):  
 			//set default for parameter user_id
 			if( !isset( $param[0] ) ):
@@ -122,22 +115,6 @@ class Admin extends CI_Controller {
 			endif;
 	  
 			$this->user( $param[0] ); 
-		elseif( $method == 'delete_tag' ):
-      
-			//set default for parameter tag_id
-			if( !isset( $param[0] ) ):
-				$param[0] = '';
-			endif;
-	  
-			$this->delete_tag( $param[0] );
-		elseif( $method == 'approve_tag' ):
-      
-			//set default for parameter tag_id
-			if( !isset( $param[0] ) ):
-				$param[0] = '';
-			endif;
-	  
-			$this->approve_tag( $param[0] );
         //for all other method names, display an error message
         else:
             $list['error_msg'] = "The Page you are trying to view does not exists. Use the menu if you have access.";
@@ -166,7 +143,7 @@ class Admin extends CI_Controller {
     
     function tag($action='',$id=''){
 	
-		$this->load->model('user_model');
+		//$this->load->model('user_model');
 		//if the user is already signed-in then redirect him/her to the home()
 		$user_id = $this->session->userdata('user_id');
 		$role = $this->session->userdata('role_title');
@@ -177,10 +154,10 @@ class Admin extends CI_Controller {
 				$this->add_tag();
 			elseif($action=='update'):
 				$this->update_tag($id);
-				//$hadith_book->update($id); 
 			elseif($action=='delete'):
 				$this->delete_tag($id);
 			else:
+				//view tag
 				$this->load->model('tag_model');
 				$list['tags'] = $this->tag_model->get_tags();
 				$list['main_content'] = '/admin/admin_tags_view';
@@ -225,7 +202,7 @@ class Admin extends CI_Controller {
 		  $this->load->model('tag_model');
 		  $this->tag_model->add_tag($data);
 		  
-		  redirect('admin/tags');
+		  redirect('admin/tag');
 		endif;
 	}
     

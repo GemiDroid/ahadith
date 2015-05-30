@@ -25,7 +25,7 @@
             <?php if(!empty($tags)): ?>
             <tbody>
             <?php foreach($tags as $tag): ?>
-            <tr>
+            <tr class="<?php  if($tag->approved_by == null OR empty($tag->approved_by) ): echo 'danger'; endif;  ?>">
                 <td style="text-align: center;"><?php echo $tag->tag_id; ?></td>
                 <td style="text-align: center;"><?php echo (!empty($tag->tag_title_ar) ? $tag->tag_title_ar : "N/A"); ?></td>
                 <td style="text-align: center;"><?php echo (!empty($tag->tag_title_en) ? $tag->tag_title_en : "N/A"); ?></td>

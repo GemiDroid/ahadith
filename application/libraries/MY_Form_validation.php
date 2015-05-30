@@ -48,26 +48,44 @@
     }
     
     /*
-    * Method to make sure BOOK ID is unique
+    * Method to make sure ID is unique
     *
-    * @param string $book_id
-    * * @param string $edit_book_id
+    * @param string $id
+    * @param string $param. all remaining parameters will go here
     * @return bool
     */
-   public function unique_book_id( $book_id, $edit_book_id ) {
-       $CI =& get_instance();
-       
-       //in edit mode, if same book id is saved again
-       if( $book_id != $edit_book_id ):
+   public function unique_id( $id, $param ) {
+      
+      //explode the param into an array
+      $params = explode( ',' , $param );
+      
+      $id = trim($id);
+      $edit_id = trim($params[0]);
+      $type = trim($params[1]);
+      
+      
+      $CI =& get_instance();
+      
+      //in edit mode, if same book id is saved again
+      if( $id != $edit_id ):
+      
+        $is_unique = FALSE;
         
-          $is_unique = $CI->book_model->get_book_by_id( $book_id );
-         
-         if( !empty($is_unique)):
-             $this->set_message('unique_book_id', 'Book ID is already assigned.');
-             return FALSE;
-         endif;
+        if( $type == 'Book ID' ):
+          $is_unique = $CI->book_model->get_book_by_id( $id );
+        elseif( $type == 'Hadith Book ID' ):
+          $CI->load->model('hadith_book_model');
+          $is_unique = $CI->hadith_book_model->get_hadith_book_by_id( $id );
+        elseif( $type == 'Role Title' ):
+          $is_unique = $CI->role_model->get_role_by_title( $id );
         endif;
-       return TRUE;
+        
+        if( !empty($is_unique)):
+            $this->set_message('unique_id', $type. ' is already assigned.');
+            return FALSE;
+        endif;
+       endif;
+      return TRUE;
     
    }
   }

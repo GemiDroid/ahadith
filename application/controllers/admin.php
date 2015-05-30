@@ -16,13 +16,13 @@ class Admin extends CI_Controller {
 			endif;
             $this->tag($param[0],$param[1]);
 			
-		elseif( $method == 'editor' ):
-			if( !isset( $param[0] ) ):
-			$param[0] = '';
-			endif;      
-      
-			$this->editor($param[0]);
-      
+		//elseif( $method == 'editor' ):
+		//	if( !isset( $param[0] ) ):
+		//	$param[0] = '';
+		//	endif;      
+		//    
+		//	$this->editor($param[0]);
+		//    
 		elseif( $method == 'report' ):  
 			//set default for parameter user_id
 			if( !isset( $param[0] ) ):
@@ -441,7 +441,7 @@ class Admin extends CI_Controller {
   
   function hadith_book($action='',$id=''){
     
-		$this->load->model('user_model');
+		//$this->load->model('user_model');
 		//if the user is already signed-in then redirect him/her to the home()
 		$user_id = $this->session->userdata('user_id');
 		$role = $this->session->userdata('role_title');
@@ -452,11 +452,11 @@ class Admin extends CI_Controller {
 			require_once('hadith_book.php');
 			$hadith_book = new hadith_book();
 			  
-			if($action=='add'):
+			if($action == 'add'):
 				$hadith_book->add();
-			elseif($action=='update'):
+			elseif($action == 'update'):
 				$hadith_book->update($id); 
-			elseif($action=='delete'):
+			elseif($action == 'delete'):
 				$hadith_book->delete($id);
 			else:
 				$hadith_book->display(); 

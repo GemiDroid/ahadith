@@ -55,7 +55,7 @@ class Book extends CI_Controller{
     $this->load->library('form_validation');
 				
 	//set validation rules
-	$this->form_validation->set_rules('txt_book_id', 'Book ID', 'trim|required|unique_book_id['.$book_id.']');
+	$this->form_validation->set_rules('txt_book_id', 'Book ID', 'trim|required|unique_id['.$book_id.',Book ID]');
     $this->form_validation->set_rules('txt_book_number', 'Book Number', 'trim|required');
 	$this->form_validation->set_rules('txt_book_title_ar', 'Book Title in Arabic', 'trim|required');
     $this->form_validation->set_rules('txt_book_title_en', 'Book Title in English', 'trim|required');

@@ -30,17 +30,6 @@ class Hadith_book extends CI_Controller{
 		 
 	 elseif( $method == 'display' ):
 		 $this->display();
-    
-    elseif( $method == 'store' ):
-		 $this->store();
-	
-    elseif( $method == 'edit' ):
-		//set default for parameter hadith_book_id
-		if( !isset( $param[0] ) ):
-			$param[0] = '';
-		endif;
-      
-		$this->edit($param[0]);
 		
 	elseif( $method == 'update' ):
 	if( !isset( $param[0] ) ):
@@ -377,6 +366,16 @@ class Hadith_book extends CI_Controller{
 		
 		$this->load->view('includes/template', $list);
 	}
+	
+	public function display(){
+	  
+	  $this->load->helper('form');
+	  $this->load->model('hadith_book_model');
+	  $list['hadith_books'] = $this->hadith_book_model->get_hadith_books();
+	  $list['main_content'] = 'hadith_book/hadith_book_view';
+	  
+	  $this->load->view('admin/includes/template',$list);
+	}
 
 	/*Method to create hadith_book
 	 *
@@ -389,82 +388,30 @@ class Hadith_book extends CI_Controller{
 		$this->load->helper('form');
 		
 		$this->load->library('form_validation');
-    
-		$this->form_validation->set_rules('hadith_book_id', 'Hadith ID', 'required');
-		$this->form_validation->set_rules('hadith_book_title_ar', 'Arabic Title', 'required');
-		$this->form_validation->set_rules('hadith_book_title_en', 'English Title', 'required');
-		$this->form_validation->set_rules('hadith_book_title_ur', 'Urdu Title', 'required');
-		
+
+		$this->form_validation->set_rules('hadith_book_id', 'Hadith Book ID', 'trim|required|max_length[10]|unique_id[,Hadith Book ID]');
+		$this->form_validation->set_rules('hadith_book_title_ar', 'Hadith Book Arabic Title', 'trim|required|max_length[50]');
+		$this->form_validation->set_rules('hadith_book_title_en', 'Hadith Book English Title', 'trim|required|max_length[50]');
+		$this->form_validation->set_rules('hadith_book_title_ur', 'Hadith Book Urdu Title', 'trim|required|max_length[50]');
+				   
 		$list['main_content'] = 'hadith_book/add_hadith_book_view';
+		
 		if ($this->form_validation->run() == FALSE):
-		$this->load->view('admin/includes/template',$list);
+			$this->load->view('admin/includes/template',$list);
 		
 		else:
-		//if( !empty($this->input->post('mysubmit'))):
+			$data['hadith_book_id'] = $this->input->post('hadith_book_id');
+			$data['hadith_book_title_ar'] = $this->input->post('hadith_book_title_ar');
+			$data['hadith_book_title_en'] = $this->input->post('hadith_book_title_en');
+			$data['hadith_book_title_ur'] = $this->input->post('hadith_book_title_ur');
 		
-		$data['hadith_book_id'] = $this->input->post('hadith_book_id');
-		$data['hadith_book_title_ar'] = $this->input->post('hadith_book_title_ar');
-		$data['hadith_book_title_en'] = $this->input->post('hadith_book_title_en');
-		$data['hadith_book_title_ur'] = $this->input->post('hadith_book_title_ur');
-
-		$this->load->model('hadith_book_model');
-		$this->hadith_book_model->insert_hadith_book($data);
+			$this->load->model('hadith_book_model');
+			$this->hadith_book_model->insert_hadith_book($data);
 		
-		 redirect('admin/hadith-book');
-			//echo "Successfully inserted Chapter";
+			redirect('admin/hadith-book');
 		endif;
-
-	}
-	
-	  public function display(){
-		
-		$this->load->helper('form');
-		$this->load->model('hadith_book_model');
-		$list['hadith_books'] = $this->hadith_book_model->get_hadith_books();
-		$list['main_content'] = 'hadith_book/hadith_book_view';
-		
-		$this->load->view('admin/includes/template',$list);
 	}
 
-	/*Method to store hadith_book
-	 *
-	 *@return none
-	 *
-	 */
-	
-	public function store(){
-
-		$hadith_book_id = $this->input->post('hadith_book_id');
-		$hadith_book_title_ar = $this->input->post('hadith_book_title_ar');
-		$hadith_book_title_en = $this->input->post('hadith_book_title_en');
-		$hadith_book_title_ur = $this->input->post('hadith_book_title_ur');
-		$this->load->model('hadith_book_model');
-
-		$this->hadith_book_model->insert_hadith_book($hadith_book_id, $hadith_book_title_ar,$hadith_book_title_en, $hadith_book_title_ur);
-
-		echo 'Successfully added';
-	}
-	
-	/*Method to edit hadith_book
-	 *
-	 *@param string $id Id of hadith_book
-	 *
-	 *@return none
-	 *
-	 */
-
-	public function edit($id){
-		$this->load->model('hadith_book_model');
-		$query = $this->hadith_book_model->get_hadith_book_by_id($id);
-		$book = $query->row();
-
-		$url = base_url("hadith_book/update");
-
-		$list['book'] = $book;
-		$list['url'] = $url;
-		$list['main_content'] = 'hadith_book/edit'; 
-		$this->load->view('includes/template', $list);
-	}
 
 	/*Method to update hadith_book
 	 *
@@ -474,39 +421,43 @@ class Hadith_book extends CI_Controller{
 	
 	public function update($hadith_book_id){
 		
-   
-	$this->load->helper('form');
-    
-	$this->load->library('form_validation');
-
-	$this->form_validation->set_rules('hadith_book_title_ar', 'Arabic Title', 'required');
-	$this->form_validation->set_rules('hadith_book_title_en', 'English Title', 'required');
-	$this->form_validation->set_rules('hadith_book_title_ur', 'Urdu Title', 'required');
-	
-	
-	$this->load->model('hadith_book_model');
-	$list['hadith_book_id'] = $hadith_book_id;
-       $list['hadith_books'] = $this->hadith_book_model->get_hadith_book_by_id($hadith_book_id);
-       
-	$list['main_content'] = 'hadith_book/update_hadith_book_view';
-	if ($this->form_validation->run() == FALSE):
-	$this->load->view('admin/includes/template',$list);
-	
-	else:
-	//if( !empty($this->input->post('mysubmit'))):
-		    
-		    $data['hadith_book_title_ar'] = $this->input->post('hadith_book_title_ar');
-		    $data['hadith_book_title_en'] = $this->input->post('hadith_book_title_en');
-		    $data['hadith_book_title_ur'] = $this->input->post('hadith_book_title_ur');
-    
-	  $this->load->model('hadith_book_model');
-	  $this->hadith_book_model->update_hadith_book($hadith_book_id,$data);
-    
-	  redirect('admin/hadith-book');
-      //echo "Successfully updated Chapter";
-
-    endif;
+		$this->load->model('hadith_book_model');
 		
+		if( $this->hadith_book_model->get_hadith_book_by_id($hadith_book_id) == FALSE ):
+			$list['error_msg'] = "No record found for the provided Hadith Book ID. Use the menu if you have access.";
+			$list['main_content'] = "message_view";
+			$this->load->view('admin/includes/template', $list);
+			return;
+		endif;
+   
+		$this->load->helper('form');
+		
+		$this->load->library('form_validation');
+	
+		$this->form_validation->set_rules('hadith_book_id', 'Hadith Book ID', 'trim|required|max_length[10]|unique_id['.$hadith_book_id.',Hadith Book ID]');
+		$this->form_validation->set_rules('hadith_book_title_ar', 'Hadith Book Arabic Title', 'trim|required|max_length[50]');
+		$this->form_validation->set_rules('hadith_book_title_en', 'Hadith Book English Title', 'trim|required|max_length[50]');
+		$this->form_validation->set_rules('hadith_book_title_ur', 'Hadith Book Urdu Title', 'trim|required|max_length[50]');
+		
+		
+		$list['hadith_book_id'] = $hadith_book_id;
+		$list['hadith_books'] = $this->hadith_book_model->get_hadith_book_by_id($hadith_book_id);
+		   
+		$list['main_content'] = 'hadith_book/update_hadith_book_view';
+		if ($this->form_validation->run() == FALSE):
+			$this->load->view('admin/includes/template',$list);
+		
+		else:
+			$data['hadith_book_id'] = $this->input->post('hadith_book_id');
+			$data['hadith_book_title_ar'] = $this->input->post('hadith_book_title_ar');
+			$data['hadith_book_title_en'] = $this->input->post('hadith_book_title_en');
+			$data['hadith_book_title_ur'] = $this->input->post('hadith_book_title_ur');
+		
+			$this->load->model('hadith_book_model');
+			$this->hadith_book_model->update_hadith_book($hadith_book_id,$data);
+		
+			redirect('admin/hadith-book');
+		endif;
 		
 	}
 
@@ -519,8 +470,15 @@ class Hadith_book extends CI_Controller{
 	
 	public function delete($hadith_book_id){
 		
-		 $this->load->helper('url');
 		$this->load->model('hadith_book_model');
+		
+		if( $this->hadith_book_model->get_hadith_book_by_id($hadith_book_id) == FALSE ):
+			$list['error_msg'] = "No record found for the provided Hadith Book ID. Use the menu if you have access.";
+			$list['main_content'] = "message_view";
+			$this->load->view('admin/includes/template', $list);
+			return;
+		endif;
+		
 		$this->hadith_book_model->delete_hadith_book_by_id($hadith_book_id);
 		
 		redirect('admin/hadith-book');

@@ -7,15 +7,6 @@ class Hadith extends CI_Controller {
     if( $method == 'display' ):
       $this->display();
       
-    elseif( $method == 'read' ):
-      
-      //set default for parameter hadith_code
-	  if( !isset( $param[0] ) ):
-		$param[0] = '';
-	  endif;
-      
-      $this->read( $param[0] );
-      
     elseif( $method == 'add' ):
       $this->add();
       
@@ -55,24 +46,8 @@ class Hadith extends CI_Controller {
     $this->load->model('hadith_model');
     
     $list['ahadith'] = $this->hadith_model->get_all_hadith();
-    $list['main_content'] = 'hadith_view';
+    $list['main_content'] = 'admin/hadith_view';
     
-    $this->load->view('admin/includes/template',$list);
-
-  }
-
-  /*Method to read hadith
-   *
-   *@param string $hadith_code Id of hadith
-   *
-   *@return none
-   */
-  
-  public function read($hadith_id){
-    $this->load->model('hadith_model');
-    $list['hadith'] =  $this->hadith_model->get_hadith_by_id($hadith_id);
-    $list['main_content'] = 'read_hadith_view';
-
     $this->load->view('admin/includes/template',$list);
 
   }
@@ -81,30 +56,32 @@ class Hadith extends CI_Controller {
    *
    *@return none
    *
-   */
+  */
 
   public function add(){
     $this->load->helper('form');
     $this->load->model('hadith_model');
     
     $this->load->library('form_validation');
-    $this->form_validation->set_rules('txt_plain_ar', 'Plain Arabic', 'required');
-    $this->form_validation->set_rules('txt_plain_en', 'Plain English', 'required');
-    $this->form_validation->set_rules('txt_plain_ur', 'Plain Urdu', 'required');
+    $this->form_validation->set_rules('txt_plain_ar', 'Plain Arabic', 'trim|required');
+    $this->form_validation->set_rules('txt_plain_en', 'Plain English', 'trim|required');
+    $this->form_validation->set_rules('txt_plain_ur', 'Plain Urdu', 'trim|required');
     
-    $this->form_validation->set_rules('txt_marked_ar', 'Marked Arabic', 'required');
-    $this->form_validation->set_rules('txt_marked_en', 'Marked English', 'required');
-    $this->form_validation->set_rules('txt_marked_ur', 'Marked Urdu', 'required');
-    $this->form_validation->set_rules('txt_raw_ar', 'Raw Arabic', 'required');
+    $this->form_validation->set_rules('txt_marked_ar', 'Marked Arabic', 'trim|required');
+    $this->form_validation->set_rules('txt_marked_en', 'Marked English', 'trim|required');
+    $this->form_validation->set_rules('txt_marked_ur', 'Marked Urdu', 'trim|required');
+    $this->form_validation->set_rules('txt_raw_ar', 'Raw Arabic', 'trim|required');
+    $this->form_validation->set_rules('ddl_authenticity_id', 'Authenticity ID', 'trim|required');
     
     
     $list['authenticity'] = $this->hadith_model->get_all_authenticity();
-    $list['main_content'] = 'add_hadith_view';
+    $list['main_content'] = 'admin/add_hadith_view';
+    
     if ($this->form_validation->run() == FALSE):
        $this->load->view('admin/includes/template',$list);
     
     else: 
-    //if( !empty($this->input->post('mysubmit'))):
+    
       $data['hadith_plain_ar'] = $this->input->post('txt_plain_ar');
       $data['hadith_plain_en'] = $this->input->post('txt_plain_en');
       $data['hadith_plain_ur'] = $this->input->post('txt_plain_ur');
@@ -113,11 +90,10 @@ class Hadith extends CI_Controller {
       $data['hadith_marked_ur'] = $this->input->post('txt_marked_ur');
       $data['hadith_raw_ar'] = $this->input->post('txt_raw_ar');
       $data['authenticity_id'] = $this->input->post('ddl_authenticity_id');
-
-      $this->load->model('hadith_model');
+      
       $this->hadith_model->insert_hadith($data);
       redirect('admin/hadith');
-     // echo "Successfully inserted Hadith";
+    
     endif;
 
   }
@@ -129,31 +105,37 @@ class Hadith extends CI_Controller {
    *@return none
    */
   public function update($hadith_id){
-    $this->load->helper('form');
+
     $this->load->model('hadith_model');
+    //check for valid hadith_id
+    if( $this->hadith_model->get_hadith_by_id($hadith_id) == FALSE ):
+      $list['error_msg'] = "No record found for the provided Hadith ID. Use the menu if you have access.";
+      $list['main_content'] = "message_view";
+      $this->load->view('admin/includes/template', $list);
+      return;
+    endif;
     
-    
-      $list['authenticity'] = $this->hadith_model->get_all_authenticity();
-    
+    $this->load->helper('form');
     
     $this->load->library('form_validation');
-  $this->form_validation->set_rules('txt_plain_ar', 'Plain Arabic', 'required');
-  $this->form_validation->set_rules('txt_plain_en', 'Plain English', 'required');
-  $this->form_validation->set_rules('txt_plain_ur', 'Plain Urdu', 'required');
-  $this->form_validation->set_rules('txt_marked_ar', 'Marked Arabic', 'required');
-  $this->form_validation->set_rules('txt_marked_en', 'Marked English', 'required');
-  $this->form_validation->set_rules('txt_marked_ur', 'Marked Urdu', 'required');
-  $this->form_validation->set_rules('txt_raw_ar', 'Raw Arabic', 'required');
-  $this->form_validation->set_rules('authenticity_id', 'Authenticity ID', 'required');
+    $this->form_validation->set_rules('txt_plain_ar', 'Plain Arabic', 'trim|required');
+    $this->form_validation->set_rules('txt_plain_en', 'Plain English', 'trim|required');
+    $this->form_validation->set_rules('txt_plain_ur', 'Plain Urdu', 'trim|required');
+    $this->form_validation->set_rules('txt_marked_ar', 'Marked Arabic', 'trim|required');
+    $this->form_validation->set_rules('txt_marked_en', 'Marked English', 'trim|required');
+    $this->form_validation->set_rules('txt_marked_ur', 'Marked Urdu', 'trim|required');
+    $this->form_validation->set_rules('txt_raw_ar', 'Raw Arabic', 'trim|required');
+    $this->form_validation->set_rules('ddl_authenticity_id', 'Authenticity ID', 'required');
   
     $list['hadith_id'] = $hadith_id;
     $list['hadith'] =  $this->hadith_model->get_hadith_by_id($hadith_id);
-    $list['main_content']= 'update_hadith_view';
+    $list['authenticity'] = $this->hadith_model->get_all_authenticity();
+    $list['main_content']= 'admin/update_hadith_view';
     if ($this->form_validation->run() == FALSE):
       $this->load->view('admin/includes/template',$list);
 
-      else:
-    //if( !empty($this->input->post('mysubmit'))):
+    else:
+    
       $hadith['hadith_plain_ar'] = $this->input->post('txt_plain_ar');
       $hadith['hadith_plain_en'] = $this->input->post('txt_plain_en');
       $hadith['hadith_plain_ur'] = $this->input->post('txt_plain_ur');
@@ -161,13 +143,12 @@ class Hadith extends CI_Controller {
       $hadith['hadith_marked_en'] = $this->input->post('txt_marked_en');
       $hadith['hadith_marked_ur'] = $this->input->post('txt_marked_ur');
       $hadith['hadith_raw_ar'] = $this->input->post('txt_raw_ar');
-      $hadith['authenticity_id'] = $this->input->post('authenticity_id');
+      $hadith['authenticity_id'] = $this->input->post('ddl_authenticity_id');
 
       $this->load->model('hadith_model');
       $this->hadith_model->update_hadith($hadith_id,$hadith);
 
       redirect('admin/hadith');
-      //echo "Successfully updated Hadith";
     endif;
   }
 
@@ -180,12 +161,17 @@ class Hadith extends CI_Controller {
    */
   public function delete( $hadith_id ){
 
-    $this->load->helper('url');
-
     $this->load->model('hadith_model');
+    //check for valid hadith_id
+    if( $this->hadith_model->get_hadith_by_id($hadith_id) == FALSE ):
+      $list['error_msg'] = "No record found for the provided Hadith ID. Use the menu if you have access.";
+      $list['main_content'] = "message_view";
+      $this->load->view('admin/includes/template', $list);
+      return;
+    endif;
+  
     $this->hadith_model->delete_hadith( $hadith_id );
-redirect('admin/hadith');
-   // echo "Deleted Hadith";
+    redirect('admin/hadith');
   }
 
 }

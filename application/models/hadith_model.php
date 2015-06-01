@@ -22,28 +22,31 @@ class Hadith_model extends CI_Model{
 
     }
 
+     /*
+      * Get a specific hadith by id
+      *
+      * @param integer $hadith_id
+      * @return array
+      */
+    
     function get_hadith_by_id($hadith_id){
         $this->load->database('default');
         $this->db->where('hadith_id',$hadith_id);
         
-        $query = $this->db->get('hadith');
+        $q = $this->db->get('hadith');
         
-         $data = '';
+        $data = '';
     
-        foreach ($query->result() as $row):
-    
-          $data[] = $row;
-        endforeach;
+        if($q->num_rows() > 0):
+             $data = $q->row();
+        endif;
     
         return $data;
-
     }
 
-    function insert_hadith($hadith){
+    function insert_hadith($data){
       $this->load->database('default');
-      $this->db->insert('hadith',$hadith);
-      //echo $this->db->last_query();
-
+      $this->db->insert('hadith',$data);
     }
 
     function update_hadith($hadith_id,$data){

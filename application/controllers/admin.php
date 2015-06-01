@@ -326,44 +326,6 @@ class Admin extends CI_Controller {
 		endif;
     }
     
-    
-//    function approve_tag($tag_id){
-//	
-//		$this->load->model('user_model');
-//		$this->load->model('tag_model');
-//		//if the user is already signed-in then redirect him/her to the home()
-//		$user_id = $this->session->userdata('user_id');
-//		$role = $this->session->userdata('role_title');
-//		if( isset($user_id) && !empty($user_id) && !empty($role) ):
-//		
-//			$this->load->helper('form');
-//			$this->load->library('form_validation');
-//		
-//			$this->form_validation->set_rules('txt_tag_title_en', 'Tag Title English', 'required');
-//			
-//			$list['tag'] = $this->tag_model->get_tag_by_id($tag_id);
-//			$list['main_content'] = '/admin/edit_tag_view';
-//			
-//			if ($this->form_validation->run() == FALSE):
-//				$this->load->view('admin/includes/template',$list);
-//			else:
-//			
-//				$data['tag_title_ar'] = $this->input->post('txt_tag_title_ar');
-//				$data['tag_title_en'] = $this->input->post('txt_tag_title_en');
-//				$data['tag_title_ur'] = $this->input->post('txt_tag_title_ur');
-//				$data['tag_detail_ar'] = $this->input->post('txt_tag_detail_ar');
-//				$data['tag_detail_en'] = $this->input->post('txt_tag_detail_en');
-//				$data['tag_detail_ur'] = $this->input->post('txt_tag_detail_ur');
-//				
-//				$this->load->model('tag_model');
-//				$this->tag_model->update_tag($data,$tag_id);
-//				redirect('/admin/tags/');
-//			endif;
-//		else:
-//			redirect('user/signin');
-//		endif;
-//	}
-//  
     function hadith($action='',$id=''){
 	
 		$this->load->model('user_model');
@@ -382,6 +344,8 @@ class Admin extends CI_Controller {
 				
 			elseif($action=='add'):
 				$hadith->add();
+			elseif($action=='delete'):
+				$hadith->delete($id);
 			else:
 			  $hadith->display();
 			endif;
@@ -406,6 +370,8 @@ class Admin extends CI_Controller {
 			    $chapter->update($id);
 			elseif($action=='add'):
 				$chapter->add();
+			elseif($action=='delete'):
+				$chapter->delete();
 			else:
 			  $chapter->display();
 			endif;

@@ -61,9 +61,9 @@ class Role extends CI_COntroller {
     $this->load->helper('form');
     
     $this->load->library('form_validation');
-    
-    $this->form_validation->set_rules('txt_role_title','Role Title','required');
-    $this->form_validation->set_rules('txt_description','Role Description','required');
+    $role_title="";
+    $this->form_validation->set_rules('txt_role_title','Role Title','trim|required|unique_id['.$role_title.',Role Title]');
+    $this->form_validation->set_rules('txt_description','Role Description','trim|required');
     $this->form_validation->set_rules('ddl_dependent_roles[]','Dependent Roles','');
     
 	$this->load->model('role_model');

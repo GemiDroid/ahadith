@@ -328,6 +328,21 @@ body > footer p {
     font-size: medium;
 }
 
+.change_password{
+	margin-left: 150px;
+	
+}
+.edit_profile{
+	margin-left: 150px;
+}
+.register{
+	margin-left: 150px;
+}
+
+.links:hover{
+	text-decoration: underline;
+	color: #386553;
+}
 .ltr {
     direction: ltr;
     

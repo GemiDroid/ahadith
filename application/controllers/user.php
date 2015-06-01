@@ -407,9 +407,7 @@
 			$this->form_validation->set_rules('txt_confirm_password', 'Password Confirmation', 'required|matches[txt_password]');
 			$this->form_validation->set_rules('txt_email', 'Email', 'required|valid_email');
 			$this->form_validation->set_rules('rad_gender', 'Gender', 'required');
-			$this->form_validation->set_rules('day', 'Day', 'required');
-			$this->form_validation->set_rules('month', 'Month', 'required');
-			$this->form_validation->set_rules('year', 'Year', 'required');
+			$this->form_validation->set_rules('txt_date_of_birth', 'Date of Birth', 'required');
 			$this->form_validation->set_rules('ddl_country_list', 'Country', 'required');
 			$this->form_validation->set_rules('txt_full_name', 'Full Name', 'required');
 
@@ -422,26 +420,29 @@
 				$data['password'] = $this->input->post('txt_password');
 				$data['email_address'] = $this->input->post('txt_email');
 				$data['full_name'] = $this->input->post('txt_full_name');
-				$data['date_of_birth'] = $this->input->post('year').'-'.$this->input->post('month').'-'.$this->input->post('day');
+				$data['date_of_birth'] = $this->input->post('txt_date_of_birth');
 				$data['gender'] = $this->input->post('rad_gender');
 				$data['country_code'] = $this->input->post('ddl_country_list');
 	
 				$this->load->model('user_model');
-				$valid_user = $this->user_model->validate_user($data['user_id']);
-				$valid_email = $this->user_model->validate_user_by_email($data['email_address']);
+				//$valid_user = $this->user_model->validate_user($data['user_id']);
+				//$valid_email = $this->user_model->validate_user_by_email($data['email_address']);
 	
-				if($valid_user == FALSE && $valid_email == FALSE):
+				//if($valid_user == FALSE && $valid_email == FALSE):
 	
 				  $this->load->model('user_model');
 				  $this->user_model->insert_user($data);
 	
-				  $this->session->set_userdata('user_id',$data['user_id']);
-				  redirect('user/home');
-				  echo "Successfully Registered";
+				  //$this->session->set_userdata('user_id',$data['user_id']);
+				  $list['info'] = "Successfully Register, Your Account will be verified by the Admin ";
+				  $list['main_content'] = 'user/user_registration_view';
+				  $this->load->view('includes/template',$list);
+				  //redirect('user/home');
+				  //echo "Successfully Registered";
 	
-				else:
-					redirect('user/signin');
-				endif;
+				//else:
+					//redirect('user/signin');
+				//endif;
 	
 			endif;
 
@@ -471,18 +472,24 @@
 		$this->form_validation->set_rules('txt_confirm_password','Confirm Password','required|matches[txt_new_password]');
 	
 		
+		 $list['main_content'] = 'user/user_change_password_view';
 		
-		if ($this->form_validation->run() == TRUE):
+		if ($this->form_validation->run() == FALSE):
+		 
+		  $this->load->view('includes/template',$list);
+		  
+		else: 
+				 //update_password
+				$list['string'] =  $this->user_model->update_password();
 		   
-		   //update_password
-		  $list['string'] =  $this->user_model->update_password();
-		   //echo $string;
+				$list['main_content'] = 'user/user_change_password_view';
+				$this->load->view('includes/template',$list);
 		   
 		endif;
 		
-		$list['main_content'] = 'user/user_change_password_view';
+		//$list['main_content'] = 'user/user_change_password_view';
 		
-		$this->load->view('includes/template',$list);
+		//$this->load->view('includes/template',$list);
 		
 	}
 	
@@ -500,14 +507,15 @@
 		//var_dump($user_id);
 		$list['user'] =  $this->user_model->get_user_by_id($user_id);
 			//var_dump($list['user']);
-		$list['main_content'] = 'user/user_edit_profile_view';
-		$this->load->view('includes/template',$list);
+		//$list['main_content'] = 'user/user_edit_profile_view';
+		//$this->load->view('includes/template',$list);
 		
 		$this->form_validation->set_rules('txt_email', 'Email', 'required|valid_email');
 		$this->form_validation->set_rules('rad_gender', 'Gender', 'required');
-		$this->form_validation->set_rules('day', 'Day', 'required');
-		$this->form_validation->set_rules('month', 'Month', 'required');
-		$this->form_validation->set_rules('year', 'Year', 'required');
+		//$this->form_validation->set_rules('day', 'Day', 'required');
+		//$this->form_validation->set_rules('month', 'Month', 'required');
+		//$this->form_validation->set_rules('year', 'Year', 'required');
+		$this->form_validation->set_rules('txt_date_of_birth', 'Date of Birth', 'required');
 		$this->form_validation->set_rules('ddl_country_list', 'Country', 'required');
 		$this->form_validation->set_rules('txt_full_name', 'Full Name', 'required');
 
@@ -519,16 +527,17 @@
 			if( !empty($this->input->post('btn_save'))):
 				$data['email_address'] = $this->input->post('txt_email');
 				$data['full_name'] = $this->input->post('txt_full_name');
-				$data['date_of_birth'] = $this->input->post('year').'-'.$this->input->post('month').'-'.$this->input->post('day');
+				$data['date_of_birth'] = $this->input->post('txt_date_of_birth');
 				$data['gender'] = $this->input->post('rad_gender');
 				$data['country_code'] = $this->input->post('ddl_country_list');
 	
-				  $this->load->model('user_model');
-				  //$this->user_model->update_user($user_id,$data);
+				$this->load->model('user_model');
 				$this->user_model->update_user($data);
-				  //$this->session->set_userdata('user_id',$data['user_id']);
-				  //redirect('user/home');
-				  echo "Successfully updated";
+				//redirect('user/edit-profile');
+				$list['info'] = "Successfully updated ";
+				$list['main_content'] = 'user/user_edit_profile_view';
+				$this->load->view('includes/template',$list);
+				//echo "Successfully updated";
 			endif;
 
 		endif;

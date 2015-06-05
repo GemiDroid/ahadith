@@ -133,6 +133,8 @@ class Admin extends CI_Controller {
 		if( isset($user_id) && !empty($user_id) && !empty($role) ):
 			$list['users'] = $this->user_model->get_all_users();
 			$list['blocks'] = $this->user_model->get_block_users();
+			$list['pending_tags'] = $this->user_model->get_pending_tags();
+			$list['pending_reports'] = $this->user_model->get_pending_reports();
 			$list['main_content'] = '/admin/admin_view';
 			$this->load->view('admin/includes/template',$list);
 		else:

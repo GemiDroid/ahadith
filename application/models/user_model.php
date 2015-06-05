@@ -615,8 +615,38 @@
     
     function get_block_users(){
           $this->load->database('default');
-        $this->db->where('is_active','0');
+        $this->db->where('is_active',NULL);
+        $this->db->OR_where('is_active','0');
        $q = $this->db->get('user');
+        $data = FALSE;
+          
+        foreach ($q->result() as $row):
+            $data[] = $row;
+        endforeach;
+          
+        $q->free_result();
+        return $data;
+    }
+    
+    function get_pending_tags(){
+          $this->load->database('default');
+        $this->db->where('approved_by',NULL);
+       $q = $this->db->get('tag');
+        $data = FALSE;
+          
+        foreach ($q->result() as $row):
+            $data[] = $row;
+        endforeach;
+          
+        $q->free_result();
+        return $data;
+    }
+    
+    
+     function get_pending_reports(){
+          $this->load->database('default');
+        $this->db->where('fixed_by',NULL);
+       $q = $this->db->get('error_report');
         $data = FALSE;
           
         foreach ($q->result() as $row):

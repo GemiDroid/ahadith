@@ -3,8 +3,16 @@
 class Chapter_model extends CI_Model{
 
 
-	function get_all_chapters(){
+	function get_all_chapters( $hadith_book_id='',$book_id='' ){
 	  $this->load->database('default');
+	  
+	  if( !empty( $hadith_book_id ) ):
+		$this->db->where('hadith_book_id',$hadith_book_id);
+	  endif;
+	  
+	  if( !empty( $book_id ) ):
+		$this->db->where('book_id',$book_id);
+	  endif;
 	  
 	  $query = $this->db->get('chapter');
 	  $data = FALSE;

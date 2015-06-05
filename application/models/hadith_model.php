@@ -21,6 +21,40 @@ class Hadith_model extends CI_Model{
         return $data;
 
     }
+    
+    /*
+     * Get a all hadith_in_book_id
+     * @param string $hadith_book_id
+     * @param string $book_id
+     * @param string $chapter_id
+     * @return mixed
+    */
+    
+    function get_all_hadith_in_book( $hadith_book_id='',$book_id='',$chapter_id='' ){
+        $this->load->database('default');
+        
+        if( !empty( $hadith_book_id ) ):
+          $this->db->where('hadith_book_id',$hadith_book_id);
+        endif;
+          
+        if( !empty( $book_id ) ):
+          $this->db->where('book_id',$book_id);
+        endif;
+        
+        if( !empty( $chapter_id ) ):
+          $this->db->where('chapter_id',$chapter_id);
+        endif;
+        
+        $query = $this->db->get('hadith_in_book');
+        
+        $data = false;
+    
+        foreach ($query->result() as $row):
+          $data[] = $row;
+        endforeach;
+    
+        return $data;
+    }
 
      /*
       * Get a specific hadith by id

@@ -25,7 +25,7 @@
                     </label>
                     &nbsp; &nbsp;
                     <label for="rad_block">
-                      <input type="radio" id="rad_block" value="0" name="rad_user_status" <?php echo set_radio('rad_user_status', '0', TRUE); ?> />
+                      <input type="radio" id="rad_block" value="0" name="rad_user_status" <?php echo set_radio('rad_user_status','0', TRUE); ?> />
                      Block
                     </label>
                    
@@ -52,7 +52,7 @@
                   <div>&nbsp;</div>	    
                   <div class="control-group">
                       
-                     <a href="<?php echo base_url().'admin/user/'.$user[0]->user_id ?>"> <input type="submit" id="btn_save" name="btn_save" value="save" class="btn btn-success"/></a>
+                     <a href="<?php echo base_url().'admin/user/'.$user->user_id ?>"> <input type="submit" id="btn_save" name="btn_save" value="save" class="btn btn-success"/></a>
                       <a href="<?php echo base_url().'admin/users' ?>"><input type="button" value="Cancel" class="btn btn-primary"></a>
                   </div>
                 

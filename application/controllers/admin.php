@@ -26,7 +26,10 @@ class Admin extends CI_Controller {
 				$param[1] = '';
 			endif;
 	  
-			$this->report( $param[0],$param[1] );	
+			$this->report( $param[0],$param[1] );
+			
+		elseif( $method == 'user_status' ):
+            $this->user_status();
 		elseif( $method == 'user-role' ):
 			if( !isset( $param[0] ) ):
 				$param[0] = '';
@@ -269,6 +272,7 @@ class Admin extends CI_Controller {
     }
     
     function users(){
+		$this->load->helper('form');
 		$this->load->model('user_model');
 		//if the user is already signed-in then redirect him/her to the home()
 		$user_id = $this->session->userdata('user_id');
@@ -290,6 +294,7 @@ class Admin extends CI_Controller {
     
     function user($id){
 	
+	
 		$this->load->model('user_model');
 		//if the user is already signed-in then redirect him/her to the home()
 		$user_id = $this->session->userdata('user_id');
@@ -300,24 +305,13 @@ class Admin extends CI_Controller {
 			$this->load->library('form_validation');
 			$this->load->model('user_model');
 			
-			$this->form_validation->set_rules('toggle-one', 'Block', 'required');
-		
-			$list['user'] = $this->user_model->get_user_by_id($id);
-			$list['role'] = $this->user_model->get_all_role();
-			$list['main_content'] = '/admin/manage_user_view';
-			$this->load->view('admin/includes/template',$list);
 		  
 			if( !empty($this->input->post('btn_save'))):
-				$data['is_active'] = $this->input->post('rad_user_status');
-				$data1['user_id'] = $id;
-				$data1['role_title'] = $this->input->post('ddl_user_role');
+				$data['is_active'] = $this->input->post('chk_user_status');
+				//$data1['user_id'] = $id;
 			
 				$this->load->model('user_model');
 				$this->user_model->block_user($data,$id);
-				
-				if(!empty($data1['role_title'])):
-					$this->user_model->insert_role($data1);
-				endif;
 				
 				redirect('/admin/users');
 				
@@ -327,6 +321,45 @@ class Admin extends CI_Controller {
 			redirect('user/signin');
 		endif;
     }
+	
+	function user_status(){
+		$this->load->model('user_model');
+		//if the user is already signed-in then redirect him/her to the home()
+		$user_id = $this->session->userdata('user_id');
+		$role = $this->session->userdata('role_title');
+		if( isset($user_id) && !empty($user_id) && !empty($role) ):
+		
+			$this->load->helper('form');
+			$this->load->library('form_validation');
+			$this->load->model('user_model');
+			
+		  
+			if( $this->input->is_ajax_request() ):
+				//$data = $this->input->post('data');
+				
+				$id = $this->input->post('user_id');
+				//var_dump($id);
+				echo $id;
+				$data['is_active'] = $this->input->post('status');
+			
+				$this->load->model('user_model');
+				$this->user_model->block_user($data,$id);
+				
+				/*$data = new stdClass();
+				$data->message = $message;
+			   echo json_encode( $data )*/
+				
+				return;
+				
+				//redirect('/admin/users');
+	
+			endif;
+		
+		else:
+			redirect('user/signin');
+		endif;
+		
+	}
     
     function hadith($action='',$id=''){
 	

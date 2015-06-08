@@ -6,9 +6,13 @@
        *
        * @return mixed
        */
-      function get_all_books() {
+      function get_all_books( $hadith_book_id='' ) {
           $this->load->database('default');
           
+		  if( !empty( $hadith_book_id ) ):
+			$this->db->where('hadith_book_id',$hadith_book_id);
+		  endif;
+		  
           $q = $this->db->get('book');
           
           $data = FALSE;

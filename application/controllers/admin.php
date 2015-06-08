@@ -584,19 +584,162 @@ class Admin extends CI_Controller {
   
 	function subscriptions(){
     
+		$this->load->model('hadith_model');
+		$this->load->model('book_model');
+		$this->load->model('chapter_model');
+	
+		//get ajax request for tags
+		if( $this->input->is_ajax_request() ):
+			$data = $this->input->post('data');
+			//if chapter dropdown is changed
+			if( $data['task'] == 'chapter' ):
+				//get ahadith by selected values
+				$ahadith = $this->hadith_model->get_all_hadith_in_book( $data['hadith_book_id'], $data['book_id'], $data['chapter_id'] );
+				
+				//html for options
+				$ahadith_html='';
+				if( !empty($ahadith) ):
+					foreach( $ahadith as $hadith ):
+						$ahadith_html .= '<option value="'.$hadith->hadith_id.'">'.substr( $hadith->hadith_id, 0 ,20).'&hellip;</option>';
+					endforeach;			
+				endif;
+				
+				$data = new stdClass();
+				$data->ahadith_list = $ahadith_html;
+			//if book dropdown is changed
+			elseif( $data['task'] == 'book' ):
+				//get chapters by selected values
+				$chapters = $this->chapter_model->get_all_chapters($data['hadith_book_id'], $data['book_id'] );
+				//get ahadith by selected values and first value of chapter
+				$ahadith = $this->hadith_model->get_all_hadith_in_book( $data['hadith_book_id'], $data['book_id'], $chapters[0]->chapter_id );
+				
+				$chapter_html='';
+				
+				//html for options
+				if(!empty( $chapters )):
+				
+					foreach( $chapters as $chapter ):
+						$chapter_html .= '<option value="'.$chapter->chapter_id.'">'.substr($chapter->chapter_title_en,0,20).'&hellip;</option>';
+					endforeach;
+				endif;
+				
+				$ahadith_html='';
+				
+				if(!empty( $ahadith )):
+				
+					foreach( $ahadith as $hadith ):
+						$ahadith_html .= '<option value="'.$hadith->hadith_id.'">'.substr( $hadith->hadith_id, 0 ,20).'&hellip;</option>';
+					endforeach;			
+				endif;
+				
+				$data = new stdClass();
+				$data->chapter_list = $chapter_html;
+				$data->ahadith_list = $ahadith_html;
+			//if hadith dropdown is changed
+			elseif( $data['task'] == 'hadith-book' ):
+				//get respected books for hadith book id
+				$books = $this->book_model->get_all_books( $data['hadith_book_id'] );
+				//get respected chapters for selected values
+				$chapters = $this->chapter_model->get_all_chapters($data['hadith_book_id'], $books[0]->book_id );
+				//get ahadith by selected value of hadith_book_id and first values of book and chapter id
+				$ahadith = $this->hadith_model->get_all_hadith_in_book( $data['hadith_book_id'], $books[0]->book_id, $chapters[0]->chapter_id );
+				
+				//html for options
+				$book_html='';
+				foreach( $books as $book ):
+					$book_html .= '<option value="'.$book->book_id.'">'.$book->book_title_en.'</option>';
+				endforeach;
+				
+				$chapter_html='';
+				
+				if(!empty( $chapters )):
+				
+					foreach( $chapters as $chapter ):
+						$chapter_html .= '<option value="'.$chapter->chapter_id.'">'.substr($chapter->chapter_title_en,0,20).'&hellip;</option>';
+					endforeach;
+				endif;
+				
+				$ahadith_html='';
+				
+				if(!empty( $ahadith )):
+					foreach( $ahadith as $hadith ):
+						$ahadith_html .= '<option value="'.$hadith->hadith_id.'">'.substr( $hadith->hadith_id, 0 ,20).'&hellip;</option>';
+					endforeach;
+				endif;
+				
+				$data = new stdClass();
+				$data->book_list = $book_html;
+				$data->chapter_list = $chapter_html;
+				$data->ahadith_list = $ahadith_html;
+				
+			//when hadith-preview is clicked
+			elseif( $data['task'] == 'hadith-preview' ):
+				//get selected hadith 
+				$hadith = $this->hadith_model->get_hadith_by_id($data['hadith_id']);
+				
+				//html for hadith 
+				$hadith_html = '';
+				
+				if( !empty( $hadith ) ):
+					$hadith_html .= '<p lang="AR">' .$hadith->hadith_plain_ar.'</p>';
+					$hadith_html .= '<p lang="EN">'.$hadith->hadith_plain_en.'</p>';
+					$hadith_html .= '<p lang="UR">'.$hadith->hadith_plain_ur.'</p>';
+				endif;
+				
+				$data = new stdClass();
+				$data->hadith_html = $hadith_html;
+			//when send mail is clicked
+			elseif( $data['task'] == 'send-mail' ):
+				
+				$hadith_id = $data['hadith_id'];
+				
+				//get selected hadith
+				$hadith = $this->hadith_model->get_hadith_by_id($hadith_id);
+				
+				//array for selected users
+				$arr_email = $data['arr_user_ids'];
+				
+				//send email
+				date_default_timezone_set('GMT');
+				$this->load->library('email');
+				
+				$this->email->from('trust.manager@mishkat.pk');
+				$this->email->to($arr_email); 	
+				$this->email->subject('Daily Hadith Alert');
+				$this->email->message('Hadith No. '. $hadith_id . ' (Arabic):<br/> <br/> '. $hadith->hadith_plain_ar . ' <br/><br/><br/>' . ' (English): <br/><br/>  '. $hadith->hadith_plain_en . ' <br/><br/><br/>' . ' (Urdu): <br/><br/>  '. $hadith->hadith_plain_ur);	    
+				
+				$message ='';
+				
+				if( $this->email->send() ):
+					$message['type'] = 'success';
+					$message['body'] = 'Email has been sent successfully';
+				else:
+					$message['type'] = 'danger';
+					$message['body'] = 'Error occured while sending email';
+				endif;
+				
+				$data = new stdClass();
+				$data->message = $message;
+				
+			endif;
+			
+			echo json_encode( $data );
+			
+			return;
+			
+		endif;
+	
 		$this->load->helper('form');
-		$this->load->model('user_model');
 		//if the user is already signed-in then redirect him/her to the home()
 		$user_id = $this->session->userdata('user_id');
 		$role = $this->session->userdata('role_title');
 		if( isset($user_id) && !empty($user_id) && !empty($role) ):
 	    
 			$this->load->model('user_model');
-			$this->load->model('hadith_model');
 			
 			$users = $this->user_model->get_all_users();
-			
-			
+			//get users whose are subscribed
+			//check from user_settings
 			for( $i=0; $i<count($users);$i++ ):
 				if( empty($this->user_model->get_user_setting_by_id('email_subscription',$users[$i]->user_id)) OR $this->user_model->get_user_setting_by_id('email_subscription',$users[$i]->user_id) == 'false' ):
 					unset($users[$i]);
@@ -604,51 +747,20 @@ class Admin extends CI_Controller {
 			endfor;
 		
 			$list['users'] = $users;
-			$list['ahadith'] = $this->hadith_model->get_all_hadith();
+			
+			$this->load->model('hadith_book_model');
+			
+			$list['hadith_books'] = $this->hadith_book_model->get_hadith_books();
+			//get books from first hadith_book
+			$list['books'] = $this->book_model->get_all_books( $list['hadith_books'][0]->hadith_book_id );
+			//get books from first values
+			$list['chapters'] = $this->chapter_model->get_all_chapters($list['hadith_books'][0]->hadith_book_id, $list['books'][0]->book_id);
+			//get ahadith from first values
+			$list['ahadith'] = $this->hadith_model->get_all_hadith_in_book( $list['hadith_books'][0]->hadith_book_id, $list['books'][0]->book_id, $list['chapters'][0]->chapter_id );
 			
 			$list['main_content'] = '/admin/subscriptions_view';
 			$this->load->view('admin/includes/template',$list);
 			
-			if(!empty($this->input->post('mysubmit'))):
-				$this->load->model('user_model');
-				$this->load->model('hadith_model');	
-				$user_id = $this->input->post('ddl_user_list');
-				$hadith_id = $this->input->post('ddl_hadith_list');
-				
-				$list['hadith'] = $this->hadith_model->get_hadith_by_id($hadith_id);
-				$list['user'] = $this->user_model->get_user_by_id($user_id);
-				
-				date_default_timezone_set('GMT');
-				$this->load->library('email');
-				
-				$config = array();
-				$config['protocol']='smtp';
-				$config['smtp_host']='ssl://smtp.googlemail.com';
-				$config['smtp_port']='465';
-				$config['smtp_timeout']='30';	
-			
-				$config['smtp_user'] = $from = 'trust.manager@mishkat.pk';
-				$config['smtp_pass'] = 'T1234567m';
-			
-				$config['charset']='utf-8';
-				$config['newline']="\r\n";
-				$config['mailtype']="html";
-			
-				$this->email->initialize($config);
-				
-				$this->email->from($from);
-				$this->email->to($list['user']->email_address); 	
-				$this->email->subject('Daily Hadith Alert');
-				$this->email->message('Hadith No. '. $hadith_id . ' (Arabic):<br/> <br/> '. $list['hadith']->hadith_plain_ar . ' <br/><br/><br/> Hadith No. '. $hadith_id . ' (English): <br/><br/>  '. $list['hadith']->hadith_plain_en . ' <br/><br/><br/> Hadith No. '. $hadith_id . ' (Urdu): <br/><br/>  '. $list['hadith']->hadith_plain_ur);	    
-				$this->email->send();
-			
-				$list = array(
-					'error_message' => 'Alert has been Sent'
-					);
-				$list['main_content'] = "admin/subscriptions_view";
-				$this->load->view('admin/includes/template', $list);
-			
-			endif;
 		else:
 			redirect('user/signin');
 		endif;

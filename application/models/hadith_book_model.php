@@ -123,6 +123,23 @@ class Hadith_book_model extends CI_Model{
 		return $data;
 	}
 	
+	function get_hadith_in_books( $hadith_id ){
+		$this->load->database('default');
+		
+		$this->db->where('hadith_id', $hadith_id);
+		$q = $this->db->get('hadith_in_book');
+		
+		$data = '';
+	
+		if($q->num_rows() > 0):
+			foreach ($q->result() as $row):
+				$data[] = $row;
+			endforeach;
+		endif;
+	
+		return $data;
+	}
+	
 	
 	function get_book_by_id($book_id){
 		
@@ -163,10 +180,12 @@ class Hadith_book_model extends CI_Model{
 		
 		$data = FALSE;
           
-        foreach ($q->result() as $row):
-            $data[] = $row;
-        endforeach;
-          
+		if($q->num_rows() > 0):
+			foreach ($q->result() as $row):
+				$data[] = $row;
+			endforeach;
+        endif;
+		
         $q->free_result();
         return $data;
 	
@@ -222,8 +241,6 @@ class Hadith_book_model extends CI_Model{
          return $data;
       }
 
-
-
 	  /*
       * Get a hadith in book by id
       *
@@ -240,7 +257,7 @@ class Hadith_book_model extends CI_Model{
 			$this->db->where('chapter_id', $chapter_id);
 		 endif;
 		 
-		 if(!empty( $book_id )):
+		 if( $book_id != ''):
 			$this->db->where('book_id', $book_id);
 		 endif;
 		 
@@ -273,5 +290,22 @@ class Hadith_book_model extends CI_Model{
 		$this->db->where('hadith_book_id', $hadith_book_id);
 		$this->db->update('hadith_book', $data);
 		
-	}	
+	}
+	
+	function add_hadith_in_book($data){
+		$this->load->database('default');
+		$this->db->insert('hadith_in_book', $data);
+	}
+	
+	function update_hadith_in_book( $hadith_in_book_id, $data ){
+		$this->load->database('default');
+		$this->db->where('hadith_in_book_id', $hadith_in_book_id);
+		$this->db->update('hadith_in_book', $data);
+	}
+	
+	function delete_hadith_in_book($hadith_in_book_id){
+		$this->load->database('default');
+		$this->db->where('hadith_in_book_id',$hadith_in_book_id);
+		$this->db->delete('hadith_in_book');
+	}
 }

@@ -10,7 +10,7 @@ class Chapter_model extends CI_Model{
 		$this->db->where('hadith_book_id',$hadith_book_id);
 	  endif;
 	  
-	  if( !empty( $book_id ) ):
+	  if( $book_id != '' ):
 		$this->db->where('book_id',$book_id);
 	  endif;
 	  
@@ -32,7 +32,7 @@ class Chapter_model extends CI_Model{
       $this->load->database('default');
       $this->db->where('chapter_id',$chapter_id);
 	  
-	  if( !empty( $book_id ) ):
+	  if(  $book_id !='' ):
 		$this->db->where('book_id',$book_id);
 	  endif;
 	  
@@ -93,8 +93,5 @@ class Chapter_model extends CI_Model{
       $this->db->delete('chapter');
 
     }
-    
-    
-   
 
 }

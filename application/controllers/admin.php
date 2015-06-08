@@ -44,7 +44,18 @@ class Admin extends CI_Controller {
 			if( !isset( $param[1] ) ):
 				$param[1] = '';
 			endif;
-            $this->hadith_book($param[0],$param[1]); 
+            $this->hadith_book($param[0],$param[1]);
+		elseif( $method == 'hadith-in-book' ):  
+			//set default for parameter user_id
+			if( !isset( $param[0] ) ):
+				$param[0] = '';
+			endif;
+	
+			if( !isset( $param[1] ) ):
+				$param[1] = '';
+			endif;
+		
+			$this->hadith_in_book( $param[0], $param[1]);	
         elseif( $method == 'users' ):
             $this->users();
 		elseif( $method == 'user-activities' ):
@@ -406,6 +417,22 @@ class Admin extends CI_Controller {
 			else:
 				$hadith_book->display(); 
 			endif;
+		else:
+			redirect('user/signin');
+		endif;
+	}
+	
+	function hadith_in_book( $hadith_id='', $hadith_in_book_id='' ){
+		$user_id = $this->session->userdata('user_id');
+		$role = $this->session->userdata('role_title');
+		
+		if( isset($user_id) && !empty($user_id) && !empty($role) ):
+			$this->load->helper('form');
+		
+			require_once('hadith.php');
+			$hadith = new hadith();
+			  
+			$hadith->hadith_in_book( $hadith_id, $hadith_in_book_id ); 
 		else:
 			redirect('user/signin');
 		endif;

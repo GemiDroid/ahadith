@@ -37,7 +37,7 @@ class Hadith_model extends CI_Model{
           $this->db->where('hadith_book_id',$hadith_book_id);
         endif;
           
-        if( !empty( $book_id ) ):
+        if( $book_id != '' ):
           $this->db->where('book_id',$book_id);
         endif;
         
@@ -81,6 +81,7 @@ class Hadith_model extends CI_Model{
     function insert_hadith($data){
       $this->load->database('default');
       $this->db->insert('hadith',$data);
+      return $this->db->insert_id();
     }
 
     function update_hadith($hadith_id,$data){

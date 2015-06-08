@@ -21,6 +21,7 @@
         <th style="text-align: center;">Arabic Plain</th>
         <th style="text-align: center;">English Plain</th>
         <th style="text-align: center;">Urdu Plain</th>
+        <th style="text-align: center;">Hadith in books</th>
         <th style="text-align: center;">Action</th>
       </tr>
     </thead>
@@ -31,6 +32,7 @@
           <td style="text-align: center;" lang='AR'><?php echo substr( $hadith->hadith_plain_ar, 0 ,20); ?>&nbsp;&hellip;</td>
           <td style="text-align: center;" lang='EN'><?php echo substr( $hadith->hadith_plain_en, 0, 20); ?>&nbsp;&hellip;</td>
           <td style="text-align: center;" lang='UR'><?php echo substr( $hadith->hadith_plain_ur, 0, 20); ?>&nbsp;&hellip;</td>          
+          <td style="text-align: center;"><a href='<?php echo (base_url().'admin/hadith-in-book/'.$hadith->hadith_id); ?>' >view</a></td>
           <td style="text-align: center;"><a href='<?php echo (base_url().'admin/hadith/update/'.$hadith->hadith_id); ?>' ><li class="glyphicon glyphicon-pencil"></li></a></td>
         </tr>
       <?php endforeach; ?>

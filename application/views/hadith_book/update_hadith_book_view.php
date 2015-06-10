@@ -1,10 +1,9 @@
-<div class="col-md-9" style="margin-top: 50px;">
-
-  <fieldset class="col-md-7">
+<fieldset>
   
   <legend>Updating Hadith Book</legend>
   
-    <?php echo form_open('admin/hadith-book/update/'.$hadith_book_id);?>
+  <?php $attributes = array('class' => 'form-horizontal col-md-7'); ?>
+  <?php echo form_open('admin/hadith-book/update/'.$hadith_book_id,$attributes);?>
 
     <div class="control-group">
       <label for="hadith_book_id">Hadith Book ID:</label>
@@ -48,6 +47,4 @@
       <a href="<?php echo (base_url().'admin/hadith-book/delete/'.$hadith_books->hadith_book_id); ?>" class="btn btn-danger">Delete</a>
     </div>
     <?php echo form_close();?>
-  </fieldset>
-</div>
-</div>
+</fieldset>

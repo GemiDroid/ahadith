@@ -1,6 +1,4 @@
-<div class="col-md-9" style="margin-top: 50px;">
-    
-    <fieldset>
+<fieldset>
     
     <legend>Displaying All Tags</legend>
 
@@ -46,6 +44,3 @@
     <a href="<?php echo (base_url().'admin/tag/add'); ?>" class="btn btn-primary"/>Add New Tag</a>
 
     </fieldset>
-
-</div>
- </div>

@@ -49,10 +49,10 @@
                                         <li><a href="<?php echo base_url()."muslim"; ?>">Sahih Muslim</a></li>
                                     </ul>
                                 </li>
-                                <li><a href="#">Narrators</a></li>
+                                <!--<li><a href="#">Narrators</a></li>-->
                                 <li><a href="<?php echo base_url()."search"; ?>">Search</a></li>
                                 <li><a href="#" id="optn_setting">Settings</span></a></li>
-                                <li><a href="#">Support Us</a></li>
+                                <!--<li><a href="#">Support Us</a></li>-->
 
                                 <!--if user is login-->
                                 <?php $user_id = $this->session->userdata('user_id'); ?>

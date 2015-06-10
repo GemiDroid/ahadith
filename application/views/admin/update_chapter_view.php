@@ -1,6 +1,4 @@
- <div class="col-md-9" style="margin-top: 50px;">
-
-  <fieldset>
+<fieldset>
   
    <legend>Updating Chapter</legend>
  
@@ -96,7 +94,5 @@
         <a href="<?php echo (base_url().'chapter'); ?>" class="btn btn-default">Cancel</a>
         <a href="<?php echo (base_url().'chapter/delete/'.$chapter->chapter_id); ?>" class="btn btn-danger">Delete</a>
     </div>
-    <?php echo form_close();?>
+  <?php echo form_close();?>
  </fieldset>
-</div>
-</div>

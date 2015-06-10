@@ -1,8 +1,6 @@
-<div class="col-md-9" style="margin-top: 50px;">
-              
-  <fieldset>
-    <legend>All Reports</legend>
-  <?php if(!empty($reports)): ?>
+<fieldset>
+  <legend>Displaying Error Reports</legend>
+
   <table class="table table-bordered table-hover">
     <thead style="background-color: #AABB78;">
       <tr>
@@ -18,7 +16,7 @@
     </thead>
     <tbody>
       
-
+    <?php if(!empty($reports)): ?>
       <?php foreach($reports as $report): ?>
         <tr class="<?php  if(empty($report->fixed_by) ): echo 'danger'; endif;  ?>">
           <td><?php echo $report->error_id; ?></td>
@@ -36,17 +34,7 @@
           <!--<td><a href="<?php echo base_url().'admin/report/update/'.$report->error_id; ?>"><li class="glyphicon glyphicon-pencil"></li></a></td>-->
         </tr>
       <?php endforeach; ?>
-
-      
-    
-
+    <?php endif; ?>
     </tbody>
   </table>
- 
-  <?php else:
-    echo 'No Reports Found';
-    
-    endif; ?>
-   </fieldset>
-    </div>
- </div>
+</fieldset>

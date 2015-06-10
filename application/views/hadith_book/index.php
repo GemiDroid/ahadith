@@ -46,7 +46,8 @@
 		height: 23px;
 		width: 23px;
 	}
-				
+	hr{
+		display: inline-block;
 </style>
 <div class="container">
 		<header class="row">
@@ -471,7 +472,7 @@
 				adjust_heights();
 			});
 			
-			setTimeout(adjust_heights, 1000);
+			adjust_heights();
 			
 			$('nav a:first-child').on('click', function() {
 				//$('#myModal').modal('show');

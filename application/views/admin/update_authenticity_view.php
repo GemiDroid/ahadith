@@ -1,8 +1,7 @@
-<div class="col-md-9" style="margin-top: 50px;">
-
-<fieldset class="col-md-7" >
+<fieldset>
   <legend>Updating Authenticity</legend>
-      <?php echo form_open('admin/authenticity/update/'.$authenticity_id);?>
+      <?php $attributes = array('class' => 'form-horizontal col-md-7'); ?>
+      <?php echo form_open('admin/authenticity/update/'.$authenticity_id, $attributes);?>
       
       
        <div class="control-group ">

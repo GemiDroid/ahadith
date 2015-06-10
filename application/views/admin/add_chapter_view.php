@@ -1,6 +1,4 @@
- <div class="col-md-9" style="margin-top: 50px;">
-
-  <fieldset>
+<fieldset>
   
    <legend>Adding Chapter</legend>
  
@@ -97,5 +95,3 @@
     </div>
     <?php echo form_close();?>
  </fieldset>
-</div>
-</div>

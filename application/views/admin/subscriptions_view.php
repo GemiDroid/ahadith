@@ -1,6 +1,4 @@
-<div class="col-md-9" style="margin-top: 50px;">
-
-  <fieldset>
+<fieldset>
   
   <div id="alert_message" class="alert" style="display: none;">
       <a href="#" class="close" data-dismiss="alert">&times;</a>
@@ -273,10 +271,3 @@
       
   });
 </script>
-    
-
-</div>
-</div>      
-        
-    
-          

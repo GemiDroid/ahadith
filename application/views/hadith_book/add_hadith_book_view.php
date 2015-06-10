@@ -1,10 +1,9 @@
-<div class="col-md-9" style="margin-top: 50px;">
-
-  <fieldset class="col-md-7">
+<fieldset>
   
   <legend>Adding Hadith Book</legend>
   
-    <?php echo form_open('admin/hadith-book/add/');?>
+  <?php $attributes = array('class' => 'form-horizontal col-md-7'); ?>
+  <?php echo form_open('admin/hadith-book/add/',$attributes);?>
 
     <div class="control-group">
       <label for="hadith_book_id">Hadith Book ID:</label>
@@ -46,7 +45,5 @@
       <button type="submit" id="mysubmit" name="mysubmit" value="add" class="btn btn-primary">Save Record</button>
       <a href="<?php echo (base_url().'admin/hadith-book'); ?>" class="btn btn-default">Cancel</a>
     </div>
-    <?php echo form_close();?>
-  </fieldset>
-</div>
-</div>
+ <?php echo form_close();?>
+</fieldset>

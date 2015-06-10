@@ -2255,7 +2255,8 @@ th {
 }
 
 .table thead th {
-    background-color: #469877;
+    /*background-color: #469877;*/
+    background-color: #386553;
     /*color: #333333;*/
     vertical-align: bottom;
 }

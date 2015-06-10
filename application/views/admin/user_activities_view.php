@@ -1,16 +1,15 @@
-<div class="col-md-9" style="margin-top: 50px;">
+<fieldset>
               
-          
-  <h4>Displaying All User Activities</h4>
-  <hr>
-  <?php if(!empty($user_activities)): ?>
+  <legend>Displaying All User Activities</legend>
+  
+  
   <table class="table table-bordered table-hover" id="tbl_activity_logs">
-    <thead style="background-color: #AABB78;">
+    <thead>
       <tr>
-        <th>Activity ID:</th>
-        <th>User ID:</th>
-        <th>Log Time</th>
-        <th>Log Query</th>
+        <th style="text-align: center;">Activity ID:</th>
+        <th style="text-align: center;">User ID:</th>
+        <th style="text-align: center;">Log Time</th>
+        <th style="text-align: center;">Log Query</th>
       </tr>
     </thead>
     <tbody>
@@ -18,10 +17,10 @@
 
       <?php foreach($user_activities as $row): ?>
         <tr>
-          <td><?php echo $row->user_activity_log_id; ?></td>
-          <td><?php echo $row->user_id; ?></td>
-          <td><?php echo $row->log_time; ?></td>
-          <td>
+          <td style="text-align: center;"><?php echo $row->user_activity_log_id; ?></td>
+          <td style="text-align: center;"><?php echo $row->user_id; ?></td>
+          <td style="text-align: center;"><?php echo $row->log_time; ?></td>
+          <td style="text-align: center;">
             <?php
             $queries =  json_decode($row->log_query);
             foreach( $queries as $query ):
@@ -44,11 +43,7 @@
 
     </tbody>
   </table>
-  
-  <?php else:
-    echo 'No Activities Found'; ?>
-  <?php endif;?>
-    </div>
+</fieldset>
   
     
   <!--Pop up Model-->  
@@ -69,7 +64,6 @@
 		</div><!-- /.modal-dialog -->
 	</div><!-- /.modal -->  
 
- </div>
  <script type="text/javascript">
     $(document).ready(function() {
         

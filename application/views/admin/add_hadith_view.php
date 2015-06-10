@@ -1,6 +1,4 @@
-<div class="col-md-9" style="margin-top: 50px;">
-
-  <fieldset>
+<fieldset>
   <legend>Adding Hadith</legend>  
       <?php echo form_open('admin/hadith/add/');?>
       
@@ -95,7 +93,4 @@
         <a href="<?php echo base_url().'admin/hadith' ?>" class="btn btn-default">Cancel</a>
     </div>
       <?php echo form_close();?>
-  
-  </fieldset>
-</div>
-</div>
+</fieldset>

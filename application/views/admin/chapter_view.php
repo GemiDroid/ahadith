@@ -1,12 +1,10 @@
-<div class="col-md-9" style="margin-top: 50px;">
-  
-     <div style="float:right;" class="control-group form-inline">
-      <label for="search_chapter_by_id">Search Chapter by ID: </label>
-      <input class="form-control" style="width: 100px;" type="text" id="search_chapter_by_id"/>
-      <button class="search-btn"><li class="glyphicon glyphicon-search"></li></button>
-    </div>
+<div style="margin-left:60%;" class="control-group form-inline">
+ <label for="search_chapter_by_id">Search Chapter by ID: </label>
+ <input class="form-control" style="width: 100px;" type="text" id="search_chapter_by_id"/>
+ <button class="search-btn"><li class="glyphicon glyphicon-search"></li></button>
+</div>
           
-  <fieldset>
+<fieldset>
               
   <legend>Displaying All Chapters</legend>
   
@@ -45,20 +43,18 @@
   </table>
     
 </fieldset>
-</div>
-</div>
  
- <script type="text/javascript">
-  
-  $(document).ready(function(){
+<script type="text/javascript">
+ 
+ $(document).ready(function(){
 
-    $('.search-btn').on("click", function() {
-      //if field is not empty
-      if ( $('#search_chapter_by_id').val().trim() != '' ) {
-        window.open("<?php echo base_url(); ?>admin/chapter/update/"+$('#search_chapter_by_id').val(),"_self");
-      }
-    });
+   $('.search-btn').on("click", function() {
+     //if field is not empty
+     if ( $('#search_chapter_by_id').val().trim() != '' ) {
+       window.open("<?php echo base_url(); ?>admin/chapter/update/"+$('#search_chapter_by_id').val(),"_self");
+     }
+   });
 
-  });
+ });
 
- </script>
+</script>

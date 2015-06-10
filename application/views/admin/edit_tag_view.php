@@ -1,9 +1,7 @@
-<div class="col-md-9" style="margin-top: 50px;">
-  
-  <fieldset class="col-md-7">
-	<legend>Update Tag</legend>
-	<?php $attributes = array('class' => 'form-horizontal'); ?>
-    <?php echo form_open( 'admin/tag/update/'.$tag_id, $attributes ); ?>  
+<fieldset>
+      <legend>Update Tag</legend>
+      <?php $attributes = array('class' => 'form-horizontal col-md-7'); ?>
+      <?php echo form_open( 'admin/tag/update/'.$tag_id, $attributes ); ?>  
         
         <div class="control-group">
        
@@ -69,10 +67,4 @@
 	  </div>
 	  
       <?php echo form_close();?>
-
-    </tbody>
-  </table>
-
 </fieldset>
-</div>
-</div>

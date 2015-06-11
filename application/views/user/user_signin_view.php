@@ -5,13 +5,20 @@
         
     <section class="row">
       
+      <?php $message = $this->session->flashdata('message');  ?>
+      <?php if(isset($message) AND !empty($message)): ?>
+      <div id="alert_message" class="alert alert-danger" style="width:28%;margin-left: 33%;">
+          <a href="#" class="close" data-dismiss="alert">&times;</a>
+          <span><?php echo $message; ?></span>
+      </div>
+      <?php endif; ?>
+      
       <div class="search-box"> 
 
         <div class="col-md-6 change_password"> 
           <?php $attributes = array('class' => 'form-horizontal'); ?>
           <?php echo form_open( 'user/signin/' , $attributes ); ?>
   
-        
   
         <?php if( isset($error_message) ): ?>
         <span class="text-error"><?php echo $error_message; ?></span>
@@ -35,7 +42,7 @@
         <div>&nbsp;</div>
         
         <div class="control-group">
-          <input type="submit" id="btn_signin" name="btn_signin" value="Sign In" class="btn btn-primary" tabindex="5" />
+          <button type="submit" id="btn_signin" name="btn_signin" value="Sign In" class="btn btn-primary" tabindex="5" >Sign In</button>
           <br/>
           <br/>
           <a href="<?php echo base_url() . 'user/forgot-password/';?>" class="links">Forgot Password?</a>&nbsp;&nbsp;
@@ -53,3 +60,13 @@
   <footer class="row">			
   </footer>
 </div><!--container-->
+
+<script type="text/javascript">
+  
+  function hide_alert() {
+      $('#alert_message').fadeOut('slow');
+  } 
+  $(document).ready(function(){
+    setTimeout("hide_alert()", 10000);
+  });
+</script>

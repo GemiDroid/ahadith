@@ -3,7 +3,7 @@
 
     <?php
         if( !empty( $error_msg )) {
-            echo "<h3 class='text-error' style='margin-top: 50px; margin-bottom: 100px;'>";
+            echo "<h3 class='text-error' style='text-align:center; margin-top: 50px; margin-bottom: 100px;'>";
             echo $error_msg;
             echo "</h3>";
         }

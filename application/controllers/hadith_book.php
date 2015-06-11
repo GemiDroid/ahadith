@@ -157,10 +157,11 @@ class Hadith_book extends CI_Controller{
 				$hadith_tags_options='';
 				
 				//get html code for drop down and label
-				
 				if(!empty( $hadith_tags )):
 					foreach( $hadith_tags as $hadith_tag ):
-						$hadith_tags_html .= '<span class="label label-default pull-right" style="margin-left: 5px;">'.$hadith_tag->tag_title_en.'</span>';
+						$hadith_tags_html .= '<span lang="EN" class="label label-default pull-right" style="margin-left: 5px;">'.$hadith_tag->tag_title_en.'</span>';
+						$hadith_tags_html .= '<span lang="UR" style="display: none;" class="label label-default pull-right" style="margin-left: 5px;">'.$hadith_tag->tag_title_ur.'</span>';
+						$hadith_tags_html .= '<span lang="AR" style="display: none;" class="label label-default pull-right" style="margin-left: 5px;">'.$hadith_tag->tag_title_ar.'</span>';
 						$hadith_tags_options .= '<option value="'. $hadith_tag->tag_id.'">'.$hadith_tag->tag_title_en.'</option>';
 					endforeach;
 				endif;
@@ -260,7 +261,7 @@ class Hadith_book extends CI_Controller{
 
 		if($hadith_book_id !='' AND $this->hadith_book_model->get_hadith_book_by_id( $hadith_book_id ) == FALSE ):
 		
-			$list['error_msg'] = "Provided Hadith Book ID doesn't exist. Use the menu if you have access.";
+			$list['error_msg'] = "Provided Page doesn't exist. Use the menu if you have access.";
 			$list['main_content'] = "message_view";
 			$this->load->view('includes/template', $list);
 			return;
@@ -271,7 +272,7 @@ class Hadith_book extends CI_Controller{
 		if( $book_id != '' ):
 			//check book by its hadith book id
 			if($this->book_model->get_book_by_id( $book_id, $hadith_book_id ) == FALSE ):
-				$list['error_msg'] = "Provided Book ID doesn't exist.Use the menu if you have access.";
+				$list['error_msg'] = "Provided Book doesn't exist.Use the menu if you have access.";
 				$list['main_content'] = "message_view";
 				$this->load->view('includes/template', $list);
 				return;

@@ -2478,6 +2478,7 @@ fieldset {
   margin: 0;
   border: 0;
   min-width: 0;
+  font-size: 0.87em;
 }
 legend {
   display: block;

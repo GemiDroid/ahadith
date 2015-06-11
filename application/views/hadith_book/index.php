@@ -48,6 +48,7 @@
 	}
 	hr{
 		display: inline-block;
+	}
 </style>
 <div class="container">
 		<header class="row">
@@ -118,7 +119,7 @@
 								<!--Hadith ID and Bookmark-->
 								<a id="<?php echo $hadith->hadith_book_id; ?>/book/<?php echo $hadith->book_id; ?>/chapter/<?php echo $hadith->chapter_id; ?>/hadith/<?php echo $hadith->hadith_in_book_id;?>">Hadith No: <?php echo $hadith->hadith_in_book_id;?></a>
 								<span style="padding-left: 30px;">
-									<a name="b93" href="#" class="bookmark_link">Bookmark &nbsp;|&nbsp;&nbsp;
+									<a name="b93" href="javascript:void(0)" class="bookmark_link" title="Click here to favorite this hadith">Bookmark &nbsp;|&nbsp;&nbsp;
 										<!--if hadith is favorited then it will have filled star, otherwise empty-->
 										<span class="glyphicon <?php echo !empty($hadith->book_mark)? 'glyphicon-star':'glyphicon-star-empty' ?>" aria-hidden="true" style="position: relative; top: 3px;"></span>
 									</a>
@@ -126,7 +127,7 @@
 								
 								<!--add flag for this hadith-->
 								<span style="padding-left: 30px;">
-									<a name="b93" href="#" class="flag_link">Flag &nbsp;|&nbsp;&nbsp;
+									<a name="b93" href="javascript:void(0)" class="flag_link" title="Click here to report this hadith">Flag &nbsp;|&nbsp;&nbsp;
 										<span class="glyphicon glyphicon-flag" aria-hidden="true" style="position: relative; top: 3px;"></span>
 									</a>
 									<span style="display: none;"><?php echo $hadith->hadith_id; ?></span>
@@ -144,7 +145,9 @@
 								</span>
 								<!--if user is login-->
 								<?php if( !empty($user_id) ): ?>
-									<span class="add_tag glyphicon glyphicon-plus pull-right" aria-hidden="true" style="position: relative; top: 3px; margin-left: 5px;"></span>
+									<a name="b93" href="javascript:void(0)" title="Click here to add tag for this hadith">
+										<span href="javascript:void(0)" class="add_tag glyphicon glyphicon-plus pull-right" aria-hidden="true" style="position: relative; top: 3px; margin-left: 5px;"></span>
+									</a>
 								<?php endif; ?>
 							</div>
 							<p lang="AR"><?php echo $hadith->hadith_plain_ar; ?></p>
@@ -285,7 +288,7 @@
                                 </td>
                                 <td>
                                     <select id="ddl_chapters_lang" name="ddl_chapters_lang">
-					<option value="EN" <?php echo set_select('ddl_chapters_lang', 'EN', !empty( $chapter_language ) AND $chapter_language == 'EN'? TRUE:FALSE ); ?> >English</option>
+										<option value="EN" <?php echo set_select('ddl_chapters_lang', 'EN', !empty( $chapter_language ) AND $chapter_language == 'EN'? TRUE:FALSE ); ?> >English</option>
                                         <option value="AR" <?php echo set_select('ddl_chapters_lang', 'AR', !empty( $chapter_language ) AND $chapter_language == 'AR'? TRUE:FALSE); ?> >Arabic</option>
                                         <option value="UR" <?php echo set_select('ddl_chapters_lang', 'UR', !empty( $chapter_language ) AND $chapter_language == 'UR'? TRUE:FALSE); ?>>Urdu</option>
                                     </select>
@@ -447,7 +450,6 @@
 				endif;
 				endif;
 			?>
-			
 			
 			//remove <hr> from last hadith
 			$(".hadith").last().find('hr').remove();
@@ -813,10 +815,19 @@
 				
 				result['new_tags'] = new_tags.toString();
 				
+				var ddl_hadith_tags= $(this).parent().parent().find('.ddl_hadith_tags');
+				
 				$.ajax({
 					type: "POST",
 					url: '<?php echo base_url(); ?>hadith_book/view',
-					data: { data: result }
+					data: { data: result },
+					success: function(data) {
+                        data = $.parseJSON( data );
+						//if (data.message.type == 'success') {
+							$('#'+hadith_in_book_id).find('.hadith_tags').html(data.hadith_tags_html);
+							$('#'+hadith_in_book_id).find('.ddl_hadith_tags').html(data.hadith_tags_options);
+						//}
+					}   
 				});
 				$('#myModal').modal('hide');
 			});

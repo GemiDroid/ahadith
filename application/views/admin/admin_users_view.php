@@ -51,7 +51,7 @@ $(document).ready(function(){
        
         $.ajax({
             type:'POST',
-            url:'<?php echo base_url(); ?>admin/user_status',
+            url:'<?php echo base_url(); ?>admin/users',
             data:{'user_id': user_id , 'status':status},
             success: function(){
              

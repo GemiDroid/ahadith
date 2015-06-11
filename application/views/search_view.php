@@ -1,46 +1,3 @@
-<style type="text/css">
- .highlight
-{
-background: #CEDAEB;
-font-style: italic;
-font-weight: bold;
-}
- 
-.highlight_important
-{
-background: #F8DCB8;
-font-style: italic;
-font-weight: bold;
-}   
-    
-#tail {
-  background:-webkit-gradient(linear, 0 0%, 0 100%, from(#469877), to(#386553));
-  border-radius:0 0 10px 10px;
-  clear:both;
-  color:#EEEEEE;
-  font-weight:bold;
-  text-shadow:#666666 1px 1px;
-}
-
-table tbody tr td .arabic-buttons{
-    width: 40px;
-    margin: 2px;
-}
-
-
-table tbody tr td .urdu-buttons{
-    width: 40px;
-    margin: 2px;
-}
-
-/*#backspace{
-    width: 100%;
-    margin: 2px;
-}
-*/
-
-</style>
-
 <div class="container">
 		<header class="row">
             <h2 class="col-sm-3 col-lg-2 hidden-xs">Search Ahadith</h2>
@@ -76,14 +33,14 @@ table tbody tr td .urdu-buttons{
                         
                 </div>
                 
-                <hr/>
+                <legend></legend>
                 <div class="form-group">
                   <label style="text-align: left;" for="txt_search_text" class="col-sm-3 control-label">Type Search Text:</label>
                   <div class="col-sm-7">
-                    <input type="text" class="full-width ltr" name="txt_search_text" id="txt_search_text" value="<?php echo set_value('txt_search_text', ''); ?>" placeholder="Search">
+                    <input class="form-control" type="text" class="full-width ltr" name="txt_search_text" id="txt_search_text" value="<?php echo set_value('txt_search_text', ''); ?>" placeholder="Search">
                   </div>
-                 
-                    <input type="submit" name="mysubmit" class="button" value="Click to Search" />
+                  
+                    <button class="btn btn-primary" type="submit" name="mysubmit">Search</button>
                 
                 </div>
                 
@@ -112,17 +69,12 @@ table tbody tr td .urdu-buttons{
                         </div>
                 </div>
                 
-                  
-            
-                  
-                  
-                  
         <div class="form-group">
                   <label style="text-align: left;" for="ddl_hadith_book" class="col-sm-3 control-label">Hadith Book Selected:</label>
                   <div class="col-sm-7">
                     
                     <?php if(!empty($hadith_books)):?>
-                        <select name="ddl_hadith_book" id="ddl_hadith" class="full-width">
+                        <select class="form-control" name="ddl_hadith_book" id="ddl_hadith" class="full-width">
                             <?php foreach($hadith_books as $row):?>
                                 <option  value="<?php echo $row->hadith_book_id; ?>" <?php echo  set_select('ddl_hadith_book',$row->hadith_book_id, FALSE); ?> ><?php echo $row->hadith_book_title_en;?> </option>
                               <?php endforeach; ?>
@@ -134,21 +86,12 @@ table tbody tr td .urdu-buttons{
                     <?php endif; ?>
                     
                   </div>
-                  
-                   
-                   
-                   <div class="col-sm-3">
-                  
-                  
-                 
-                    <div class="checkbox">
+ 
+                    <div>
                         <label>
                             <input type="checkbox" id="chk_hadith_books" name="chk_hadith_books" value="1" <?php echo set_checkbox('chk_hadith_books', '1'); ?> aria-label="">All Books
                         </label>
                     </div>
-               
-                </div>
-                   
                    
                    </div>
                 
@@ -157,7 +100,7 @@ table tbody tr td .urdu-buttons{
                   <div class="col-sm-7">
                     
                     <?php if(!empty($books)):?>
-                        <select name="ddl_book" id="ddl_book" class="full-width">
+                        <select class="form-control" name="ddl_book" id="ddl_book" class="full-width">
                             <?php foreach($books as $row):?>
                                 <option value="<?php echo $row->book_id; ?>"  <?php echo  set_select('ddl_book',$row->book_id, FALSE); ?> ><?php echo $row->book_title_en;?> </option>
                             <?php endforeach; ?>
@@ -170,33 +113,25 @@ table tbody tr td .urdu-buttons{
                     
                   </div>
                   
-                <div class="col-sm-3">
-                    <div class="checkbox">
+             
+                    <div>
                         <label>
                             <input type="checkbox" id="chk_all_books" name="chk_all_books" value="1" <?php echo set_checkbox('chk_all_books', '1'); ?> aria-label="">All Books
                         </label>
               
-                  </div>
-                </div>
+                    </div>
+          
                 </div>
  </div><!--saerch box-->   
-            <?php echo form_close(); ?>
-
-            
-     
-            
-	
+            <?php echo form_close(); ?>	
         
         <!-- code for searched hadith div  -->
         
 <div id="hadith-main" style="width: 1255px;" >
-<div id="hadith" style="height: 215px; overflow: scroll-y;  scrollbar-face-color: #EEEEEE;  padding: 0px 15px 0px 15px;  width: 1165px; alignment-adjust: central;" tabindex="0">
+<div id="hadith" style="height: 280px; overflow: scroll-y;  scrollbar-face-color: #EEEEEE;  padding: 0px 15px 0px 15px;  width: 1165px; alignment-adjust: central;" tabindex="0">
 
-  
-  
      <?php if(!empty($ahadith)):?>
-        
-        
+                
           <?php
                         function hightlight($str, $keywords = '')
                         {
@@ -225,25 +160,22 @@ table tbody tr td .urdu-buttons{
                         }
                     ?>
         
-        
            <!-- <div style="height: 300px; width: 1200px; border:1px solid; overflow-y: auto; alignment-adjust: central;">-->
                 <?php foreach($ahadith as $row):?>
                     <div class="search-results" style="font-size: medium; text-align: justify;">
                         <h4><strong><?php echo $row->hadith_book_name; ?>, <?php echo $row->book_name; ?>, Hadith No. <?php echo $row->hadith_id;?></strong></h4>
                         
+                        <div class="hadith_lang" lang="<?php echo strtoupper($row->language); ?>">
+                            <?php 
+                                $keywords = $this->input->post('txt_search_text');
+                                $string = hightlight($row->hadith_body, $keywords); 
+                                
+                                echo $string; 
+                            ?>
+                          
+                            <?php echo $row->hadith_body;?>
+                        </div>
                         
-                      <?php 
-                    
-                        
-                         //$keywords = 'Messenger';
-                         $keywords = $this->input->post('txt_search_text');
-                        $string = hightlight($row->hadith_body, $keywords); 
-                        
-                        echo $string; 
-                        
-                        ?>
-                        
-                        <?php echo $row->hadith_body;?>
                     </div>
                 <?php endforeach; ?>
 <!--</div>-->     
@@ -259,9 +191,6 @@ table tbody tr td .urdu-buttons{
     <div id="tail"/>   
         
 </section>
-       
-       
-      
        
 <div id="bm_Modal" class="modal fade">
     
@@ -329,17 +258,11 @@ table tbody tr td .urdu-buttons{
                     <input type="button" value="Space" class="buttons" id="spaceAR" onclick="space(this.id);"/>
                     <input type="button" value="Done" class="buttons" id="doneAR" onclick="done(this.id);"/>
                 </div>
-                
-       
+                   
     </div><!--modal body-->
 </div><!-- /.modal-content -->
 </div><!-- /.modal-dialog -->
 </div> <!--modal--> 
-    
-    
-    
-    
-    
     
 <div id="bm_Modalurdu" class="modal fade">
     
@@ -419,17 +342,12 @@ table tbody tr td .urdu-buttons{
 
 </div>
  
-        <footer class="row">			
-		</footer>
+    <footer class="row">			
+	</footer>
 </div>
 	
-<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-<!-- Include all compiled plugins (below), or include individual files as needed -->
-<script src="<?php echo base_url(); ?>assets/js/bootstrap.min.js"></script>
 <script type="text/javascript">
     
-    //
     $("#ddl_hadith" ).change(function() {
         
         //prepare the data to be passed
@@ -467,11 +385,7 @@ table tbody tr td .urdu-buttons{
         });
         
     });
-</script>
 
-
-
-<script type="text/javascript">
     $(document).ready(function(){
         $('input[type="radio"]').click(function(){
             if($(this).attr("value")=="ar"){
@@ -490,10 +404,8 @@ table tbody tr td .urdu-buttons{
             }
         });
     });
-</script>
 
-
-<script type="text/javascript">
+    
     $(document).ready(function(){
         $('span').click(function(){
             if($(this).attr("class")=="arabic"){
@@ -509,11 +421,7 @@ table tbody tr td .urdu-buttons{
             
         });
     });
-</script>
 
-
-
-<script type="text/javascript">
     function putAR(num){
         //alert('arabic');
     
@@ -521,6 +429,7 @@ table tbody tr td .urdu-buttons{
         txt=txt + num;
         document.getElementById('txtTextAR').value = txt;
     }
+    
     function backspace(num){
         
         if(num== 'backspaceAR'){
@@ -539,7 +448,6 @@ table tbody tr td .urdu-buttons{
         
     }
     
-    
      function putUR(num){
         //alert('arabic');
     
@@ -548,7 +456,6 @@ table tbody tr td .urdu-buttons{
         document.getElementById('txtTextUR').value = txt;
             
     }
-    
     
     function space(num){
         if(num == 'spaceAR'){
@@ -564,8 +471,6 @@ table tbody tr td .urdu-buttons{
         }
        
     }
-    
-    
     
     function done(num){
         

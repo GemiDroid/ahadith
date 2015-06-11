@@ -84,14 +84,15 @@ class Search extends CI_Controller{
             $list['ahadith'] = $this->hadith_book_model->get_all_hadith_books($search_language,$type_search_text,$search_text_option,$hadith_book,$book_id,$all_hadith_books,$all_books,$display_per_page);
 	    
             //$list['ahadith']->word = $type_search_text;
-                
-                
+              
+               
                 if( !empty( $list['ahadith'] ) ):
                         
                         //get hadith_book_name for each hadith
                         for($j=0;$j<count($list['ahadith']);$j++):
                             $list['ahadith'][$j]->hadith_book_name = $this->hadith_book_model->get_hadith_book_by_id( $list['ahadith'][$j]->hadith_book_id )->hadith_book_title_en;
-                            
+                            $list['ahadith'][$j]->language = $search_language;
+                
                         endfor;
                         
                         //get book_name for each hadith
@@ -100,6 +101,10 @@ class Search extends CI_Controller{
                         endfor;
                 endif;
         endif;
+        
+      
+        
+        
 		$list['main_content'] = 'search_view';
 		
 		$this->load->view('includes/template',$list);

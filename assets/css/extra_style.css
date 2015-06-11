@@ -406,3 +406,70 @@ div#hadith {
 .col-md-9{
     font-size: 15px;
 }
+
+
+
+/**************************************************************************************************/
+/********************************* Search View - Start ********************************/
+/**************************************************************************************************/
+
+ .highlight
+{
+background: #CEDAEB;
+font-style: italic;
+font-weight: bold;
+}
+ 
+.highlight_important
+{
+background: #F8DCB8;
+font-style: italic;
+font-weight: bold;
+}   
+    
+#tail {
+  background:-webkit-gradient(linear, 0 0%, 0 100%, from(#469877), to(#386553));
+  border-radius:0 0 10px 10px;
+  clear:both;
+  color:#EEEEEE;
+  font-weight:bold;
+  text-shadow:#666666 1px 1px;
+}
+
+table tbody tr td .arabic-buttons{
+    width: 40px;
+    margin: 2px;
+}
+
+
+table tbody tr td .urdu-buttons{
+    width: 40px;
+    margin: 2px;
+}
+
+/*#backspace{
+    width: 100%;
+    margin: 2px;
+}
+*/
+
+
+.hadith_lang:lang(ar) {
+	text-align:justify;
+	font-size:1.5rem;
+	direction:rtl;
+	font-family:Scheherazade, arabic, serif;
+}
+
+
+.hadith_lang:lang(ur) {
+	font-weight:normal;
+	line-height:2;
+	font-size:1.2rem;
+	direction:rtl;
+	font-family:'Jameel Noori Nastaleeq', 'Nafees Nastaleeq', Nafees, urdu, serif;
+}
+
+/**************************************************************************************************/
+/********************************* Search View - END ********************************/
+/**************************************************************************************************/

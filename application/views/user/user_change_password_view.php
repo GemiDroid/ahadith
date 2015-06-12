@@ -12,7 +12,7 @@
 		<div class="col-md-5 change_password"> 
 		
 		<?php if(!empty($string)): ?>
-			<span style="font-size medium; font-style: italic;"><?php echo $string; ?></span>
+			<span style="font-size medium; color: red;"><?php echo $string; ?></span>
 		<?php endif; ?>
       
               <!--<?php echo validation_errors(); ?>-->
@@ -50,7 +50,7 @@
 		 <div>&nbsp;</div>
 		 
 		<div class="control-group">
-		    <input type="submit" id="btn_change_password" name="btn_change_password" value="Change Password" class="btn btn-primary" tabindex="5" />
+		    <input type="submit" id="btn_change_password" name="btn_change_password" value="Change Password" class="btn btn-primary" />
 		</div>
 		
 	
@@ -64,3 +64,65 @@
         <footer class="row">			
 	</footer>
 </div>
+
+
+<script type="text/javascript">
+	
+	 $('#txt_old_password').blur(function() { 
+      if($('#txt_old_password').val()== "" ){
+        $(this).parent().children('div').text("Please enter old password").addClass("text-error");
+      }
+
+    });
+	 
+	  $('#txt_new_password').blur(function() { 
+      if($('#txt_new_password').val()== "" ){
+        $(this).parent().children('div').text("Please enter new password").addClass("text-error");
+      }
+
+    });
+	
+	
+	 $('#txt_confirm_password').blur(function() { 
+      if($('#txt_confirm_password').val()!= $('#txt_new_password').val() ){
+        $(this).parent().children('div').text("Confirm password does not match the password").addClass("text-error");
+      }
+
+    });
+	 
+	 
+	$('#txt_old_password').keypress(function() {
+      $(this).parent().children('div').text("").removeClass("text-error");
+          
+    });
+	 
+	 
+	$('#txt_new_password').keypress(function() {
+      $(this).parent().children('div').text("").removeClass("text-error");
+          
+    });
+	  
+	$('#txt_confirm_password').keypress(function() {
+      $(this).parent().children('div').text("").removeClass("text-error");
+          
+    });
+	
+	
+	$(document).ready(function(){
+      $('#btn_change_password').click(function(event) {
+		
+		if($('#txt_old_password').val()== "" ){
+			event.preventDefault();
+			$('#txt_old_password').parent().children('div').text("Please enter old password").addClass("text-error");
+		}
+		
+		if($('#txt_new_password').val()== "" ){
+			event.preventDefault();
+			$('#txt_new_password').parent().children('div').text("Please enter new password").addClass("text-error");
+		}
+      
+		
+	  });
+	});
+	 
+</script>

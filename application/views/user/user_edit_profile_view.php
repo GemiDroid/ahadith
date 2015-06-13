@@ -10,7 +10,7 @@
           <!--<?php echo validation_errors(); ?>-->
 		<div class="col-md-7 edit_profile">   
 		<?php if(!empty($info)): ?>
-		<span style="font-size: larger; font-style: italic; margin-left: 200px;"><?php echo $info; ?></span>
+		<span style="font-size: larger;  margin-left: 110px;"><?php echo $info; ?></span>
 		<?php endif; ?>
 		  
   
@@ -113,5 +113,91 @@
 			format: 'yyyy-mm-dd',
 			todayHighlight: true
 		});
-	});	 
+	});
+	 
+	 
+	$('#txt_email').blur(function() {
+		var email_regex = new RegExp(/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/);
+		var email = $('#txt_email').val();
+		
+		if( $('#txt_email').val()== ""){
+			$(this).parent().children('div').text("Please enter email address").addClass("text-error");
+		}
+		else if(!email_regex.test(email) ){
+			$(this).parent().children('div').text("Email must contain valid email address").addClass("text-error");
+		}
+	 
+	});
+	
+	
+	
+	$('#txt_full_name').blur(function() {
+      var fullname_regex = new RegExp(/^[a-zA-Z\s]+$/);
+      var name = $('#txt_full_name').val();
+      if($('#txt_full_name').val() == "" ){
+        $(this).parent().children('div').text("Please enter your full name").addClass("text-error");
+      }
+      
+      else if(!fullname_regex.test(name) ){
+          $(this).parent().children('div').text("Full name must contain characters").addClass("text-error");
+      }
+
+    });
+	
+	
+	
+	 $('#txt_email').keypress(function() {
+      $(this).parent().children('div').text("").removeClass("text-error");
+          
+    });
+        
+    $('#txt_full_name').keypress(function() {
+      $(this).parent().children('div').text("").removeClass("text-error");
+          
+    });
+	
+	
+	
+	
+	
+	 $(document).ready(function(){
+      $('#btn_save').click(function(event) {
+    
+      
+      // regex for email validation
+      var email_regex = new RegExp(/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/);
+      var email = $('#txt_email').val();
+      
+      // regex for full name validation
+      var fullname_regex = new RegExp(/^[a-zA-Z\s]+$/);
+      var name = $('#txt_full_name').val();
+      //
+	  
+	  
+	  if($('#txt_email').val() == ""){
+        event.preventDefault();
+        $('#txt_email').parent().children('div').text("Please enter your email address").addClass("text-error");
+            
+      }
+        
+      else if(!email_regex.test(email) ){
+          event.preventDefault();
+          $('#txt_email').parent().children('div').text("Email must contain valid email address").addClass("text-error");
+      }
+	  
+	  
+	  
+	   if($('#txt_full_name').val() == "" ){
+         event.preventDefault();
+        $('#txt_full_name').parent().children('div').text("Please enter your full name").addClass("text-error");
+      }
+      
+      else if(!fullname_regex.test(name) ){
+         event.preventDefault();
+          $('#txt_full_name').parent().children('div').text("Full name must contain characters").addClass("text-error");
+      }
+	  
+	  });
+	 });
+      
 </script>

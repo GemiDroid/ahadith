@@ -165,7 +165,7 @@
 					$list['email'] = $this->user_model->forgot_password( $email );
 					
 					if($list['email'] == NULL):
-						$list['error']= "The email id you entered not found on our database ";
+						$list['error']= "This email address does not exist ";
 						
 					else:
 					
@@ -243,7 +243,7 @@
 					$list['email'] = $this->user_model->forgot_password( $email );
 					
 					if($list['email'] == NULL):
-						$list['error']= "The email id you entered not found on our database ";
+						$list['error']= "This email address does not exist ";
 						
 					else:
 					
@@ -436,7 +436,7 @@
 				  $this->user_model->insert_user($data);
 	
 				  //$this->session->set_userdata('user_id',$data['user_id']);
-				  $list['info'] = "Successfully Register, Your Account will be verified by the Admin ";
+				  $list['info'] = "Successfully Registered, Your Account will be verified by the Admin ";
 				  $list['main_content'] = 'user/user_registration_view';
 				  $this->load->view('includes/template',$list);
 				  //redirect('user/home');

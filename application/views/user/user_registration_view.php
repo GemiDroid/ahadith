@@ -23,7 +23,7 @@
           
           <div class="control-group">
             <label class="control-label" for="txt_username">Username:</label>
-            <input class="form-control" type="text" name="txt_username" id="txt_username" value="<?php echo set_value('txt_username',''); ?>" size="50" />
+            <input class="form-control" type="text" name="txt_username" id="txt_username" value="<?php echo set_value('txt_username',''); ?>" size="5" maxlength="50"/>
             <div class="help-inline">
               <?php echo form_error('txt_username', '<span class="text-error">', '</span>'); ?>
             </div>
@@ -41,7 +41,7 @@
               
           <div class="control-group">
             <label class="control-label" for="txt_password">Password:</label>
-            <input class="form-control" type="password" name="txt_password" id="txt_password" value="<?php echo set_value('txt_password', ''); ?>" size="50" />
+            <input class="form-control" type="password" name="txt_password" id="txt_password" value="<?php echo set_value('txt_password', ''); ?>" size="50" maxlength="64"/>
             <div class="help-inline">
               <?php echo form_error('txt_password', '<span class="text-error">', '</span>'); ?>
             </div>
@@ -133,5 +133,169 @@
 			format: 'yyyy-mm-dd',
 			todayHighlight: true
 		});
-	});	 
+	});
+     
+    $('#txt_username').blur(function() {
+      
+      var user = new RegExp('^[a-zA-Z0-9_]+$');
+      var value = $('#txt_username').val();
+      //
+      if($('#txt_username').val() == "" ){
+        $(this).parent().children('div').text("Please enter username").addClass("text-error");
+      }
+      
+     else if(!user.test(value) ){
+          $(this).parent().children('div').text("only alphabets, numbers and underscore are allowed").addClass("text-error");
+      }
+     
+     
+    });
+    
+    $('#txt_email').blur(function() {
+     var email_regex = new RegExp(/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/);
+      var email = $('#txt_email').val();
+      
+      if($('#txt_email').val() == ""){
+         $(this).parent().children('div').text("Please enter your email").addClass("text-error");
+     }
+       
+      else if(!email_regex.test(email) ){
+          $(this).parent().children('div').text("Email must contain valid email address").addClass("text-error");
+      }
+      
+    });
+ 
+    
+     $('#txt_password').blur(function() { 
+      if($('#txt_password').val()== "" ){
+        $(this).parent().children('div').text("Please enter your password").addClass("text-error");
+      }
+
+    });
+    
+    $('#txt_confirm_password').blur(function() { 
+      if($('#txt_confirm_password').val()!= $('#txt_password').val() ){
+        $(this).parent().children('div').text("Confirm password does not match the password").addClass("text-error");
+      }
+
+    });
+    
+     $('#txt_full_name').blur(function() {
+      var fullname_regex = new RegExp(/^[a-zA-Z\s]+$/);
+      var name = $('#txt_full_name').val();
+      if($('#txt_full_name').val() == "" ){
+        $(this).parent().children('div').text("Please enter your full name").addClass("text-error");
+      }
+      
+      else if(!fullname_regex.test(name) ){
+          $(this).parent().children('div').text("Full name must contain characters").addClass("text-error");
+      }
+
+    });
+     
+      $('#txt_date-of_birth').blur(function() { 
+      if($('#txt_date_of_birth').val() == "" ){
+        $(this).parent().children('div').text("Please enter your Date of Birth").addClass("text-error");
+      }
+
+    });
+    
+    $('#txt_username').keypress(function() {
+      $(this).parent().children('div').text("").removeClass("text-error");
+          
+    });
+     
+    $('#txt_email').keypress(function() {
+      $(this).parent().children('div').text("").removeClass("text-error");
+          
+    });
+      
+    $('#txt_password').keypress(function() {
+      $(this).parent().children('div').text("").removeClass("text-error");
+          
+    });
+       
+    $('#txt_confirm_password').keypress(function() {
+      $(this).parent().children('div').text("").removeClass("text-error");
+          
+    });
+        
+    $('#txt_full_name').keypress(function() {
+      $(this).parent().children('div').text("").removeClass("text-error");
+          
+    });
+    
+    
+    
+    
+    
+     $(document).ready(function(){
+      $('#btn_register').click(function(event) {
+        
+      // regex for username validation
+      var user = new RegExp('^[a-zA-Z0-9_]+$');
+      var value = $('#txt_username').val();
+      
+      // regex for email validation
+      var email_regex = new RegExp(/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/);
+      var email = $('#txt_email').val();
+      
+      // regex for full name validation
+      var fullname_regex = new RegExp(/^[a-zA-Z\s]+$/);
+      var name = $('#txt_full_name').val();
+      //
+      
+      
+      if($('#txt_username').val() == "" ){
+          event.preventDefault();
+        $('#txt_username').parent().children('div').text("Please enter username").addClass("text-error");
+      }
+      
+      else if(!user.test(value) ){
+        event.preventDefault();
+          $('#txt_username').parent().children('div').text("only alphabets, numbers and underscore are allowed").addClass("text-error");
+      }
+      
+      if($('#txt_email').val() == ""){
+        event.preventDefault();
+        $('#txt_email').parent().children('div').text("Please enter your email address").addClass("text-error");
+            
+      }
+        
+      else if(!email_regex.test(email) ){
+          event.preventDefault();
+          $('#txt_email').parent().children('div').text("Email must contain valid email address").addClass("text-error");
+      }
+      
+      if($('#txt_password').val()== "" ){
+        event.preventDefault();
+        $('#txt_password').parent().children('div').text("Please enter your password").addClass("text-error");
+      }
+      
+      if($('#txt_confirm_password').val()!= $('#txt_password').val() ){
+        event.preventDefault();
+        $('#txt_confirm_password').parent().children('div').text("Confirm password does not match the password").addClass("text-error");
+      }
+      
+      if($('#txt_full_name').val() == "" ){
+         event.preventDefault();
+        $('#txt_full_name').parent().children('div').text("Please enter your full name").addClass("text-error");
+      }
+      
+      else if(!fullname_regex.test(name) ){
+         event.preventDefault();
+          $('#txt_full_name').parent().children('div').text("Full name must contain characters").addClass("text-error");
+      }
+      
+      if($('#txt_date_of_birth').val() == "" ){
+         event.preventDefault();
+        $('#txt_date_of_birth').parent().children('div').text("Please enter your Date of Birth").addClass("text-error");
+      }
+      
+      
+      });
+    });
+     
+
+    
 </script>

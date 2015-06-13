@@ -42,7 +42,7 @@
         <div>&nbsp;</div>
         
         <div class="control-group">
-          <button type="submit" id="btn_signin" name="btn_signin" value="Sign In" class="btn btn-primary" tabindex="5" >Sign In</button>
+          <button type="submit" id="btn_signin" name="btn_signin" value="Sign In" class="btn btn-primary"  >Sign In</button>
           <br/>
           <br/>
           <a href="<?php echo base_url() . 'user/forgot-password/';?>" class="links">Forgot Password?</a>&nbsp;&nbsp;
@@ -69,4 +69,65 @@
   $(document).ready(function(){
     setTimeout("hide_alert()", 10000);
   });
+
+    $('#txt_user_id').blur(function() {
+      //alert('blur of user id');
+      var user = new RegExp('^[a-zA-Z0-9_]+$');
+      var value = $('#txt_user_id').val();
+    
+      if($('#txt_user_id').val() == ""){
+    
+        $(this).parent().children('div').text("Please enter your user ID").addClass("text-error");
+         // alert('user id is empty');
+      }
+      
+     
+      else if(!user.test(value) ){
+        $(this).parent().children('div').text("only alphabets, numbers and underscore are allowed").addClass("text-error");
+      }
+
+    });
+    
+    
+    $('#txt_user_pwd').blur(function() {
+    
+    if($('#txt_user_pwd').val() == ""){
+         $(this).parent().children('div').text("Please enter your password").addClass("text-error");
+     }
+     
+    });
+   
+    
+    $(document).ready(function(){
+      $('#btn_signin').click(function(event) {
+      
+        if($('#txt_user_id').val() == ""){
+             event.preventDefault();
+           $('#txt_user_id').parent().children('div').text("Please enter your user ID").addClass("text-error");
+            
+        }
+      if($('#txt_user_pwd').val() == ""){
+           event.preventDefault();
+           $('#txt_user_pwd').parent().children('div').text("Please enter your password").addClass("text-error");
+        }
+        
+      
+          
+      });
+    });
+    
+    
+     
+    $('#txt_user_id').keypress(function() {
+          
+         $(this).parent().children('div').text("").removeClass("text-error");
+           $('#txt_user_pwd').parent().children('div').text("").removeClass("text-error");
+         
+    });
+    
+     
+    $('#txt_user_pwd').keypress(function() {
+         $(this).parent().children('div').text("").removeClass("text-error");
+            $('#txt_user_id').parent().children('div').text("").removeClass("text-error");
+    });
 </script>

@@ -64,21 +64,10 @@
             <?php echo form_error('txt_detail_ur', '<span class="text-error">', '</span>'); ?>
           </div>
        </div>
-      
-      <div class="control-group">
-         <label class="control-label" for="txt_book_id">Book ID:</label>
-         <select class="form-control" name="ddl_book_id">
-         <?php if(!empty($books)):?>
-           <?php foreach($books as $row):?>
-             <option value="<?php echo $row->book_id;?>" <?php echo  set_select('ddl_book_id',$row->book_id, (!empty($chapter) AND $chapter->book_id == $row->book_id? TRUE:FALSE) ); ?> ><?php echo $row->book_id;?> </option>
-           <?php endforeach; ?>
-           <?php endif;?>
-          </select>
-      </div>
      
       <div class="control-group">
-        <label class="control-label" for="txt_hadith_book_id_ar">Hadith Book ID:</label>
-        <select class="form-control" name="ddl_hadith_book_id">        
+        <label class="control-label" for="ddl_hadith_book_id">Hadith Book ID:</label>
+        <select class="form-control" id="ddl_hadith_book_id" name="ddl_hadith_book_id">        
         <?php if(!empty($hadith_books)):?>
           <?php foreach($hadith_books as $row):?>
             <option value="<?php echo $row->hadith_book_id;?>" <?php echo  set_select('ddl_hadith_book_id',$row->hadith_book_id, (!empty($chapter) AND $chapter->hadith_book_id == $row->hadith_book_id? TRUE:FALSE)); ?> ><?php echo $row->hadith_book_id;?> </option>
@@ -87,12 +76,48 @@
         </select> 
       </div>
     
+     <div class="control-group">
+         <label class="control-label" for="ddl_book_id">Book ID:</label>
+         <select class="form-control" id="ddl_book_id" name="ddl_book_id">
+         <?php if(!empty($books)):?>
+           <?php foreach($books as $row):?>
+             <option value="<?php echo $row->book_id;?>" <?php echo  set_select('ddl_book_id',$row->book_id, (!empty($chapter) AND $chapter->book_id == $row->book_id? TRUE:FALSE) ); ?> ><?php echo $row->book_title_en;?> </option>
+           <?php endforeach; ?>
+           <?php endif;?>
+          </select>
+      </div>
     
     <br/>
     <div class="control-group">
         <button type="submit" id="mysubmit" name="mysubmit" class="btn btn-primary">Save Record</button>
-        <a href="<?php echo (base_url().'chapter'); ?>" class="btn btn-default">Cancel</a>
-        <a href="<?php echo (base_url().'chapter/delete/'.$chapter->chapter_id); ?>" class="btn btn-danger">Delete</a>
+        <a href="<?php echo (base_url().'admin/chapter'); ?>" class="btn btn-default">Cancel</a>
+        <?php if( $this->user_roles->is_authorized( array('admin_chapter_delete') ) ): ?>
+         <a href="<?php echo (base_url().'admin/chapter/delete/'.$chapter->chapter_id); ?>" class="btn btn-danger">Delete</a>
+        <?php endif; ?>
     </div>
   <?php echo form_close();?>
  </fieldset>
+<script type="text/javascript">
+  
+ $(document).ready(function(){
+
+  $('#ddl_hadith_book_id').on("change", function() {
+    //prepare the data to be passed
+    var result ={};
+    result['task'] = 'hadith-book';
+    result['hadith_book_id'] = $('#ddl_hadith_book_id').val();
+ 
+    $.ajax({
+        type: "POST",
+        url: '<?php echo base_url(); ?>admin/chapter',
+        data: { data: result },
+        success: function(data) {
+          data = $.parseJSON( data );
+          $('#ddl_book_id').html(data.book_list);
+          //$('#ddl_chapter_id').html(data.chapter_list);
+          //$('#ddl_hadith_list').html(data.ahadith_list);
+      }
+    });
+  });
+ });
+</script>

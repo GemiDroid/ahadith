@@ -10,6 +10,13 @@
 |
 */
 
+$hook['post_controller_constructor'][] = array(
+                                    'class' => 'user_roles',
+                                    'function' => 'reload',
+                                    'filename' => 'User_roles.php',
+                                    'filepath' => 'libraries'
+                                );
+
 $hook['post_system'][] = array(
                                 'function' => 'log_queries',
                                 'filename' => 'query_log_helper.php',

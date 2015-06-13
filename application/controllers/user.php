@@ -88,21 +88,23 @@
 	
 			  //pass user_id  and user_password , also check for active user.
 			  $valid_user = $this->user_model->validate_user( $user_id, $user_password );
-			  $role = $this->user_model->get_user_role($user_id);
+			  //$role = $this->user_model->get_user_role($user_id);
 			  
 			  
 			  if( $valid_user || $valid_user === NULL):
 				$user_data["user_id"] = $this->input->post('txt_user_id');
-				$this->session->set_userdata('user_id' , $user_data["user_id"]);
-			
-			
-				if($role || $role == NULL):
-					$this->session->set_userdata('role_title' , $role);
-				endif;
-			  
+				
+				$roles =  $this->user_model->get_user_assigned_roles( $user_id, 'role_title' );
+				
+				$data = array(
+                                'user_id' => $user_data['user_id'],
+                                'roles' => $roles
+                            );
+                        
+                //create session and proceed to home()
+                $this->session->set_userdata($data);
 				
 				redirect('user/home');
-				
 				
 			  endif;
 			

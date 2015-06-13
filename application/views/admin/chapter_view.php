@@ -7,8 +7,9 @@
 <fieldset>
               
   <legend>Displaying All Chapters</legend>
-  
-  <?php echo anchor(base_url().'admin/chapter/add', 'Add New Chapter', 'class="btn btn-primary"'); ?>
+  <?php if( $this->user_roles->is_authorized( array('admin_chapter_add') ) ): ?>
+     <?php echo anchor(base_url().'admin/chapter/add', 'Add New Chapter', 'class="btn btn-primary"'); ?>
+  <?php endif; ?>
   <br/>
   <br/>
   
@@ -20,7 +21,9 @@
         <th style="text-align: center;">Arabic Title</th>
         <th style="text-align: center;">English Title</th>
         <th style="text-align: center;">Urdu Title</th>
-        <th style="text-align: center;">Action</th>
+        <?php if( $this->user_roles->is_authorized( array('admin_chapter_edit') ) ): ?>
+          <th style="text-align: center;">Action</th>
+        <?php endif; ?>
       </tr>
     </thead>
     <tbody>
@@ -33,7 +36,9 @@
           <td style="text-align: center;" lang='AR'><?php echo substr( $chapter->chapter_title_ar, 0, 20); ?>&nbsp;&hellip;</td>
           <td style="text-align: center;"><?php echo substr( $chapter->chapter_title_en, 0 ,20); ?>&nbsp;&hellip;</td>
           <td style="text-align: center;" lang='UR'><?php echo substr( $chapter->chapter_title_ur, 0, 20); ?>&nbsp;&hellip;</td>
-          <td style="text-align: center;"><a href='<?php echo (base_url().'admin/chapter/update/'.$chapter->chapter_id); ?>' ><li class="glyphicon glyphicon-pencil"></li></a></td>
+          <?php if( $this->user_roles->is_authorized( array('admin_chapter_edit') ) ): ?>
+               <td style="text-align: center;"><a href='<?php echo (base_url().'admin/chapter/update/'.$chapter->chapter_id); ?>' ><li class="glyphicon glyphicon-pencil"></li></a></td>
+          <?php endif; ?>
         </tr>
       <?php endforeach; ?>
 

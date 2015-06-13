@@ -146,15 +146,16 @@ class Admin extends CI_Controller {
         parent::__construct();
 		$this->load->model('user_model');
 		$user_id = $this->session->userdata('user_id');
-        $role = $this->session->userdata('role_title');
+        //$role = $this->session->userdata('role_title');
 		if( !isset($user_id) OR empty($user_id) ):
 			$message = 'You need to login.';
 			$this->session->set_flashdata('message', $message);
 			redirect('user/signin');
 		else:
-			if( empty($role) ):
-				$message = 'You need to be an admin.';
-				$this->session->set_flashdata('message', $message);
+			if( !$this->user_roles->is_authorized( array('administrator') ) ):
+				//$list['error_msg'] = "You are not authorized.";
+				//$list['main_content'] = "message_view";
+				//$this->load->view('includes/template', $list);
 				redirect('user/signin');
 			endif;
 		endif;

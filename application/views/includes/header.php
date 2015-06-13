@@ -54,10 +54,6 @@
                                 <li><a href="#" id="optn_setting">Settings</span></a></li>
                                 <!--<li><a href="#">Support Us</a></li>-->
 
-                                <!--if user is login-->
-                                <?php $user_id = $this->session->userdata('user_id'); ?>
-                                <?php $role_title = $this->session->userdata('role_title'); ?>
-                              
                                 
                                 <li class="dropdown">
                                     <?php if( !empty($user_id) ): ?>
@@ -68,7 +64,7 @@
                                         <li><a href="<?php echo base_url()."user/edit-profile"; ?>">Edit Profile</a></li>
                                         <li><a href="<?php echo base_url()."user/change-password"; ?>">Change Password</a></li>
              
-                                        <?php if(!empty($role_title)): ?>
+                                        <?php if( $this->user_roles->is_authorized( array('administrator') ) ): ?>
                                             <li><a href="<?php echo base_url()."admin"; ?>">Admin Panel</a></li> 
                                        <?php endif; ?>
                                        

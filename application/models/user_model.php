@@ -597,6 +597,35 @@
         
     }
     
+    /*
+    * Get all the roles either as object or column filtered, that have been assigned to the user
+     *
+     * @param string $user_id
+     * @param string $column to filter the column output
+     * @return mixed
+    */
+    function get_user_assigned_roles($user_id, $column = '') {
+       $this->load->database('default');
+       
+       $this->db->where('user_id', $user_id);
+       $q = $this->db->get('user_role');
+       
+       $data = FALSE;
+       
+       if($q->num_rows() > 0):
+           foreach( $q->result() as $row ):
+               if( $column != '' ):
+                   $data[] = $row->$column;
+               else:
+                   $data[] = $row;
+               endif;
+           endforeach;
+       endif;
+       
+       $q->free_result();
+       return $data;
+    }
+    
     function get_user_activities(){
         $this->load->database('default');
    

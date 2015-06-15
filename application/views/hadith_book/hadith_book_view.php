@@ -21,7 +21,9 @@
             <th style="text-align: center;">Arabic Title</th>
             <th style="text-align: center;">English Title</th>
             <th style="text-align: center;">Urdu Title</th>
+            <?php if( $this->user_roles->is_authorized( array('admin_hadith_book_edit') )   ): ?>
             <th style="text-align: center;">Action</th>
+            <?php endif;?>
           </tr>
         </thead>
         <tbody>
@@ -33,8 +35,9 @@
               <td style="text-align: center;"><?php echo $hadith_book->hadith_book_title_ar; ?></td>
               <td style="text-align: center;"><?php echo $hadith_book->hadith_book_title_en; ?></td>
               <td style="text-align: center;"><?php echo $hadith_book->hadith_book_title_ur; ?></td>
-              
+              <?php if( $this->user_roles->is_authorized( array('admin_hadith_book_edit') )   ): ?>
               <td style="text-align: center;"><a href='<?php echo (base_url().'admin/hadith-book/update/'.$hadith_book->hadith_book_id); ?>' ><li class="glyphicon glyphicon-pencil"></li></a></td>
+              <?php endif;?>
             </tr>
           <?php endforeach; ?>
     
@@ -42,7 +45,9 @@
     
         </tbody>
       </table>
-      <?php echo anchor(base_url().'admin/hadith-book/add', 'Add New Hadith Book', 'class="btn btn-primary"'); ?>  
+      <?php if( $this->user_roles->is_authorized( array('admin_hadith_book_add') )   ): ?>
+      <?php echo anchor(base_url().'admin/hadith-book/add', 'Add New Hadith Book', 'class="btn btn-primary"'); ?>
+      <?php endif; ?>
 </fieldset>
 <script type="text/javascript">
     $(document).ready(function(){

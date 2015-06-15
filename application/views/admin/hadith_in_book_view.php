@@ -42,7 +42,9 @@
         <div class="control-group form-inline">
             <button type="submit" id="btn_save" name="btn_save" class="btn btn-primary">Save Record</button>
             <?php if( $hadith_in_book_id ): ?>
+                <?php if( $this->user_roles->is_authorized( array('admin_hadith_in_book_delete') )   ): ?>
                 <button type="submit" id="btn_delete" name="btn_delete" value="delete" class="btn btn-danger">Delete Record</button>
+                <?php endif;?>
             <?php endif; ?>
             <a href="<?php echo base_url().'admin/hadith-in-book/'.$hadith_id ?>" class="btn btn-default">Cancel</a>
         </div>
@@ -65,7 +67,9 @@
                             <th style="text-align: center;">Chapter</th>
                             <th style="text-align: center;">Book</th>
                             <th style="text-align: center;">Hadith Book</th>
+                              <?php if( $this->user_roles->is_authorized( array('admin_hadith_in_book_edit') )   ): ?>
                             <th style="text-align: center;">Action</th>
+                            <?php endif;?>
                             
                         </tr>
                     </thead>        
@@ -78,7 +82,9 @@
                                 <td style="text-align: center;"><?php echo $row->chapter_id; ?></td>
                                 <td style="text-align: center;"><?php echo $row->book_id; ?></td>
                                 <td style="text-align: center;"><?php echo $row->hadith_book_id; ?></td>
+                                 <?php if( $this->user_roles->is_authorized( array('admin_hadith_in_book_edit') )   ): ?>
                                 <td style="text-align: center;"><?php echo anchor("admin/hadith-in-book/" . $hadith_id . "/" . $row->hadith_in_book_id, "Edit"); ?> </td>
+                                <?php endif;?>
                             </tr>
                         <?php endforeach; ?>
                 
@@ -92,7 +98,9 @@
         
     <?php endif; ?>
     
+     <?php if( $this->user_roles->is_authorized( array('admin_hadith_in_book_add') )   ): ?>
     <button  type="submit" id="btn_add_hadith_in_book" name="btn_add_hadith_in_book" class="btn btn-primary">Add Hadith in Book</button>
+    <?php endif; ?>
     <a href="<?php echo base_url().'admin/hadith' ?>" class="btn btn-default">Cancel</a>
     
 </fieldset>

@@ -41,6 +41,14 @@ class Report extends CI_COntroller {
    */
   
   public function display(){
+	
+	  //limit view hadith book only to authorized
+	 if( !$this->user_roles->is_authorized( array('admin_reports_view') ) ):
+        $list['error_msg'] = "You are not authorized to view Reports.";
+        $list['main_content'] = "message_view";
+        $this->load->view('includes/template', $list);
+        return;
+    endif;
     
     $this->load->helper('form');
     $this->load->model('user_model');
@@ -62,6 +70,14 @@ class Report extends CI_COntroller {
    */
   
   public function update($error_id){
+	
+	  //limit edit reports only to authorized
+	 if( !$this->user_roles->is_authorized( array('admin_reports_edit') ) ):
+        $list['error_msg'] = "You are not authorized to Edit Reports.";
+        $list['main_content'] = "message_view";
+        $this->load->view('includes/template', $list);
+        return;
+    endif;
     
     $this->load->helper('form');
     $this->load->model('user_model');
@@ -102,6 +118,15 @@ class Report extends CI_COntroller {
    */
   
   public function delete( $error_id){
+	
+	
+	 //limit deleting of reports only to authorized
+		if( !$this->user_roles->is_authorized( array('admin_reports_delete') ) ):
+		   $list['error_msg'] = "You are not authorized to Delete Reports.";
+		   $list['main_content'] = "message_view";
+		   $this->load->view('includes/template', $list);
+		   return;
+	   endif;
 
     $this->load->helper('url');
     $this->load->model('user_model');

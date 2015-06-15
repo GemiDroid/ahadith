@@ -17,7 +17,10 @@
                 <th style="text-align: center;">English Detail</th>
                 <th style="text-align: center;">Urdu Detail</th>
                 <th style="text-align: center;">Suggested By</th>
+                <?php if( $this->user_roles->is_authorized( array('admin_tags_add') )   ): ?>
                 <th style="text-align: center;">Action</th>
+                <?php endif; ?>
+                
             </tr>
         </thead>
             <?php if(!empty($tags)): ?>
@@ -33,7 +36,9 @@
                 <td style="text-align: center;"><?php echo (!empty($tag->tag_detail_ur) ? $tag->tag_detail_ur : "N/A"); ?></td>
                 <td style="text-align: center;"><?php echo (!empty($tag->suggested_by) ? $tag->suggested_by : "N/A"); ?></td>
                 
+                  <?php if( $this->user_roles->is_authorized( array('admin_tags_add') )   ): ?>
                 <td style="text-align: center;"><a href='<?php echo (base_url().'admin/tag/update/'.$tag->tag_id); ?>' ><li class="glyphicon glyphicon-pencil"></li></a></td>
+                <?php endif; ?>
             </tr>
             <?php endforeach; ?>
             <?php endif; ?>
@@ -41,6 +46,9 @@
     </table>
     </div>
     </div>
-    <a href="<?php echo (base_url().'admin/tag/add'); ?>" class="btn btn-primary"/>Add New Tag</a>
+    
+    <?php if( $this->user_roles->is_authorized( array('admin_tags_add') )   ): ?>
+        <a href="<?php echo (base_url().'admin/tag/add'); ?>" class="btn btn-primary"/>Add New Tag</a>
+    <?php endif; ?>
 
     </fieldset>

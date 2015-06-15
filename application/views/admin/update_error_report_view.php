@@ -24,7 +24,9 @@
     
     <button type="submit" id="mysubmit" name="mysubmit" value="Fix Report" class="btn btn-primary">Fix Report</button>
     <a href="<?php echo base_url().'admin/report' ?>" class="btn btn-default">Cancel</a>
+    <?php if( $this->user_roles->is_authorized( array('admin_reports_delete') )   ): ?>
     <a href="<?php echo (base_url().'admin/report/delete/'.$report[0]->error_id); ?>" class="btn btn-danger">Delete</a>
+    <?php endif; ?>
    
   <?php echo form_close();?>    
 </fieldset>

@@ -42,7 +42,9 @@
         <br/>
         
         <button type="submit" id="btn_save" name="btn_save" class="btn btn-primary" >Save Record</button>
-        <?php echo anchor(base_url().'admin/role/delete/'.$role_title, 'Delete Role', 'class="btn btn-danger"'); ?>					
+        <?php if( $this->user_roles->is_authorized( array('admin_role_delete') )   ): ?>
+        <?php echo anchor(base_url().'admin/role/delete/'.$role_title, 'Delete Role', 'class="btn btn-danger"'); ?>
+        <?php endif; ?>
         <?php echo anchor(base_url().'admin/role', 'Cancel', 'class="btn btn-default"'); ?>					
                 
     <?php echo form_close(); ?>

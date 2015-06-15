@@ -23,7 +23,9 @@
        <th>Title English</th>
        <th>Title Urdu</th>
        <th>Order</th>
+        <?php if( $this->user_roles->is_authorized( array('admin_authenticity_edit') )   ): ?>
        <th>Action</th>
+       <?php endif; ?>
      </tr>
    </thead>
    <tbody>
@@ -34,13 +36,16 @@
          <td><?php echo $authenticity->authenticity_title_en; ?></td>
          <td><?php echo $authenticity->authenticity_title_ur; ?></td>
          <td><?php echo $authenticity->authenticity_order; ?></td>
+         <?php if( $this->user_roles->is_authorized( array('admin_authenticity_edit') )   ): ?>
          <td><a href='<?php echo (base_url().'admin/authenticity/update/'.$authenticity->authenticity_id); ?>'"><li class="glyphicon glyphicon-pencil"></li></a></td>
+         <?php endif; ?>
        </tr>
      <?php endforeach; ?>
    </tbody>
  </table>
-      
- <?php echo anchor(base_url().'admin/authenticity/add', 'Add New Authenticity', 'class="btn btn-primary"'); ?>
+     <?php if( $this->user_roles->is_authorized( array('admin_authenticity_add') )   ): ?>    
+     <?php echo anchor(base_url().'admin/authenticity/add', 'Add New Authenticity', 'class="btn btn-primary"'); ?>
+     <?php endif; ?>
 </fieldset>
 
 <script type="text/javascript">

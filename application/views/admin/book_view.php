@@ -64,7 +64,9 @@
     <div class="control-group">
         <button type="submit" id="btn_save" name="btn_save" class="btn btn-primary" >Save Record</button>
         <?php if( $book_id != '' ): ?>
-            <button type="submit" id="btn_delete" value="delete" name="btn_delete" class="btn btn-danger">Delete Record</button>
+            <?php if( $this->user_roles->is_authorized( array('admin_book_delete') )   ): ?>
+                <button type="submit" id="btn_delete" value="delete" name="btn_delete" class="btn btn-danger">Delete Record</button>
+            <?php endif;?>
         <?php endif; ?>					
         <?php echo anchor(base_url().'admin/book', 'Cancel', 'class="btn btn-default"'); ?>					
     </div>
@@ -88,7 +90,9 @@
                             <th style="text-align: center;"><span id="col_book_title_en">Book Title in English</span></th>
                             <th style="text-align: center;"><span id="col_book_title_ur">Book Title in Urdu</span></th>
                             <th style="text-align: center;"><span id="col_hadith_book_id">Hadith Book ID</span></th>
+                            <?php if( $this->user_roles->is_authorized( array('admin_book_edit') )   ): ?>
                             <th style="text-align: center;"><span id="col_view">Action</span></th>
+                            <?php endif; ?>
                         </tr>
                     </thead>
                     
@@ -102,7 +106,9 @@
                                 <td style="text-align: center;"><?php echo $book->book_title_en; ?></td>
                                 <td style="text-align: center;"><?php echo $book->book_title_ur; ?></td>
                                 <td style="text-align: center;"><?php echo $book->hadith_book_id; ?></td>
+                                <?php if( $this->user_roles->is_authorized( array('admin_book_edit') )   ): ?>
                                 <td style="text-align: center;"><?php echo anchor(base_url() . "admin/book/update/". $book->book_id, '<li class="glyphicon glyphicon-pencil"></li>'); ?></td>
+                                <?php endif; ?>
                             </tr>
                         <?php endforeach; ?>
                         
@@ -115,8 +121,9 @@
         <div class="text-error">No record found</div>
         
     <?php endif; ?>
-    
+     <?php if( $this->user_roles->is_authorized( array('admin_book_add') )   ): ?>
     <button id="btn_add_book" class="btn btn-primary">Add Book</button>
+    <?php endif; ?>
     
 </fieldset>
 

@@ -54,9 +54,9 @@
                                 <li><a href="#" id="optn_setting">Settings</span></a></li>
                                 <!--<li><a href="#">Support Us</a></li>-->
 
-                                
+                                <?php $user_id = $this->session->userdata('user_id'); ?>
                                 <li class="dropdown">
-                                    <?php if( !empty($user_id) ): ?>
+                                    <?php if( isset($user_id) AND !empty($user_id) ): ?>
                                    
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
                                         Welcome <?php echo $user_id; ?> <span class="caret"></span></a>

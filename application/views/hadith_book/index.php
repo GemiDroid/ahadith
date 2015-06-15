@@ -146,7 +146,7 @@
 								<!--if user is login-->
 								<?php if( !empty($user_id) ): ?>
 									<a name="b93" href="javascript:void(0)" title="Click here to add tag for this hadith">
-										<span href="javascript:void(0)" class="add_tag glyphicon glyphicon-plus pull-right" aria-hidden="true" style="position: relative; top: 3px; margin-left: 5px;"></span>
+										<span class="add_tag glyphicon glyphicon-plus pull-right" aria-hidden="true" style="position: relative; top: 3px; margin-left: 5px;"></span>
 									</a>
 								<?php endif; ?>
 							</div>
@@ -708,8 +708,9 @@
 				$('#myModal .modal-body').find('.ddl_hadith_tags').remove();
 				$('#myModal .modal-body').find('.hadith_id').remove();
 				$('#myModal .modal-body').find('.hadith_in_book_id').remove();
+				//alert($(this).parent().parent().parent().find('.tag_modal_body').html());
 				//add new html code for that hadith
-				$('#myModal .modal-body').append($(this).parent().parent().parent().find('.tag_modal_body').html());
+				$('#myModal .modal-body').append($(this).parent().parent().parent().parent().find('.tag_modal_body').html());
 				$('#myModal').modal('show');
 			});
 			

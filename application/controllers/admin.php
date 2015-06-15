@@ -192,7 +192,13 @@ class Admin extends CI_Controller {
 		
 		else:
 				//view tag
-			
+			  //limit view of tag only to authorized
+			if( !$this->user_roles->is_authorized( array('admin_tags_view') ) ):
+			   $list['error_msg'] = "You are not authorized to View Tags.";
+			   $list['main_content'] = "message_view";
+			   $this->load->view('includes/template', $list);
+			   return;
+		   endif;
 				$this->load->model('tag_model');
 				$list['tags'] = $this->tag_model->get_tags();
 				$list['main_content'] = '/admin/admin_tags_view';

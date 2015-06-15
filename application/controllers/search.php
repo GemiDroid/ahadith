@@ -48,7 +48,64 @@ class Search extends CI_Controller{
 				
 				echo json_encode( $data );
 				return;
+		elseif( $data['task'] == 'search-results' ):
+			
+			//get all post data
+            $search_language = $data['search_language'];
+            $type_search_text = $data['type_search_text'];
+            $search_text_option = $data['search_text_option'];
+            $display_per_page = $data['display_per_page'];
+			//$display_per_page=1;
+            $hadith_book_id = $data['hadith_book'];
+            $book_id = $data['book_id'];
+            $all_hadith_books = $data['all_hadith_books'];
+            $all_books = $data['all_books'];
+			$limit= $data['limit'];
+
+			$this->load->model('book_model');
+			$this->load->model('hadith_book_model');
+			$ahadith = $this->hadith_book_model->get_all_hadith_books($search_language,$type_search_text,$search_text_option,$hadith_book_id,$book_id,$all_hadith_books,$all_books,$display_per_page,$limit);            
+			
+            $this->load->helper('search_helper');
+			
+			$search_result = '<h4>Search Results</h4>';
+			
+			if( !empty( $ahadith ) ):
+				
+				for($j=0;$j<count($ahadith);$j++):
+					$ahadith[$j]->hadith_book_name = $this->hadith_book_model->get_hadith_book_by_id( $ahadith[$j]->hadith_book_id )->hadith_book_title_en;
+					$ahadith[$j]->language = $search_language;
+					$ahadith[$j]->book_name = $this->book_model->get_book_by_id( $ahadith[$j]->book_id )->book_title_en;
+					
+					$search_result .= '<div class="search-results" style="font-size: medium; text-align: justify;">';
+					$search_result .= '<h4><strong>'. $ahadith[$j]->hadith_book_name.', '. $ahadith[$j]->book_name.', Hadith no,'. $ahadith[$j]->hadith_id .'</strong></h4>';
+					$search_result .='<div class="hadith_lang" lang="'. strtoupper( $ahadith[$j]->language) .'">';
+					$search_result .= search_results( $ahadith[$j]->hadith_body, $type_search_text );
+					$search_result .='</div>';
+					$search_result .='</div>';
+					
+				endfor;
+			else:
+				$search_result .='<div style="padding: 0px 15px 0px 15px; alignment-adjust: central;"> <span class="text-error">No Record Found.</span> </div>';
 			endif;
+			
+			//$total_rows = $this->hadith_book_model->get_count_hadith_books($search_language,$type_search_text,$search_text_option,$hadith_book_id,$book_id,$all_hadith_books,$all_books);
+			
+			//$this->load->library('pagination');
+			////$config['first_link'] = base_url().'search';
+			//$config['base_url'] =  base_url().'search';
+			//$config['total_rows'] = $total_rows;
+			//$config['per_page'] = $display_per_page;
+			////$config['uri_segment'] = 1; 
+			//$this->pagination->initialize( $config );
+			//$pages = $this->pagination->create_links();
+			
+			$data = new stdClass();
+			$data->search_result = $search_result;
+			//$data->pages = $pages;
+			echo json_encode( $data );
+			return;
+		endif;
 		endif;
         
 		//get hadith books
@@ -64,13 +121,12 @@ class Search extends CI_Controller{
 		
         if( !empty( $this->input->post() ) ):
 		
-			//echo "<pre>"; print_r( $this->input->post() ); echo "</pre>";
-		
 			//get all post data
             $search_language = $this->input->post('rad_search_language');
             $type_search_text = $this->input->post('txt_search_text');
             $search_text_option = $this->input->post('rad_word');
             $display_per_page = $this->input->post('ddl_display_per_page');
+			//$display_per_page=1;
             $hadith_book = $this->input->post('ddl_hadith_book');
             $book_id = $this->input->post('ddl_book');
             $all_hadith_books = $this->input->post('chk_hadith_books');
@@ -82,29 +138,34 @@ class Search extends CI_Controller{
 			
 			$list['books'] = $this->book_model->get_all_books($hadith_book_id);
             $list['ahadith'] = $this->hadith_book_model->get_all_hadith_books($search_language,$type_search_text,$search_text_option,$hadith_book,$book_id,$all_hadith_books,$all_books,$display_per_page);
-	    
-            //$list['ahadith']->word = $type_search_text;
-              
-               
-                if( !empty( $list['ahadith'] ) ):
-                        
-                        //get hadith_book_name for each hadith
-                        for($j=0;$j<count($list['ahadith']);$j++):
-                            $list['ahadith'][$j]->hadith_book_name = $this->hadith_book_model->get_hadith_book_by_id( $list['ahadith'][$j]->hadith_book_id )->hadith_book_title_en;
-                            $list['ahadith'][$j]->language = $search_language;
-                
-                        endfor;
-                        
-                        //get book_name for each hadith
-                        for($i=0;$i<count($list['ahadith']);$i++):
-                           $list['ahadith'][$i]->book_name = $this->book_model->get_book_by_id( $list['ahadith'][$i]->book_id )->book_title_en;   
-                        endfor;
-                endif;
+			
+            $this->load->helper('search_helper');
+			
+			if( !empty( $list['ahadith'] ) ):
+				
+				for($j=0;$j<count($list['ahadith']);$j++):
+					$list['ahadith'][$j]->hadith_book_name = $this->hadith_book_model->get_hadith_book_by_id( $list['ahadith'][$j]->hadith_book_id )->hadith_book_title_en;
+					$list['ahadith'][$j]->language = $search_language;
+					$list['ahadith'][$j]->book_name = $this->book_model->get_book_by_id( $list['ahadith'][$j]->book_id )->book_title_en;   
+				endfor;
+			
+			$total_rows = $this->hadith_book_model->get_count_hadith_books( $search_language,$type_search_text,$search_text_option,$hadith_book,$book_id,$all_hadith_books,$all_books);
+				
+			$this->load->library('pagination');
+			//$config['first_link'] = base_url().'search';
+			$config['base_url'] =  base_url().'search';
+			$config['total_rows'] = $total_rows;
+			$config['per_page'] = $display_per_page;
+			//$config['uri_segment'] = 1; 
+			$this->pagination->initialize( $config );
+			$list['pages'] = $this->pagination->create_links();
+				
+			endif;
+			
         endif;
         
-      
-        
-        
+		//pagination code	
+		
 		$list['main_content'] = 'search_view';
 		
 		$this->load->view('includes/template',$list);

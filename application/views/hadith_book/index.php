@@ -106,9 +106,9 @@
 					
 					<div class="hadith" id="<?php echo $hadith->hadith_in_book_id; ?>">
 					
-						<?php if( $hadith->chapter_title_en != $chapter_title_en ): ?>
+						<?php if( isset( $hadith->chapter_title_en ) OR  isset( $hadith->chapter_title_ur ) OR isset( $hadith->chapter_title_ar ) ): ?>
 							<h3 class="chapters" >
-								<p lang="EN"><?php echo $i.'. '. $hadith->chapter_title_en; ?></p>
+								<p lang="EN"><?php echo $hadith->chapter_id.'. '. $hadith->chapter_title_en; ?></p>
 								<p lang="UR" style="display: none"><?php echo $i.'. '. $hadith->chapter_title_ur; ?></p>
 								<p lang="AR" style="display: none"><?php echo $i++.'. '. $hadith->chapter_title_ar; ?></p>
 							</h3>

@@ -74,7 +74,7 @@
                   <div class="col-sm-7">
                     
                     <?php if(!empty($hadith_books)):?>
-                        <select class="form-control" name="ddl_hadith_book" id="ddl_hadith" class="full-width">
+                        <select class="form-control" name="ddl_hadith_book" id="ddl_hadith_book" class="full-width">
                             <?php foreach($hadith_books as $row):?>
                                 <option  value="<?php echo $row->hadith_book_id; ?>" <?php echo  set_select('ddl_hadith_book',$row->hadith_book_id, FALSE); ?> ><?php echo $row->hadith_book_title_en;?> </option>
                               <?php endforeach; ?>
@@ -127,69 +127,31 @@
         
         <!-- code for searched hadith div  -->
         
-<div id="hadith-main" style="width: 1255px;" >
-<div id="hadith" style="height: 280px; overflow: scroll-y;  scrollbar-face-color: #EEEEEE;  padding: 0px 15px 0px 15px;  width: 1165px; alignment-adjust: central;" tabindex="0">
-
+<div class="hadith-main" style="overflow: scroll-y;  scrollbar-face-color: #EEEEEE;  padding: 0px 15px 0px 15px; alignment-adjust: central;" tabindex="0">
      <?php if(!empty($ahadith)):?>
+        
+        <p class="pagination">&nbsp;
+            <?php echo $pages; ?>		
+        </p>
+     <div id="search_result">
+        <h4>Search Results</h4>
+        
+        <?php foreach($ahadith as $row):?>
+            <div class="search-results" style="font-size: medium; text-align: justify;">
+                <h4><strong><?php echo $row->hadith_book_name; ?>, <?php echo $row->book_name; ?>, Hadith No. <?php echo $row->hadith_id;?></strong></h4>       
+                <div class="hadith_lang" lang="<?php echo strtoupper($row->language); ?>">
+                    <?php echo search_results($row->hadith_body,$this->input->post('txt_search_text')); ?>
+                </div>
                 
-          <?php
-                        function hightlight($str, $keywords = '')
-                        {
-                        $keywords = preg_replace('/\s\s+/', ' ', strip_tags(trim($keywords))); // filter
-                         
-                        $style = 'highlight';
-                        $style_i = 'highlight_important';
-                         
-                        /* Apply Style */
-                         
-                        $var = '';
-                         
-                        foreach(explode(' ', $keywords) as $keyword)
-                        {
-                        $replacement = "<span class='".$style."'>".$keyword."</span>";
-                        $var .= $replacement." ";
-                         
-                        $str = str_ireplace($keyword, $replacement, $str);
-                        }
-                         
-                        /* Apply Important Style */
-                         
-                        $str = str_ireplace(rtrim($var), "<span class='".$style_i."'>".$keywords."</span>", $str);
-                         
-                        return $str;
-                        }
-                    ?>
-        
-           <!-- <div style="height: 300px; width: 1200px; border:1px solid; overflow-y: auto; alignment-adjust: central;">-->
-                <?php foreach($ahadith as $row):?>
-                    <div class="search-results" style="font-size: medium; text-align: justify;">
-                        <h4><strong><?php echo $row->hadith_book_name; ?>, <?php echo $row->book_name; ?>, Hadith No. <?php echo $row->hadith_id;?></strong></h4>
-                        
-                        <div class="hadith_lang" lang="<?php echo strtoupper($row->language); ?>">
-                            <?php 
-                                $keywords = $this->input->post('txt_search_text');
-                                $string = hightlight($row->hadith_body, $keywords); 
-                                
-                                echo $string; 
-                            ?>
-                          
-                            <?php echo $row->hadith_body;?>
-                        </div>
-                        
-                    </div>
-                <?php endforeach; ?>
-<!--</div>-->     
-            
-        <?php elseif( !empty($this->input->post()) ): ?>
-           <div style="text-align: center;"> <span class="text-error">No Record Found.</span> </div>
-        <?php endif;?> 
-
-</div>
-        
-</div>     
-        
-    <div id="tail"/>   
-        
+            </div>
+        <?php endforeach; ?>
+     <?php elseif( !empty( $this->input->post() ) ): ?>
+            <h4>Search Results</h4>
+            <div style="padding: 0px 15px 0px 15px; alignment-adjust: central;"> <span class="text-error">No Record Found.</span> </div>
+     <?php endif;?> 
+    </div>
+</div>  
+              
 </section>
        
 <div id="bm_Modal" class="modal fade">
@@ -340,7 +302,6 @@
 </div><!-- /.modal-dialog -->
 </div> <!--modal--> 
 
-</div>
  
     <footer class="row">			
 	</footer>
@@ -348,80 +309,6 @@
 	
 <script type="text/javascript">
     
-    $("#ddl_hadith" ).change(function() {
-        
-        //prepare the data to be passed
-        var result = {};
-        result['task'] = 'load-books';
-        result['hadith_book_id'] = $(this).val();
-        
-        var timer;
-        
-        $.ajax({
-            type: "POST",
-            url: '<?php echo base_url(); ?>search',
-            data: { data: result },
-            beforeSend: function() {
-                //$('#alert_message span').text('Deleting Record ...');
-                //$('#alert_message').removeClass('alert-success alert-error').show();
-            },
-            success: function(data) {
-                try {
-                    data = $.parseJSON( data );
-                    
-                    if( data.books != '' ) {
-                        $('#ddl_book').html( data.books );
-                    }   
-                }
-                catch(e) {
-                    //$('#alert_message span').text('An error occured ... Server responded with an error');
-                    //$('#alert_message').addClass('alert-error').show();
-                }
-            },
-            error: function() {
-                //$('#alert_message span').text('An error occured ... Try again!');
-                //$('#alert_message').addClass('alert-error').show();
-            }
-        });
-        
-    });
-
-    $(document).ready(function(){
-        $('input[type="radio"]').click(function(){
-            if($(this).attr("value")=="ar"){
-                $(".box").hide();
-                $(".ar").show();
-            }
-          
-            if($(this).attr("value")=="ur"){
-                $(".box").hide();
-                $(".ur").show();
-            }
-            
-             if($(this).attr("value")=="en"){
-                $(".box").hide();
-                
-            }
-        });
-    });
-
-    
-    $(document).ready(function(){
-        $('span').click(function(){
-            if($(this).attr("class")=="arabic"){
-                //$(".box").hide();
-                $('#bm_Modal').modal('show');
-            }
-          
-            if($(this).attr("class")=="urdu"){
-                //$(".box").hide();
-                $('#bm_Modalurdu').modal('show');
-            }
-            
-            
-        });
-    });
-
     function putAR(num){
         //alert('arabic');
     
@@ -491,4 +378,114 @@
             document.getElementById('txt_search_text').style.textAlign = 'right';
         }
     }
+    
+    
+    $(document).ready(function(){
+    
+    <?php if( !empty($ahadith) ): ?>
+        $('.hadith-main').attr('id','hadith');
+        $('.hadith-main').css('border-top','2px solid #386553');
+    <?php elseif(!empty($this->input->post())): ?>
+        $('.hadith-main').css('border-top','2px solid #386553');
+        $('.hadith-main').attr('id','');
+    <?php endif; ?>
+
+        
+    $("#ddl_hadith_book" ).change(function() {
+        
+        //prepare the data to be passed
+        var result = {};
+        result['task'] = 'load-books';
+        result['hadith_book_id'] = $(this).val();
+        
+        var timer;
+        
+        $.ajax({
+            type: "POST",
+            url: '<?php echo base_url(); ?>search',
+            data: { data: result },
+            success: function(data) {
+                try {
+                    data = $.parseJSON( data );
+                    
+                    if( data.books != '' ) {
+                        $('#ddl_book').html( data.books );
+                    }   
+                }
+                catch(e) {
+                    //$('#alert_message span').text('An error occured ... Server responded with an error');
+                    //$('#alert_message').addClass('alert-error').show();
+                }
+            }
+        });
+        });
+        
+    
+        $('input[type="radio"]').click(function(){
+            if($(this).attr("value")=="ar"){
+                $(".box").hide();
+                $(".ar").show();
+            }
+          
+            if($(this).attr("value")=="ur"){
+                $(".box").hide();
+                $(".ur").show();
+            }
+            
+             if($(this).attr("value")=="en"){
+                $(".box").hide();
+                
+            }
+        });
+
+        $('span').click(function(){
+            if($(this).attr("class")=="arabic"){
+                //$(".box").hide();
+                $('#bm_Modal').modal('show');
+            }
+          
+            if($(this).attr("class")=="urdu"){
+                //$(".box").hide();
+                $('#bm_Modalurdu').modal('show');
+            }
+            
+            
+        });
+        
+        $(".pagination a" ).click(function(e) {
+        var a = $(this);
+        var text =$(this).text();
+        var url = $(this).attr('href');
+        //Prevent this link from following the URL
+        e.preventDefault();
+        
+        //prepare the data to be passed
+        var result = {};
+        result['task'] = 'search-results';
+        
+        result['search_language'] = $('input[name="rad_search_language"]:checked').val();
+        result['type_search_text'] = $('#txt_search_text').val();
+        result['search_text_option'] = $('input[name="rad_word"]:checked').val();
+        result['display_per_page'] = $('#ddl_display_per_page').val();
+        result['hadith_book'] = $('#ddl_hadith_book').val();
+        result['book_id'] = $('#ddl_book').val();
+        result['all_hadith_books'] = $('#chk_hadith_books').is(":checked") == true? 'true':'';
+        result['all_books'] = $('#chk_all_books').is(":checked") == true? 'true':'';
+        result['limit'] = url.substr(url.lastIndexOf("/")+1);
+        
+        $.ajax({
+            type: "POST",
+            url: '<?php echo base_url(); ?>search',
+            data: { data: result },
+            success: function(data) {
+
+                data = $.parseJSON( data );
+                //alert(a.html());
+                //a.html( '<strong>'+a.html()+'</strong>' );
+                //$('.pagination').html(data.pages);
+                $('#search_result').html( data.search_result );
+            }
+        });
+        });
+    });
 </script>

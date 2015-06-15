@@ -135,9 +135,12 @@ class Hadith_model extends CI_Model{
         $this->db->where('hadith_in_book_id',$hadith_in_book_id );
     endif;
 
+    $this->db->order_by("chapter_id"); 
+    //$this->db->group_by("chapter_id"); 
+    
     $q = $this->db->get('view_hadith_in_book');
 
-    //echo $this->db->last_query();
+    //echo $this->db->last_query(); die();
      
     $data = FALSE;
 
@@ -147,6 +150,30 @@ class Hadith_model extends CI_Model{
 
     $q->free_result();
     return $data;
+  }
+  
+  function get_count_ahadith_by_hadith_book_id( $hadith_book_id='',$book_id='',$chapter_id='',$hadith_in_book_id='' ) {
+
+    $this->load->database('default');
+
+    if( $hadith_book_id !='' ):
+        $this->db->where('hadith_book_id',$hadith_book_id);
+    endif;
+     
+    if( $book_id !='' ):
+        $this->db->where('book_id',$book_id);
+    endif;
+
+    //if( $hadith_in_book_id != '' ):
+    //   $this->db->where('hadith_in_book_id',$hadith_in_book_id );
+    //endif;
+
+    
+    $q = $this->db->get('chapter');
+    
+    //echo $this->db->last_query();    die();
+    
+    return $q->num_rows();
   }
   
    function get_all_authenticity(){

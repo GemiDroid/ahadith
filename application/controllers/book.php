@@ -28,19 +28,43 @@ class Book extends CI_Controller{
    */
   
   function view( $book_id ='' ) {
+	
+	  //limit view authenticity only to authorized
+	 if( !$this->user_roles->is_authorized( array('admin_book_view') ) ):
+        $list['error_msg'] = "You are not authorized to view Book.";
+        $list['main_content'] = "message_view";
+        $this->load->view('includes/template', $list);
+        return;
+    endif;
+	
     $this->load->model('book_model');
     
     $data = '';
 	$mode = 'add';
   
+  
+  
     //display an error message if the provided book_id doesn't exists
     if( $book_id != ''):
+	
+	 //limit editing of  hadith  in book only to authorized
+		if( !$this->user_roles->is_authorized( array('admin_book_edit') ) ):
+		   $list['error_msg'] = "You are not authorized to Edit Book.";
+		   $list['main_content'] = "message_view";
+		   $this->load->view('includes/template', $list);
+		   return;
+	   endif;
+	   
       if( $this->book_model->get_book_by_id( $book_id ) === FALSE ):
       
         echo "The Book ID provided doesn't exist. Use the menu if you have access.";
         return;
       endif;
       
+	  
+	  
+	 
+	  
       $data = $this->book_model->get_book_by_id( $book_id );
       $mode="edit";
       
@@ -78,6 +102,16 @@ class Book extends CI_Controller{
         $delete = $this->input->post('btn_delete');
 		
         if( isset ($delete) AND !empty($delete)):
+		
+		//limit deleting of  hadith  in book only to authorized
+		  if( !$this->user_roles->is_authorized( array('admin_book_delete') ) ):
+			 $list['error_msg'] = "You are not authorized to Delete Book.";
+			 $list['main_content'] = "message_view";
+			 $this->load->view('includes/template', $list);
+			 return;
+		 endif;
+	   
+	   
           $message = $this->book_model->delete_book( $book_id );
 		  redirect('admin/book/');
           

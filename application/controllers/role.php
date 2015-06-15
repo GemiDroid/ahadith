@@ -42,6 +42,14 @@ class Role extends CI_COntroller {
    */
   
   public function display(){
+	
+	  //limit view role only to authorized
+	 if( !$this->user_roles->is_authorized( array('admin_role_view') ) ):
+        $list['error_msg'] = "You are not authorized to view Role.";
+        $list['main_content'] = "message_view";
+        $this->load->view('includes/template', $list);
+        return;
+    endif;
     
     $this->load->helper('form');
     $this->load->model('role_model');
@@ -58,6 +66,14 @@ class Role extends CI_COntroller {
   
   function add(){
     
+	  //limit add role only to authorized
+	 if( !$this->user_roles->is_authorized( array('admin_role_add') ) ):
+        $list['error_msg'] = "You are not authorized to Add Role.";
+        $list['main_content'] = "message_view";
+        $this->load->view('includes/template', $list);
+        return;
+    endif;
+	
     $this->load->helper('form');
     
     $this->load->library('form_validation');
@@ -114,6 +130,15 @@ class Role extends CI_COntroller {
    */
   
   function update($role_title){
+	
+	
+	  //limit update role only to authorized
+	 if( !$this->user_roles->is_authorized( array('admin_role_edit') ) ):
+        $list['error_msg'] = "You are not authorized to Edit Role.";
+        $list['main_content'] = "message_view";
+        $this->load->view('includes/template', $list);
+        return;
+    endif;
     
     $this->load->model('role_model');
     //if role-title is empty or invalid

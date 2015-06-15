@@ -38,7 +38,11 @@
 				
 				<div class="collapse navbar-collapse" id="books-navbar">
 					<ul class="nav navbar-nav">
+						
+						
+						
 						<li><a href="<?php echo base_url().'admin' ?>" class="selected">Home</a></li>
+						
 						<li><a href="<?php echo base_url().'admin/tag' ?>">Tags</li></a>
 						<li><a href="<?php echo base_url().'admin/users' ?>">Users</li></a>
 						<li><a href="<?php echo base_url().'admin/user-activities' ?>">User Activities</li></a>
@@ -63,19 +67,57 @@
 				<div id="books">
 					<ul id="body_books" style="list-style-type: none;">
 						
+						
 						<li><a href="<?php echo base_url().'admin' ?>" class="selected">Home</a></li>
-						<li><a href="<?php echo base_url().'admin/tag' ?>">Tags</li></a>
-						<li><a href="<?php echo base_url().'admin/users' ?>">Users</li></a>
-						<li><a href="<?php echo base_url().'admin/user-activities' ?>">User Activities</li></a>
-						<li><a href="<?php echo base_url().'admin/report' ?>">Reports</li></a>
-						<li><a href="<?php echo base_url().'admin/role' ?>">Roles</li></a>
-						<li><a href="<?php echo base_url().'admin/user-role' ?>">User Roles</li></a>
-						<li><a href="<?php echo base_url().'admin/subscriptions' ?>">Subscriptions</li></a>
-						<li><a href="<?php echo base_url().'admin/hadith' ?>">Hadith</li></a>
-						<li><a href="<?php echo base_url().'admin/hadith-book' ?>">Hadith Book</li></a>
-						<li><a href="<?php echo base_url().'admin/chapter' ?>">Chapter</li></a>
-						<li><a href="<?php echo base_url().'admin/authenticity' ?>">Authenticity</li></a>
-						<li><a href="<?php echo base_url().'admin/book' ?>">Book</li></a>
+						
+						<?php if( $this->user_roles->is_authorized( array('admin_tags_view') ) ): ?>
+								<li><a href="<?php echo base_url().'admin/tag' ?>">Tags</li></a>
+						<?php endif; ?>
+						
+						<?php if( $this->user_roles->is_authorized( array('admin_users_view') ) ): ?>
+								<li><a href="<?php echo base_url().'admin/users' ?>">Users</li></a>
+						<?php endif; ?>
+						
+						<?php if( $this->user_roles->is_authorized( array('admin_user_activities_view') ) ): ?>
+								<li><a href="<?php echo base_url().'admin/user-activities' ?>">User Activities</li></a>
+						<?php endif; ?>
+						
+						<?php if( $this->user_roles->is_authorized( array('admin_reports_view') ) ): ?>
+								<li><a href="<?php echo base_url().'admin/report' ?>">Reports</li></a>
+						<?php endif; ?>
+						
+						<?php if( $this->user_roles->is_authorized( array('admin_role_view') ) ): ?>
+								<li><a href="<?php echo base_url().'admin/role' ?>">Roles</li></a>
+						<?php endif; ?>		
+						
+						<?php if( $this->user_roles->is_authorized( array('admin_user_role_view') ) ): ?>
+								<li><a href="<?php echo base_url().'admin/user-role' ?>">User Roles</li></a>
+						<?php endif; ?>
+						
+						<?php if( $this->user_roles->is_authorized( array('admin_subscriptions_view') ) ): ?>
+								<li><a href="<?php echo base_url().'admin/subscriptions' ?>">Subscriptions</li></a>
+						<?php endif; ?>
+						
+						<?php if( $this->user_roles->is_authorized( array('admin_hadith_view') ) ): ?>
+								<li><a href="<?php echo base_url().'admin/hadith' ?>">Hadith</li></a>
+						<?php endif; ?>						
+						
+						<?php if( $this->user_roles->is_authorized( array('admin_hadith_book_view') ) ): ?>
+								<li><a href="<?php echo base_url().'admin/hadith-book' ?>">Hadith Book</li></a>
+						<?php endif; ?>
+						
+						<?php if( $this->user_roles->is_authorized( array('admin_chapter_view') ) ): ?>
+								<li><a href="<?php echo base_url().'admin/chapter' ?>">Chapter</li></a>
+						<?php endif; ?>
+						
+						<?php if( $this->user_roles->is_authorized( array('admin_authenticity_view') ) ): ?>
+								<li><a href="<?php echo base_url().'admin/authenticity' ?>">Authenticity</li></a>
+						<?php endif; ?>
+						
+						<?php if( $this->user_roles->is_authorized( array('admin_book_view') ) ): ?>
+								<li><a href="<?php echo base_url().'admin/book' ?>">Book</li></a>
+						<?php endif; ?>
+						
 						<li><a href="<?php echo base_url().'user/signout' ?>">Logout</li></a>
 					</ul>
 				</div>

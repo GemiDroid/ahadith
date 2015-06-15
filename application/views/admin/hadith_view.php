@@ -7,8 +7,9 @@
 <fieldset>
     
   <legend>Displaying All Ahadith </legend>
-  
+  <?php if( $this->user_roles->is_authorized( array('admin_hadith_add') )   ): ?>
   <?php echo anchor(base_url().'admin/hadith/add', 'Add New Hadith', 'class="btn btn-primary"'); ?>
+  <?php endif; ?>
   <br/>
   <br/>
   
@@ -20,7 +21,9 @@
         <th style="text-align: center;">English Plain</th>
         <th style="text-align: center;">Urdu Plain</th>
         <th style="text-align: center;">Hadith in books</th>
+        <?php if( $this->user_roles->is_authorized( array('admin_hadith_edit') )   ): ?>
         <th style="text-align: center;">Action</th>
+        <?php endif; ?>
       </tr>
     </thead>
     <tbody>
@@ -31,7 +34,9 @@
           <td style="text-align: center;" lang='EN'><?php echo substr( $hadith->hadith_plain_en, 0, 20); ?>&nbsp;&hellip;</td>
           <td style="text-align: center;" lang='UR'><?php echo substr( $hadith->hadith_plain_ur, 0, 20); ?>&nbsp;&hellip;</td>          
           <td style="text-align: center;"><a href='<?php echo (base_url().'admin/hadith-in-book/'.$hadith->hadith_id); ?>' >view</a></td>
+        <?php if( $this->user_roles->is_authorized( array('admin_hadith_edit') )   ): ?>
           <td style="text-align: center;"><a href='<?php echo (base_url().'admin/hadith/update/'.$hadith->hadith_id); ?>' ><li class="glyphicon glyphicon-pencil"></li></a></td>
+          <?php endif; ?>
         </tr>
       <?php endforeach; ?>
     </tbody>

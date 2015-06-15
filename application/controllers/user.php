@@ -546,6 +546,14 @@
 	}
 	
 	function display(){
+		
+		  //limit view user role only to authorized
+		if( !$this->user_roles->is_authorized( array('admin_user_role_view') ) ):
+		   $list['error_msg'] = "You are not authorized to view User Role.";
+		   $list['main_content'] = "message_view";
+		   $this->load->view('includes/template', $list);
+		   return;
+	   endif;
     
 		$this->load->helper('form');
 		$this->load->model('user_model');
@@ -573,6 +581,14 @@
    */
   
   public function update($user_id){
+		
+		//limit update user_role only to authorized
+	 if( !$this->user_roles->is_authorized( array('admin_user_role_edit') ) ):
+        $list['error_msg'] = "You are not authorized to Edit User Role.";
+        $list['main_content'] = "message_view";
+        $this->load->view('includes/template', $list);
+        return;
+    endif;
 	
 	$this->load->model('user_model');
 	    

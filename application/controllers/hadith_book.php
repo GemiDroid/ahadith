@@ -370,6 +370,14 @@ class Hadith_book extends CI_Controller{
 	
 	public function display(){
 	  
+	    //limit view hadith book only to authorized
+	 if( !$this->user_roles->is_authorized( array('admin_hadith_book_view') ) ):
+        $list['error_msg'] = "You are not authorized to view Hadith Book.";
+        $list['main_content'] = "message_view";
+        $this->load->view('includes/template', $list);
+        return;
+    endif;
+	  
 	  $this->load->helper('form');
 	  $this->load->model('hadith_book_model');
 	  $list['hadith_books'] = $this->hadith_book_model->get_hadith_books();
@@ -385,6 +393,14 @@ class Hadith_book extends CI_Controller{
 	 */
 	
 	public function add(){
+		
+		  //limit add hadith book only to authorized
+		if( !$this->user_roles->is_authorized( array('admin_hadith_book_add') ) ):
+		   $list['error_msg'] = "You are not authorized to add Hadith Book.";
+		   $list['main_content'] = "message_view";
+		   $this->load->view('includes/template', $list);
+		   return;
+	   endif;
 
 		$this->load->helper('form');
 		
@@ -421,6 +437,14 @@ class Hadith_book extends CI_Controller{
 	 */
 	
 	public function update($hadith_book_id){
+		
+		  //limit edit hadith book only to authorized
+		if( !$this->user_roles->is_authorized( array('admin_hadith_book_edit') ) ):
+		   $list['error_msg'] = "You are not authorized to edit Hadith Book.";
+		   $list['main_content'] = "message_view";
+		   $this->load->view('includes/template', $list);
+		   return;
+	   endif;
 		
 		$this->load->model('hadith_book_model');
 		
@@ -470,6 +494,14 @@ class Hadith_book extends CI_Controller{
 	 */
 	
 	public function delete($hadith_book_id){
+		
+		 //limit deleting of hadith book only to authorized
+		if( !$this->user_roles->is_authorized( array('admin_hadith_book_delete') ) ):
+		   $list['error_msg'] = "You are not authorized to Delete Hadith Book.";
+		   $list['main_content'] = "message_view";
+		   $this->load->view('includes/template', $list);
+		   return;
+	   endif;
 		
 		$this->load->model('hadith_book_model');
 		

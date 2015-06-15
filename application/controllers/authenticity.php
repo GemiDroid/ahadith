@@ -48,6 +48,15 @@ class Authenticity extends CI_Controller {
   * @return none
   */
   public function display(){
+	
+	  //limit view authenticity only to authorized
+	 if( !$this->user_roles->is_authorized( array('admin_authenticity_view') ) ):
+        $list['error_msg'] = "You are not authorized to view Authenticity.";
+        $list['main_content'] = "message_view";
+        $this->load->view('includes/template', $list);
+        return;
+    endif;
+	
     $this->load->helper('form');
     $this->load->model('authenticity_model');
     $list['ahadith'] = $this->authenticity_model->get_authenticity();
@@ -77,6 +86,15 @@ class Authenticity extends CI_Controller {
    */
 
   public function add(){
+	
+	   //limit adding of authenticity only to authorized
+	 if( !$this->user_roles->is_authorized( array('admin_authenticity_add') ) ):
+        $list['error_msg'] = "You are not authorized to Add Authenticity.";
+        $list['main_content'] = "message_view";
+        $this->load->view('includes/template', $list);
+        return;
+    endif;
+	
     $this->load->helper('form');
     
     $this->load->library('form_validation');
@@ -115,6 +133,15 @@ class Authenticity extends CI_Controller {
    */
 
   public function update($authenticity_id){
+	
+	  //limit updating of authenticity only to authorized
+	 if( !$this->user_roles->is_authorized( array('admin_authenticity_edit') ) ):
+        $list['error_msg'] = "You are not authorized to Edit Authenticity.";
+        $list['main_content'] = "message_view";
+        $this->load->view('includes/template', $list);
+        return;
+    endif;
+	
     $this->load->model('authenticity_model');
     
     if( $this->authenticity_model->get_authenticity_by_id($authenticity_id) == FALSE ):
@@ -164,6 +191,14 @@ class Authenticity extends CI_Controller {
    */
 
   public function delete( $authenticity_id ){
+	
+	  //limit deleting of authenticity only to authorized
+		if( !$this->user_roles->is_authorized( array('admin_authenticity_delete') ) ):
+		   $list['error_msg'] = "You are not authorized to Delete authenticity.";
+		   $list['main_content'] = "message_view";
+		   $this->load->view('includes/template', $list);
+		   return;
+	   endif;
 
     $this->load->model('authenticity_model');
     

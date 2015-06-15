@@ -62,7 +62,10 @@
             <?php endif; ?>
             
         </button>
+        
+        <?php if( $this->user_roles->is_authorized( array('admin_tags_delete') )   ): ?>
         <a href="<?php echo base_url().'admin/tag/delete/'.$tag_id ?>" class="btn btn-danger">Delete Record</a>
+        <?php endif; ?>
 		<a href="<?php echo base_url().'admin/tag' ?>" class="btn btn-default">Cancel</a>
 	  </div>
 	  

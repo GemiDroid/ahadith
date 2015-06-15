@@ -52,6 +52,14 @@ class Hadith extends CI_Controller {
    */
   
   public function display(){
+	  //limit view hadith only to authorized
+	 if( !$this->user_roles->is_authorized( array('admin_hadith_view') ) ):
+        $list['error_msg'] = "You are not authorized to view Hadith.";
+        $list['main_content'] = "message_view";
+        $this->load->view('includes/template', $list);
+        return;
+    endif;
+	
     $this->load->helper('form');
     $this->load->model('hadith_model');
     
@@ -69,6 +77,15 @@ class Hadith extends CI_Controller {
   */
 
   public function add(){
+	
+	  //limit adding hadith only to authorized
+	 if( !$this->user_roles->is_authorized( array('admin_hadith_add') ) ):
+        $list['error_msg'] = "You are not authorized to add Hadith.";
+        $list['main_content'] = "message_view";
+        $this->load->view('includes/template', $list);
+        return;
+    endif;
+	
     $this->load->helper('form');
     $this->load->model('hadith_model');
     
@@ -116,6 +133,14 @@ class Hadith extends CI_Controller {
    */
   public function update($hadith_id){
 
+	  //limit updating of hadith only to authorized
+	 if( !$this->user_roles->is_authorized( array('admin_hadith_edit') ) ):
+        $list['error_msg'] = "You are not authorized to edit Hadith.";
+        $list['main_content'] = "message_view";
+        $this->load->view('includes/template', $list);
+        return;
+    endif;
+  
     $this->load->model('hadith_model');
     //check for valid hadith_id
     if( $this->hadith_model->get_hadith_by_id($hadith_id) == FALSE ):
@@ -171,6 +196,14 @@ class Hadith extends CI_Controller {
    *
    */
   public function delete( $hadith_id ){
+	
+	  //limit deleting of hadith only to authorized
+		if( !$this->user_roles->is_authorized( array('admin_hadith_delete') ) ):
+		   $list['error_msg'] = "You are not authorized to Delete Hadith.";
+		   $list['main_content'] = "message_view";
+		   $this->load->view('includes/template', $list);
+		   return;
+	   endif;
 
     $this->load->model('hadith_model');
     //check for valid hadith_id
@@ -186,6 +219,9 @@ class Hadith extends CI_Controller {
   }
   
   function hadith_in_book( $hadith_id='', $hadith_in_book_id='' ){
+	
+	
+	
 		$this->load->model('hadith_book_model');
 		$this->load->model('hadith_model');
 		$this->load->model('book_model');
@@ -245,6 +281,14 @@ class Hadith extends CI_Controller {
 			return;
 		endif;
 		
+		//limit view of  hadith  in book only to authorized
+		if( !$this->user_roles->is_authorized( array('admin_hadith_in_book_view') ) ):
+		   $list['error_msg'] = "You are not authorized to View  Hadith in Book.";
+		   $list['main_content'] = "message_view";
+		   $this->load->view('includes/template', $list);
+		   return;
+	   endif;
+		
 		if( $this->hadith_model->get_hadith_by_id($hadith_id) == FALSE ):
 			$list['error_msg'] = "No record found for the provided Hadith ID. Use the menu if you have access.";
 			$list['main_content'] = "message_view";
@@ -275,8 +319,19 @@ class Hadith extends CI_Controller {
 		$data = '';
 		$mode = 'add';
 		
+		
+		//limit updating of  hadith  in book only to authorized
+		if( !$this->user_roles->is_authorized( array('admin_hadith_in_book_edit') ) ):
+		   $list['error_msg'] = "You are not authorized to Edit  Hadith in Book.";
+		   $list['main_content'] = "message_view";
+		   $this->load->view('includes/template', $list);
+		   return;
+	   endif;
+		
+		
 		//change mode to edit and load the data if a row_id is provided
 		if( $hadith_in_book_id != '' ):
+		
 			$data = $this->hadith_book_model->get_hadith_in_book_by_id( $hadith_in_book_id );
 			$mode = 'edit';
 			
@@ -304,6 +359,15 @@ class Hadith extends CI_Controller {
 			//check if the Delete button was clicked
 			$delete = $this->input->post('btn_delete');
       		if( isset( $delete ) && !empty( $delete ) ):
+			
+				  //limit deleting of  hadith  in book only to authorized
+			  if( !$this->user_roles->is_authorized( array('admin_hadith_in_book_delete') ) ):
+				 $list['error_msg'] = "You are not authorized to Delete  Hadith in Book.";
+				 $list['main_content'] = "message_view";
+				 $this->load->view('includes/template', $list);
+				 return;
+			 endif;
+			 
 				$message = $this->hadith_book_model->delete_hadith_in_book( $hadith_in_book_id );
 			//when the Save button was clicked
 			else:

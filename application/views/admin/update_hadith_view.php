@@ -91,7 +91,9 @@
     <div class="control-group form-inline">
 		<button  type="submit" id="mysubmit" name="mysubmit" class="btn btn-primary">Save Record</button>
         <a href="<?php echo base_url().'admin/hadith' ?>" class="btn btn-default">Cancel</a>
+		<?php if( $this->user_roles->is_authorized( array('admin_hadith_delete') )   ): ?>
         <a href="<?php echo (base_url().'admin/hadith/delete/'.$hadith_id); ?>" class="btn btn-danger"/>Delete</a>
+		<?php endif; ?>
     </div>
   <?php echo form_close();?>
 </fieldset>

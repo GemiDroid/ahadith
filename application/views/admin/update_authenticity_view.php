@@ -39,7 +39,9 @@
    <br/>
     <div class="control-group">
       <button type="submit" id="btn_save" name="btn_save" value="Update" class="btn btn-primary">Save Record</button>
+      <?php if( $this->user_roles->is_authorized( array('admin_authenticity_delete') )   ): ?>
       <a href="<?php echo (base_url().'admin/authenticity/delete/'.$authenticity->authenticity_id); ?>" class="btn btn-danger" >Delete Record</a>
+      <?php endif;?>
       <a href="<?php echo (base_url().'admin/authenticity'); ?>" class="btn btn-default">Cancel</a>
     </div>
     <?php echo form_close();?>

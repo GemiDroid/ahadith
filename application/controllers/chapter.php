@@ -215,7 +215,7 @@ class Chapter extends CI_COntroller {
   
   public function delete( $chapter_id=''){
 
-    //limit deleting of employee appointments only to authorized
+    //limit deleting of chapter only to authorized
     if( !$this->user_roles->is_authorized( array('admin_chapter_delete') ) ):
         $list['error_msg'] = "You are not authorized to Delete Chapters.";
         $list['main_content'] = "message_view";

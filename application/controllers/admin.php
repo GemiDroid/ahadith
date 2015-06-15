@@ -158,6 +158,7 @@ class Admin extends CI_Controller {
 				//$this->load->view('includes/template', $list);
 				redirect('user/signin');
 			endif;
+				
 		endif;
         
     }
@@ -173,24 +174,43 @@ class Admin extends CI_Controller {
     }
     
     function tag($action='',$id=''){
+		
+		 
 		if($action=='add'):
-			//$hadith_book->add();
-			$this->add_tag();
+			
+				//$hadith_book->add();
+				$this->add_tag();
+				
+				
+		
 		elseif($action=='update'):
-			$this->update_tag($id);
+				
+				$this->update_tag($id);
+				
 		elseif($action=='delete'):
-			$this->delete_tag($id);
+				$this->delete_tag($id);
+		
 		else:
-			//view tag
-			$this->load->model('tag_model');
-			$list['tags'] = $this->tag_model->get_tags();
-			$list['main_content'] = '/admin/admin_tags_view';
-			$this->load->view('admin/includes/template',$list);
+				//view tag
+			
+				$this->load->model('tag_model');
+				$list['tags'] = $this->tag_model->get_tags();
+				$list['main_content'] = '/admin/admin_tags_view';
+				$this->load->view('admin/includes/template',$list);
+			
 		endif;
     }
 
 	
 	function add_tag(){
+		
+		  //limit add tag only to authorized
+		if( !$this->user_roles->is_authorized( array('admin_tags_add') ) ):
+		   $list['error_msg'] = "You are not authorized to Add Tags.";
+		   $list['main_content'] = "message_view";
+		   $this->load->view('includes/template', $list);
+		   return;
+	   endif;
 
 		$this->load->helper('form');
 		$this->load->library('form_validation');
@@ -225,6 +245,14 @@ class Admin extends CI_Controller {
 	}
     
     function update_tag($id){
+		
+		  //limit edit tags only to authorized
+		if( !$this->user_roles->is_authorized( array('admin_tags_edit') ) ):
+		   $list['error_msg'] = "You are not authorized to Edit Tags.";
+		   $list['main_content'] = "message_view";
+		   $this->load->view('includes/template', $list);
+		   return;
+	   endif;
 		
 		$this->load->model('tag_model');
 	
@@ -269,6 +297,14 @@ class Admin extends CI_Controller {
     }
     
     function delete_tag($tag_id){
+		
+		 //limit deleting of Tags only to authorized
+		if( !$this->user_roles->is_authorized( array('admin_tags_delete') ) ):
+		   $list['error_msg'] = "You are not authorized to Delete Tags.";
+		   $list['main_content'] = "message_view";
+		   $this->load->view('includes/template', $list);
+		   return;
+	   endif;
 	
 		$this->load->model('tag_model');
 	
@@ -454,6 +490,15 @@ class Admin extends CI_Controller {
   
   
 	function user_activities(){
+		
+		//limit view user activities only to authorized
+		if( !$this->user_roles->is_authorized( array('admin_user_activities_view') ) ):
+		   $list['error_msg'] = "You are not authorized to view User Activities.";
+		   $list['main_content'] = "message_view";
+		   $this->load->view('includes/template', $list);
+		   return;
+	   endif;
+	
 		$this->load->model('user_model');
 		//if the user is already signed-in then redirect him/her to the home()
 		$user_id = $this->session->userdata('user_id');
@@ -468,6 +513,14 @@ class Admin extends CI_Controller {
   
   
 	function subscriptions(){
+		
+		  //limit view subscription only to authorized
+		if( !$this->user_roles->is_authorized( array('admin_subscriptions_view') ) ):
+		   $list['error_msg'] = "You are not authorized to view Subscriptions.";
+		   $list['main_content'] = "message_view";
+		   $this->load->view('includes/template', $list);
+		   return;
+	   endif;
     
 		$this->load->model('hadith_model');
 		$this->load->model('book_model');

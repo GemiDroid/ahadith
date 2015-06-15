@@ -146,7 +146,7 @@ class Admin extends CI_Controller {
         parent::__construct();
 		$this->load->model('user_model');
 		$user_id = $this->session->userdata('user_id');
-        //$role = $this->session->userdata('role_title');
+        $role = $this->session->userdata('role_title');
 		if( !isset($user_id) OR empty($user_id) ):
 			$message = 'You need to login.';
 			$this->session->set_flashdata('message', $message);
@@ -615,39 +615,31 @@ class Admin extends CI_Controller {
 		endif;
 	
 		$this->load->helper('form');
-		//if the user is already signed-in then redirect him/her to the home()
-		$user_id = $this->session->userdata('user_id');
-		$role = $this->session->userdata('role_title');
-		if( isset($user_id) && !empty($user_id) && !empty($role) ):
-	    
-			$this->load->model('user_model');
-			
-			$users = $this->user_model->get_all_users();
-			//get users whose are subscribed
-			//check from user_settings
-			for( $i=0; $i<count($users);$i++ ):
-				if( empty($this->user_model->get_user_setting_by_id('email_subscription',$users[$i]->user_id)) OR $this->user_model->get_user_setting_by_id('email_subscription',$users[$i]->user_id) == 'false' ):
-					unset($users[$i]);
-				endif;
-			endfor;
 		
-			$list['users'] = $users;
 			
-			$this->load->model('hadith_book_model');
-			
-			$list['hadith_books'] = $this->hadith_book_model->get_hadith_books();
-			//get books from first hadith_book
-			$list['books'] = $this->book_model->get_all_books( $list['hadith_books'][0]->hadith_book_id );
-			//get books from first values
-			$list['chapters'] = $this->chapter_model->get_all_chapters($list['hadith_books'][0]->hadith_book_id, $list['books'][0]->book_id);
-			//get ahadith from first values
-			$list['ahadith'] = $this->hadith_model->get_all_hadith_in_book( $list['hadith_books'][0]->hadith_book_id, $list['books'][0]->book_id, $list['chapters'][0]->chapter_id );
-			
-			$list['main_content'] = '/admin/subscriptions_view';
-			$this->load->view('admin/includes/template',$list);
-			
-		else:
-			redirect('user/signin');
-		endif;
+		$users = $this->user_model->get_all_users();
+		//get users whose are subscribed
+		//check from user_settings
+		for( $i=0; $i<count($users);$i++ ):
+			if( empty($this->user_model->get_user_setting_by_id('email_subscription',$users[$i]->user_id)) OR $this->user_model->get_user_setting_by_id('email_subscription',$users[$i]->user_id) == 'false' ):
+				unset($users[$i]);
+			endif;
+		endfor;
+	
+		$list['users'] = $users;
+		
+		$this->load->model('hadith_book_model');
+		
+		$list['hadith_books'] = $this->hadith_book_model->get_hadith_books();
+		//get books from first hadith_book
+		$list['books'] = $this->book_model->get_all_books( $list['hadith_books'][0]->hadith_book_id );
+		//get books from first values
+		$list['chapters'] = $this->chapter_model->get_all_chapters($list['hadith_books'][0]->hadith_book_id, $list['books'][0]->book_id);
+		//get ahadith from first values
+		$list['ahadith'] = $this->hadith_model->get_all_hadith_in_book( $list['hadith_books'][0]->hadith_book_id, $list['books'][0]->book_id, $list['chapters'][0]->chapter_id );
+		
+		$list['main_content'] = '/admin/subscriptions_view';
+		$this->load->view('admin/includes/template',$list);
+		
 	}
 }

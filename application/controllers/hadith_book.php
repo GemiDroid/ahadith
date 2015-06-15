@@ -303,6 +303,8 @@ class Hadith_book extends CI_Controller{
 		
 		$book_id = !empty($book_id)? $book_id: $list['ahadith_books'][0]->book_id;
 		
+		//$chapter_id = !empty( $chapter_id )? $chapter_id:0;
+		
 		$list['ahadith'] ='';
 
 		if( !empty( $hadith_book_id ) ):
@@ -310,18 +312,24 @@ class Hadith_book extends CI_Controller{
 			$this->load->model('user_model');
 			$list['ahadith'] = $this->hadith_model->get_ahadith_by_hadith_book_id( $hadith_book_id, $book_id, $chapter_id, $hadith_in_book_id );
 			
-			
-			
 			if(!empty( $list['ahadith'] )):
 			
 				$this->load->model('tag_model');
+				
+				$temp_chapter_id ='';
+				
 				for( $i=0;$i<count($list['ahadith']);$i++ ):
+					
+					if( $list['ahadith'][$i]->chapter_id != $temp_chapter_id ):
+						$list['ahadith'][$i]->chapter_title_en = $this->chapter_model->get_chapter_by_id( $list['ahadith'][$i]->chapter_id )->chapter_title_en;
+						$list['ahadith'][$i]->chapter_title_ar = $this->chapter_model->get_chapter_by_id( $list['ahadith'][$i]->chapter_id )->chapter_title_ar;
+						$list['ahadith'][$i]->chapter_title_ur = $this->chapter_model->get_chapter_by_id( $list['ahadith'][$i]->chapter_id )->chapter_title_ur;	
+					endif;
+				
 					//get ahadith tag, if user is not signed in, then get approved tags of hadith,otherwise get by user and hadith ID.
 					$list['ahadith'][$i]->hadith_tags = $this->tag_model->get_hadith_tag_by_hadith_id_and_user_id( $list['ahadith'][$i]->hadith_id, $user_id );
-					$list['ahadith'][$i]->chapter_title_en = $this->chapter_model->get_chapter_by_id( $list['ahadith'][$i]->chapter_id )->chapter_title_en;
-					$list['ahadith'][$i]->chapter_title_ar = $this->chapter_model->get_chapter_by_id( $list['ahadith'][$i]->chapter_id )->chapter_title_ar;
-					$list['ahadith'][$i]->chapter_title_ur = $this->chapter_model->get_chapter_by_id( $list['ahadith'][$i]->chapter_id )->chapter_title_ur;
 					$list['ahadith'][$i]->book_mark = $this->user_model->get_user_favorite( $list['ahadith'][$i]->hadith_in_book_id,$list['ahadith'][$i]->hadith_book_id, $user_id );
+					$temp_chapter_id = $list['ahadith'][$i]->chapter_id;
 				endfor;
 				
 			endif;
@@ -344,10 +352,6 @@ class Hadith_book extends CI_Controller{
 		$list['display_urdu_text'] = empty($this->session->userdata('display_urdu_text'))? (!empty($this->user_model->get_user_setting_by_id('display_urdu_text',$user_id))? $this->user_model->get_user_setting_by_id('display_urdu_text',$user_id)->setting_value:'') : $this->session->userdata('display_urdu_text');
 		$list['email_subscription'] = empty($this->session->userdata('email_subscription'))? (!empty($this->user_model->get_user_setting_by_id('email_subscription',$user_id))? $this->user_model->get_user_setting_by_id('email_subscription',$user_id)->setting_value:'') : $this->session->userdata('email_subscription');		
 		
-		
-		//$list['email_subscription'] = $this->user_model->get_user_subscription_by_id('email_subscription',$user_id);
-		//$list['email_subscription'] = empty($this->session->userdata('email_subscription'))? (!empty($this->user_model->get_user_subscription_by_id('email_subscription',$user_id))? $this->user_model->get_user_subscription_by_id('email_subscription',$user_id)->email_subscription:'') : $this->session->userdata('email_subscription');
-		
 		$this->load->model('tag_model');
 		
 		//get tags by user_id
@@ -358,11 +362,11 @@ class Hadith_book extends CI_Controller{
 		//pagination code	
 		$this->load->library('pagination');
 		$config['base_url'] =  base_url().$list['hadith_book']->hadith_book_id.'/book/'. $list['book']->book_id .'/chapter/';
-		$config['total_rows'] = count( $list['chapters'] )+1;
+		$config['total_rows'] = $this->hadith_model->get_count_ahadith_by_hadith_book_id( $hadith_book_id, $book_id, $chapter_id, $hadith_in_book_id );
 		$config['per_page'] = 10;
+		$config['uri_segment'] = 5; 	
 		$this->pagination->initialize( $config );
 		$list['pages'] = $this->pagination->create_links();
-	
 		$list['main_content'] ='hadith_book/index';
 		
 		$this->load->view('includes/template', $list);
